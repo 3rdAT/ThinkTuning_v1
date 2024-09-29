@@ -27,10 +27,10 @@ from torch import nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
 from transformers.generation.utils import GenerationMixin
-
+from transformers.generation.logits_process import LogitsProcessorList
 from transformers.activations import ACT2FN
 from transformers.cache_utils import Cache, DynamicCache, StaticCache
-from transformers.generation import GenerationMixin
+from custom_generate import GenerationMixin
 from transformers.modeling_attn_mask_utils import AttentionMaskConverter
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
 from transformers.modeling_outputs import (
@@ -40,6 +40,10 @@ from transformers.modeling_outputs import (
     SequenceClassifierOutputWithPast,
     TokenClassifierOutput,
 )
+from transformers.generation.stopping_criteria import (
+    StoppingCriteriaList,
+)
+
 from transformers.modeling_rope_utils import ROPE_INIT_FUNCTIONS
 from transformers.modeling_utils import PreTrainedModel
 from transformers.pytorch_utils import ALL_LAYERNORM_LAYERS
@@ -1155,6 +1159,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         return_dict: Optional[bool] = None,
         cache_position: Optional[torch.LongTensor] = None,
         num_logits_to_keep: int = 0,
+        think_tuning=True,
     ) -> Union[Tuple, CausalLMOutputWithPast]:
         r"""
         Args:
@@ -1209,8 +1214,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         hidden_states = outputs[0]
 
         # Feed this to a gating mechanism
-        think_tuning=True
-
+        new_tokens = None
         if think_tuning and not self.in_thinking:
             hidden_states = self.norm(hidden_states)
 
@@ -1232,12 +1236,12 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     logits_of_token = self.lm_head(hidden_states[0][idx])
                     probabilities = F.softmax(logits_of_token, dim=-1)  # Softmax across the last dimension
                     # Get the top-k values and their corresponding indices
-                    top_k = 5  # Example: Get the top 5 tokens
+                    top_k = 1  # Example: Get the top 5 tokens
                     topk_indices = torch.topk(probabilities, top_k, dim=-1)
                     #Append the initialized <SoT> token, append the sampled top-k token
 
                     # print("The topk_indices:", topk_indices)
-
+                    reasoning_path = []
                     for i in range(top_k):
                         # Append the <SoT> token to the start
                         print(new_sequence[0][:idx+1].shape)
@@ -1250,10 +1254,55 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
 
                         #Then do a greedy decoding.
-                        new_greedy_sequence_decoding = self._sample(new_sequence_id, None, None, None, None, thinking=False)
+                        # new_greedy_sequence_decoding = self._sample(new_sequence_id, None, None, None, None)
+                        # print('Here')
+                        generation_config, model_kwargs = self._prepare_generation_config(generation_config=None)
+                        self._prepare_special_tokens(generation_config, attention_mask, device=new_sequence_id.device)
+                        input_ids_length = new_sequence_id.shape[-1]
+                        logits_processor = LogitsProcessorList()
+                        stopping_criteria = StoppingCriteriaList()
+                        
+                        # print(generation_config)
 
-                    ipdb.set_trace()
-                    return torch.cat([new_sequence, new_greedy_sequence_decoding], dim=-1)
+                        prepared_logits_processor = self._get_logits_processor(
+                            generation_config=generation_config,
+                            input_ids_seq_length=input_ids_length,
+                            encoder_input_ids=new_sequence_id,
+                            prefix_allowed_tokens_fn=None,
+                            logits_processor=logits_processor,
+                            device=new_sequence_id.device,
+                            model_kwargs=model_kwargs,
+                            negative_prompt_ids=None,
+                            negative_prompt_attention_mask=None,
+                        )
+                        prepared_stopping_criteria = self._get_stopping_criteria(
+                            generation_config=generation_config, stopping_criteria=stopping_criteria, tokenizer=None
+                        )
+                        # new_greedy_sequence_decoding = self.generate(new_sequence_id.unsqueeze(0).to(dtype=torch.long), think_tuning=False)
+                        new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, synced_gpus=True, model_kwargs=model_kwargs)
+                        # print('input_ids shape: ', input_ids.shape)
+                        # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
+                        reasoning_path.append(torch.cat([input_ids, new_greedy_sequence_decoding], dim=-1))
+                        # ipdb.set_trace()
+                    
+                    # Getting the hidden states of the reasoning path
+                    # 1. Pack the reasoning paths
+                    # 2. Get the hidden states of the reasoning paths
+                    # Pack the reasoning paths in batches
+                    batch_size = input_ids.shape[0]
+                    packed_reasoning_path = torch.cat(reasoning_path, dim=0).view(batch_size, top_k, -1)
+
+                    # Get the hidden states of the reasoning paths
+                    reasoning_hidden_states = []
+                    for i in range(top_k):
+                        reasoning_hidden_states.append(self.model(packed_reasoning_path[:, i, :])[0])
+
+                    # Stack the hidden states
+                    reasoning_hidden_states = torch.stack(reasoning_hidden_states, dim=1)
+                    
+                    print('reasoning hidden states: ', reasoning_hidden_states.shape)
+
+                    # return torch.cat([new_sequence, new_greedy_sequence_decoding], dim=-1)
                     
                     
 

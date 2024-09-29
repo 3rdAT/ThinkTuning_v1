@@ -35,7 +35,7 @@ def main(
     peft_model: str=None,
     quantization: bool=False,
     max_new_tokens = 512, #The maximum numbers of tokens to generate
-    output_file: str="/data/data/arrv/Think/eval/it2/l2-sft(1).json",
+    output_file: str="./l2-sft(1).json",
     seed: int=42, #seed value for reproducibility
     do_sample: bool=True, #Whether or not to use sampling ; use greedy decoding otherwise.
     min_length: int=None, #The minimum length of the sequence to be generated, input prompt + min_new_tokens
@@ -68,7 +68,7 @@ def main(
         'meta-llama/Llama-2-7b-hf',
         return_dict=True,
         load_in_8bit=quantization,
-        device_map="auto",
+        device_map="cuda",
         low_cpu_mem_usage=True,
         token='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',
     )
