@@ -26,11 +26,15 @@ import torch.utils.checkpoint
 from torch import nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
-from transformers.generation.utils import GenerationMixin
+from transformers import AutoTokenizer
+
+
+from custom_generate import GenerationMixin
+# from transformers.generation.utils import GenerationMixin
 from transformers.generation.logits_process import LogitsProcessorList
 from transformers.activations import ACT2FN
 from transformers.cache_utils import Cache, DynamicCache, StaticCache
-from custom_generate import GenerationMixin
+
 from transformers.modeling_attn_mask_utils import AttentionMaskConverter
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
 from transformers.modeling_outputs import (
@@ -45,7 +49,7 @@ from transformers.generation.stopping_criteria import (
 )
 
 from transformers.modeling_rope_utils import ROPE_INIT_FUNCTIONS
-from transformers.modeling_utils import PreTrainedModel
+from custom_modeling_utils import PreTrainedModel
 from transformers.pytorch_utils import ALL_LAYERNORM_LAYERS
 from transformers.utils import (
     add_start_docstrings,
@@ -1159,6 +1163,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         return_dict: Optional[bool] = None,
         cache_position: Optional[torch.LongTensor] = None,
         num_logits_to_keep: int = 0,
+        tokenizer: Optional[AutoTokenizer] = None,
         think_tuning=True,
     ) -> Union[Tuple, CausalLMOutputWithPast]:
         r"""
@@ -1240,15 +1245,17 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     topk_indices = torch.topk(probabilities, top_k, dim=-1)
                     #Append the initialized <SoT> token, append the sampled top-k token
 
+                    print("The topk",topk_indices.indices[0])
+
                     # print("The topk_indices:", topk_indices)
                     reasoning_path = []
                     for i in range(top_k):
                         # Append the <SoT> token to the start
                         print(new_sequence[0][:idx+1].shape)
                         print(self.start_thought_id.shape)
-                        new_sequence_id = torch.cat([new_sequence[0][:idx+1], self.start_thought_id], dim=0)
+                        new_sequence_id = torch.cat([new_sequence[0][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
                         # Append the sampled top-k token
-                        sampled_token = torch.tensor(topk_indices[i])  # Add the sampled token
+                        sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0))  # Add the sampled token
                         print(sampled_token.shape)
                         print(new_sequence_id.shape)
                         new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
@@ -1256,34 +1263,38 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         #Then do a greedy decoding.
                         # new_greedy_sequence_decoding = self._sample(new_sequence_id, None, None, None, None)
                         # print('Here')
-                        generation_config, model_kwargs = self._prepare_generation_config(generation_config=None)
-                        self._prepare_special_tokens(generation_config, attention_mask, device=new_sequence_id.device)
-                        input_ids_length = new_sequence_id.shape[-1]
-                        logits_processor = LogitsProcessorList()
-                        stopping_criteria = StoppingCriteriaList()
+                        # generation_config, model_kwargs = self._prepare_generation_config(generation_config=None)
+                        # self._prepare_special_tokens(generation_config, attention_mask, device=new_sequence_id.device)
+                        # input_ids_length = new_sequence_id.shape[-1]
+                        # logits_processor = LogitsProcessorList()
+                        # stopping_criteria = StoppingCriteriaList()
                         
-                        # print(generation_config)
+                        # # print(generation_config)
 
-                        prepared_logits_processor = self._get_logits_processor(
-                            generation_config=generation_config,
-                            input_ids_seq_length=input_ids_length,
-                            encoder_input_ids=new_sequence_id,
-                            prefix_allowed_tokens_fn=None,
-                            logits_processor=logits_processor,
-                            device=new_sequence_id.device,
-                            model_kwargs=model_kwargs,
-                            negative_prompt_ids=None,
-                            negative_prompt_attention_mask=None,
-                        )
-                        prepared_stopping_criteria = self._get_stopping_criteria(
-                            generation_config=generation_config, stopping_criteria=stopping_criteria, tokenizer=None
-                        )
-                        # new_greedy_sequence_decoding = self.generate(new_sequence_id.unsqueeze(0).to(dtype=torch.long), think_tuning=False)
-                        new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, synced_gpus=True, model_kwargs=model_kwargs)
+                        # prepared_logits_processor = self._get_logits_processor(
+                        #     generation_config=generation_config,
+                        #     input_ids_seq_length=input_ids_length,
+                        #     encoder_input_ids=new_sequence_id,
+                        #     prefix_allowed_tokens_fn=None,
+                        #     logits_processor=logits_processor,
+                        #     device=new_sequence_id.device,
+                        #     model_kwargs=model_kwargs,
+                        #     negative_prompt_ids=None,
+                        #     negative_prompt_attention_mask=None,
+                        # )
+                        # prepared_stopping_criteria = self._get_stopping_criteria(
+                        #     generation_config=generation_config, stopping_criteria=stopping_criteria, tokenizer=None
+                        # )
+
+                        new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
+
+                        batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
+                        new_greedy_sequence_decoding = self.generate(**batch, do_sample=False, use_cache= True, top_p=1.0 ,think_tuning=False)
+                        #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                         # print('input_ids shape: ', input_ids.shape)
                         # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
                         reasoning_path.append(torch.cat([input_ids, new_greedy_sequence_decoding], dim=-1))
-                        # ipdb.set_trace()
+                        ipdb.set_trace()
                     
                     # Getting the hidden states of the reasoning path
                     # 1. Pack the reasoning paths
