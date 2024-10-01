@@ -1216,9 +1216,37 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             cache_position=cache_position,
         )
 
-        hidden_states = outputs[0]
+        hidden_states = outputs[0]  # Feed this to a gating mechanism
 
-        # Feed this to a gating mechanism
+        if self.config.pretraining_tp > 1:
+            lm_head_slices = self.lm_head.weight.split(self.vocab_size // self.config.pretraining_tp, dim=0)
+            logits = [F.linear(hidden_states, lm_head_slices[i]) for i in range(self.config.pretraining_tp)]
+            logits = torch.cat(logits, dim=-1)
+        else:
+            if labels is None and not is_torchdynamo_compiling():
+                logger.warning_once(
+                    "Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)"
+                )
+            # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
+            # TODO: remove the float() operation in v4.46
+            logits = self.lm_head(hidden_states[:, -num_logits_to_keep:, :]).float()
+
+        unreduced_loss = None
+        if labels is not None:
+            # Upcast to float if we need to compute the loss to avoid potential precision issues
+            logits = logits.float()
+            # Shift so that tokens < n predict n
+            shift_logits = logits[..., :-1, :].contiguous()
+            shift_labels = labels[..., 1:].contiguous()
+            # Flatten the tokens
+            loss_fct = CrossEntropyLoss(reduction="none")
+            shift_logits = shift_logits.view(-1, self.config.vocab_size)
+            shift_labels = shift_labels.view(-1)
+            # Enable model parallelism
+            shift_labels = shift_labels.to(shift_logits.device)
+            unreduced_loss = loss_fct(shift_logits, shift_labels)
+            ipdb.set_trace()
+
         new_tokens = None
         if think_tuning and not self.in_thinking:
             hidden_states = self.norm(hidden_states)
@@ -1232,6 +1260,9 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             new_sequence = input_ids.clone()
             for idx, value in enumerate(gate_values[0]):
 
+                if idx<=70:
+                    continue
+
                 if value == 0:
                     #logic for normal logits
                     pass
@@ -1241,7 +1272,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     logits_of_token = self.lm_head(hidden_states[0][idx])
                     probabilities = F.softmax(logits_of_token, dim=-1)  # Softmax across the last dimension
                     # Get the top-k values and their corresponding indices
-                    top_k = 1  # Example: Get the top 5 tokens
+                    top_k = 10  # Example: Get the top 5 tokens
                     topk_indices = torch.topk(probabilities, top_k, dim=-1)
                     #Append the initialized <SoT> token, append the sampled top-k token
 
@@ -1250,6 +1281,8 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     # print("The topk_indices:", topk_indices)
                     reasoning_path = []
                     for i in range(top_k):
+                        if i < 7:
+                            continue
                         # Append the <SoT> token to the start
                         print(new_sequence[0][:idx+1].shape)
                         print(self.start_thought_id.shape)
@@ -1260,40 +1293,14 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         print(new_sequence_id.shape)
                         new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
 
-                        #Then do a greedy decoding.
-                        # new_greedy_sequence_decoding = self._sample(new_sequence_id, None, None, None, None)
-                        # print('Here')
-                        # generation_config, model_kwargs = self._prepare_generation_config(generation_config=None)
-                        # self._prepare_special_tokens(generation_config, attention_mask, device=new_sequence_id.device)
-                        # input_ids_length = new_sequence_id.shape[-1]
-                        # logits_processor = LogitsProcessorList()
-                        # stopping_criteria = StoppingCriteriaList()
-                        
-                        # # print(generation_config)
-
-                        # prepared_logits_processor = self._get_logits_processor(
-                        #     generation_config=generation_config,
-                        #     input_ids_seq_length=input_ids_length,
-                        #     encoder_input_ids=new_sequence_id,
-                        #     prefix_allowed_tokens_fn=None,
-                        #     logits_processor=logits_processor,
-                        #     device=new_sequence_id.device,
-                        #     model_kwargs=model_kwargs,
-                        #     negative_prompt_ids=None,
-                        #     negative_prompt_attention_mask=None,
-                        # )
-                        # prepared_stopping_criteria = self._get_stopping_criteria(
-                        #     generation_config=generation_config, stopping_criteria=stopping_criteria, tokenizer=None
-                        # )
-
                         new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
 
                         batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                        new_greedy_sequence_decoding = self.generate(**batch, do_sample=False, use_cache= True, top_p=1.0 ,think_tuning=False)
+                        new_greedy_sequence_decoding = self.generate(**batch, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
                         #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                         # print('input_ids shape: ', input_ids.shape)
                         # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
-                        reasoning_path.append(torch.cat([input_ids, new_greedy_sequence_decoding], dim=-1))
+                        reasoning_path.append(new_greedy_sequence_decoding)
                         ipdb.set_trace()
                     
                     # Getting the hidden states of the reasoning path
@@ -1314,6 +1321,18 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     print('reasoning hidden states: ', reasoning_hidden_states.shape)
 
                     # return torch.cat([new_sequence, new_greedy_sequence_decoding], dim=-1)
+
+                #Assuming we in each part of pack, we get logits shaped, [1, len(input_ids[:idx+1])+thoughts+len(input_ids[idx+1:]))]
+                #we have the unreduced rewards for the corresponding part i.e., unreduced_loss = unreduced_rewards[idx+1:]
+                #We have to compute policy loss (only selecting (input_ids[idx+1:])))
+                #Peform r = policy_loss - unreduced_loss. 
+                #if r > 0:
+                    #then add(supervision(len(input_ids[:idx+1])+thoughts)) on thoughts, say L_r
+                #else: ignore
+
+                #Cumulation of such L_r is the Reinforce loss for a single rational generation at an idx
+
+
                     
                     
 

@@ -52,13 +52,6 @@ def main(
 
     tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", token='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', trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
-
-    # eval_data = pd.read_csv('./science_prompts_precaution.csv')
-
-    # dataset = load_from_disk("/data/data/arrv/data/gsm8k_mod")
-    # dataset = dataset["test"]
-    #eval_data = json.load(open("./output_da.json"))
-
     # Set the seeds for reproducibility
     torch.cuda.manual_seed(seed)
     torch.manual_seed(seed)
@@ -68,7 +61,7 @@ def main(
         'meta-llama/Llama-2-7b-hf',
         return_dict=True,
         load_in_8bit=quantization,
-        device_map="cuda",
+        device_map="auto",
         low_cpu_mem_usage=True,
         token='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',
     )
@@ -78,8 +71,10 @@ def main(
     #sysmsg = """You will be provided with a grade-school math word problem that requires multiple steps to solve. Solve the problem step-by-step and provide the final answer. Your response should include the detailed step-by-step reasoning followed by '####' and the final numeric answer. For example, '<step-by-step reasoning> #### <final_numeric_answer>'. Do not add any other unnecessary content in your response."""
     #user_prompt = f"Context: {data['bing_srch_results']}\n\nGenerate a single factual statement using the given keywords: {data['keywords']}.\nStatement:"
     # user_prompt = f"[INST] <<SYS>>\n{sysmsg}\n<</SYS>>\n\n{q} [/INST]"
-    user_prompt = '''Hi, How are you?'''
+    user_prompt = '''Q:Natalia sold clips to 48 of her friends in April, and then she sold half as many clips in May. How many clips did Natalia sell altogether in April and May?\nA:Natalia sold 48/2 = <<48/2=24>>24 clips in May. Natalia sold 48+24 = <<48+24=72>>72 clips altogether in April and May. #### 72'''
     batch = tokenizer(user_prompt, return_tensors="pt")
+    batch['labels'] = batch['input_ids']
+    print(len(batch['input_ids'][0]))
     batch = {k: v.to("cuda") for k, v in batch.items()}
     # start = time.perf_counter()
     # with torch.no_grad():
