@@ -1089,6 +1089,7 @@ class LlamaModel(LlamaPreTrainedModel):
                 past_key_values_length=past_seen_tokens,
                 is_training=self.training,
             ):
+                # ipdb.set_trace()
                 return None
 
         dtype, device = input_tensor.dtype, input_tensor.device
@@ -1263,7 +1264,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             # Enable model parallelism
             shift_labels = shift_labels.to(shift_logits.device)
             unreduced_loss = loss_fct(shift_logits, shift_labels)
-            ipdb.set_trace()
+            # ipdb.set_trace()
 
         new_tokens = None
         if think_tuning and not self.in_thinking:
@@ -1307,7 +1308,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         print(self.start_thought_id.shape)
                         new_sequence_id = torch.cat([new_sequence[0][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
                         # Append the sampled top-k token
-                        sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0))  # Add the sampled token
+                        sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
                         print(sampled_token.shape)
                         print(new_sequence_id.shape)
                         new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
@@ -1324,20 +1325,19 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         # print('new_greedy_sequence_decoding: ', new_greedy_sequence_decoding.shape)
                         # print('inpuds_ids -> idx+1: ', input_ids[:, idx+1: ].shape)
                         # print('inpuds_ids idx+1 -> : ', input_ids[:, : idx+1].shape)
-                        reasoning_path.append(torch.cat([input_ids[:, : idx+1], new_greedy_sequence_decoding, input_ids[:, idx+1:]], dim=-1))
-                        reasoning_labels.append(torch.cat([input_ids[:, : idx+1], torch.full_like(new_greedy_sequence_decoding, fill_value=-100).to(input_ids.device), input_ids[:, idx+1: ]], dim=-1))
+                        reasoning_path.append(torch.cat([input_ids[0][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[0][idx+1:]], dim=-1))
+                        reasoning_labels.append(torch.cat([input_ids[0][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[0][idx+1: ]], dim=-1))
                     
-
-                    reasoning_path = torch.stack(reasoning_path, dim=0)
-                    reasoning_labels = torch.stack(reasoning_labels, dim=0)
+                    # reasoning_path shape: [topk_idx, batch_size, seq_len]
+                    print('reasoning_path shape: ', reasoning_path[0].shape)
 
                     packed_reasoning_path, packed_reasoning_path_attention_mask = get_packed_inputs(reasoning_path, max_length=5000, pad_token_id=self.config.eos_token_id)
-                    print('reasoning hidden states: ', packed_reasoning_path.shape)
-
+                    ipdb.set_trace()
                     new_hidden_states = self.model(
                         input_ids=packed_reasoning_path,
                         attention_mask=packed_reasoning_path_attention_mask
                     )
+                    ipdb.set_trace()
 
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
