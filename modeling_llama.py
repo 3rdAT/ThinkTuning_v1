@@ -1332,13 +1332,11 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     print('reasoning_path shape: ', reasoning_path[0].shape)
 
                     packed_reasoning_path, packed_reasoning_path_attention_mask = get_packed_inputs(reasoning_path, max_length=5000, pad_token_id=self.config.eos_token_id)
-                    ipdb.set_trace()
                     new_hidden_states = self.model(
                         input_ids=packed_reasoning_path,
                         attention_mask=packed_reasoning_path_attention_mask
                     )
-                    ipdb.set_trace()
-
+                    
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
         # Using the loss as a metric, implement reinforce algorithm.
