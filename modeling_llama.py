@@ -61,6 +61,8 @@ from transformers.utils import (
 )
 from transformers.models.llama.configuration_llama import LlamaConfig
 
+from pack_input_ids import get_packed_inputs
+
 import ipdb
 
 logger = logging.get_logger(__name__)
@@ -107,6 +109,21 @@ def _prepare_4d_causal_attention_mask_with_cache_position(
         causal_mask = torch.full((sequence_length, target_length), fill_value=min_dtype, dtype=dtype, device=device)
         if sequence_length != 1:
             causal_mask = torch.triu(causal_mask, diagonal=1)
+
+        # Ensure that tokens with the same values in the attention mask can see each other
+        unique_mask_values = torch.unique(attention_mask, dim=-1)
+        
+        for mask_value in unique_mask_values:
+            # Create a mask for all positions where the attention mask has the current mask_value
+            same_value_mask = attention_mask == mask_value
+            same_value_mask = same_value_mask[:, None, None, :]  # Broadcast for the correct shape (batch_size, 1, query_length, key_value_length)
+            
+            # Ensure positions with the same mask value can attend to each other
+            for i in range(sequence_length):
+                for j in range(i + 1, target_length):
+                    if same_value_mask[:, :, :, i].all() and same_value_mask[:, :, :, j].all():
+                        causal_mask[i, j] = 0.0  # Allow attention between these positions
+                        
         causal_mask *= torch.arange(target_length, device=device) > cache_position.reshape(-1, 1)
         causal_mask = causal_mask[None, None, :, :].expand(batch_size, 1, -1, -1)
         if attention_mask is not None:
@@ -1086,6 +1103,7 @@ class LlamaModel(LlamaPreTrainedModel):
                 else past_seen_tokens + sequence_length + 1
             )
 
+        print('Preparing 4D causal attention mask with cache position')
         # In case the provided `attention` mask is 2D, we generate a causal mask here (4D).
         causal_mask = _prepare_4d_causal_attention_mask_with_cache_position(
             attention_mask,
@@ -1249,6 +1267,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                     # print("The topk_indices:", topk_indices)
                     reasoning_path = []
+                    reasoning_labels = []
                     for i in range(top_k):
                         # Append the <SoT> token to the start
                         print(new_sequence[0][:idx+1].shape)
@@ -1293,31 +1312,25 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                         # print('input_ids shape: ', input_ids.shape)
                         # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
-                        reasoning_path.append(torch.cat([input_ids, new_greedy_sequence_decoding], dim=-1))
-                        ipdb.set_trace()
-                    
-                    # Getting the hidden states of the reasoning path
-                    # 1. Pack the reasoning paths
-                    # 2. Get the hidden states of the reasoning paths
-                    # Pack the reasoning paths in batches
-                    batch_size = input_ids.shape[0]
-                    packed_reasoning_path = torch.cat(reasoning_path, dim=0).view(batch_size, top_k, -1)
-
-                    # Get the hidden states of the reasoning paths
-                    reasoning_hidden_states = []
-                    for i in range(top_k):
-                        reasoning_hidden_states.append(self.model(packed_reasoning_path[:, i, :])[0])
-
-                    # Stack the hidden states
-                    reasoning_hidden_states = torch.stack(reasoning_hidden_states, dim=1)
-                    
-                    print('reasoning hidden states: ', reasoning_hidden_states.shape)
-
-                    # return torch.cat([new_sequence, new_greedy_sequence_decoding], dim=-1)
-                    
+                        # print('idx: ', idx)
+                        # print('input_ids shape: ', input_ids.shape)
+                        # print('new_greedy_sequence_decoding: ', new_greedy_sequence_decoding.shape)
+                        # print('inpuds_ids -> idx+1: ', input_ids[:, idx+1: ].shape)
+                        # print('inpuds_ids idx+1 -> : ', input_ids[:, : idx+1].shape)
+                        reasoning_path.append(torch.cat([input_ids[:, : idx+1], new_greedy_sequence_decoding, input_ids[:, idx+1:]], dim=-1))
+                        reasoning_labels.append(torch.cat([input_ids[:, : idx+1], torch.full_like(new_greedy_sequence_decoding, fill_value=-100).to(input_ids.device), input_ids[:, idx+1: ]], dim=-1))
                     
 
+                    reasoning_path = torch.stack(reasoning_path, dim=0)
+                    reasoning_labels = torch.stack(reasoning_labels, dim=0)
 
+                    packed_reasoning_path, packed_reasoning_path_attention_mask = get_packed_inputs(reasoning_path, max_length=5000, pad_token_id=self.config.eos_token_id)
+                    print('reasoning hidden states: ', packed_reasoning_path.shape)
+
+                    new_hidden_states = self.model(
+                        input_ids=packed_reasoning_path,
+                        attention_mask=packed_reasoning_path_attention_mask
+                    )
 
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
