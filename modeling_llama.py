@@ -1336,6 +1336,66 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         input_ids=packed_reasoning_path,
                         attention_mask=packed_reasoning_path_attention_mask
                     )
+
+                    #Assuming I have access to the indices for the corresponding inputs in the packed batch and let it be stored in packed = {'batch_no':,'</s>':,'<SoT>':,'<EoT>':}
+                    # I need a config of the following kind:
+                    # packed = [{'batch': batch_no, 'configs': [{'rationale_no': r_no, '<s>_index': st_no, '<SoT>_index': sot_idx, '<EoT>_index': eot_idx, '</s>_index':ed_no},{...}]}]
+
+                    reinforce_loss = 0.0
+                    for index, batch in enumerate(new_hidden_states):
+                        configs = packed[index]
+                        loss = None
+                        labels = packed_reasoning_path[batch]
+                        # Upcast to float if we need to compute the loss to avoid potential precision issues
+                        logits = batch.float()
+                        # Shift so that tokens < n predict n
+                        shift_logits = logits[..., :-1, :].contiguous()
+                        shift_labels = labels[..., 1:].contiguous()
+                        # Flatten the tokens
+                        loss_fct = CrossEntropyLoss(unreduced_loss)
+                        shift_logits = shift_logits.view(-1, self.config.vocab_size)
+                        shift_labels = shift_labels.view(-1)
+                        # Enable model parallelism
+                        shift_labels = shift_labels.to(shift_logits.device)
+                        loss = loss_fct(shift_logits, shift_labels)
+
+                        #Note: If len(input_ids) = n, the length of unreduced loss is n-1 (Reason, you don't want to learn to predict anything from the last token).
+                        # input_ids = [<s>, Hi, I, am, doing, TODAY, I, WENT, TO, A, MOVIE, really, well, </s>, <s>, Hi, I, am, doing, TODAY, I, HAD, AN, ACCIDENT, really, bad, </s>]'
+                                                            # |(<SoT>_index)         |<EoT>_index         |</s_index>                                     |<EoT>_index           |</s_index>
+
+                        reward_signals = []
+                        for thought in configs:
+                            reward_signal = (unreduced_loss[idx:] - loss[thought['<EoT>_index']:thought['</s_index>']]).detach()
+                            reward_signal = ()
+                            reward_signal = torch.mean(reward_signal)
+                            reward_signals.append(reward_signal)
+                        
+                        #based on the difference between the reward_signal and average reward from the bunch of sampled rationales (to reduce variance)
+                        # We basically Sub
+                        reward_signals_tensor = torch.tensor(reward_signals)
+                        mean_reward_signals = torch.mean(reward_signals_tensor)
+
+                        
+                        for index, thought in configs:
+                            var_difference = torch.clamp((reward_signals[index] - mean_reward_signals), min=0)
+                            t_likelihood_loss = torch.mean(loss[:thought['<EoT>_index']+1])
+                            reinforce_loss += var_difference * t_likelihood_loss
+
+
+                            
+
+
+
+
+
+
+
+
+
+
+
+
+                    
                     
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
