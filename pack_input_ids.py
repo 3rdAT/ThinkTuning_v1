@@ -1,6 +1,6 @@
 import torch
 
-def pack_input_ids(input_ids, max_length=32):
+def pack_input_ids(input_ids, pad_token_id, max_length=32):
     """
     Pack input_ids from a list of tensors of shape [sequence_length] into batches of size max_length.
     Does not split individual sequences but packs multiple sequences together until max_length is reached.
@@ -12,6 +12,7 @@ def pack_input_ids(input_ids, max_length=32):
     current_length = 0
     current_attention_no = 1
 
+    pad_token_id = torch.tensor([pad_token_id]).to(input_ids[0].device)
     # Iterate through the list of sequence tensors
     for sequence in input_ids:
         sequence_length = len(sequence)
@@ -30,8 +31,9 @@ def pack_input_ids(input_ids, max_length=32):
             
         else:
             # Add the current sequence to the current batch
-            current_batch.append(sequence)
+            current_batch.append(torch.cat([sequence, pad_token_id]))
             current_attention_mask += [current_attention_no] * sequence_length
+            current_attention_mask += [0]
             current_length += sequence_length
         current_attention_no += 1
 
@@ -44,8 +46,9 @@ def pack_input_ids(input_ids, max_length=32):
 
 def build_batched_causal_mask_from_attention_mask(attention_mask: torch.Tensor, dtype: torch.dtype = torch.float32):
     """
-    Creates a batched 4D causal mask from attention_mask where only elements with the same values in the attention_mask
-    can attend to each other, and elements with value 0 in the attention_mask are ignored.
+    Creates a batched 4D causal mask from attention_mask where elements with the same values in the attention_mask
+    can attend to each other (set to 0 in the mask), and elements with value 0 or different values are ignored
+    (set to min_dtype in the mask). The causal property ensures no future tokens are attended.
 
     Args:
         attention_mask (torch.Tensor): A 2D tensor of shape (batch_size, sequence_length) with different values representing groups.
@@ -54,35 +57,40 @@ def build_batched_causal_mask_from_attention_mask(attention_mask: torch.Tensor, 
     Returns:
         causal_mask (torch.Tensor): A batched 4D causal mask of shape (batch_size, 1, sequence_length, sequence_length)
                                     where elements with the same values in attention_mask can attend to each other,
-                                    and elements with value 0 are ignored.
+                                    and elements with value 0 or different values are ignored (set to min_dtype).
     """
-    batch_size, seq_len = attention_mask.size()
+    bz, seq_len = attention_mask.size()
 
-    # Create a base causal mask (lower triangular matrix), ensuring tokens can't attend to future tokens
-    causal_mask = torch.tril(torch.ones((seq_len, seq_len), dtype=dtype)).unsqueeze(0).expand(batch_size, -1, -1).to(attention_mask.device)
+    min_dtype = torch.finfo(torch.float32).min
 
-    # Create a mask where elements with the same attention_mask values can attend to each other (for each batch)
-    same_value_mask = (attention_mask.unsqueeze(1) == attention_mask.unsqueeze(2)).to(dtype)
+    causal_mask = torch.triu(torch.full((seq_len, seq_len), min_dtype, dtype=dtype, device=attention_mask.device), diagonal=1).to(attention_mask.device)
+    causal_mask = causal_mask.unsqueeze(0).unsqueeze(0).expand(bz, -1, -1, -1).clone()
 
-    # Create a mask to ignore elements with value 0 in the attention_mask (for each batch)
-    non_zero_mask = (attention_mask != 0).unsqueeze(1).to(dtype)  # Mask where 1 indicates non-zero elements
+    zero_positions = (attention_mask == 0)  # Shape: [bz, seq_len]
 
-    # Combine the causal mask with the same-value mask (element-wise multiplication)
-    combined_mask = causal_mask * same_value_mask
+    k_indices = torch.arange(seq_len).view(1, 1, seq_len, 1).to(attention_mask.device)  # Shape: [1, 1, seq_len, 1]
+    l_indices = torch.arange(seq_len).view(1, 1, 1, seq_len).to(attention_mask.device)  # Shape: [1, 1, 1, seq_len]
+    j_indices = torch.arange(seq_len).view(1, seq_len, 1, 1).to(attention_mask.device)  # Shape: [1, seq_len, 1, 1]
 
-    # Apply the non-zero mask to ignore tokens with attention_mask value 0
-    combined_mask = combined_mask * non_zero_mask * non_zero_mask.transpose(1, 2)
+    zero_positions = zero_positions.view(bz, seq_len, 1, 1)  # Shape: [bz, seq_len, 1, 1]
 
-    # Expand the mask to 4D with the second dimension as 1
-    combined_mask = combined_mask.unsqueeze(1)
+    masks_per_j = (k_indices >= j_indices) & (l_indices <= j_indices)  # Shape: [1, seq_len, seq_len, seq_len]
 
-    return combined_mask
+    masks = zero_positions & masks_per_j  # Shape: [bz, seq_len, seq_len, seq_len]
+
+    mask = masks.any(dim=1)  # Shape: [bz, seq_len, seq_len]
+
+    mask = mask.unsqueeze(1)  # Shape: [bz, 1, seq_len, seq_len]
+
+    causal_mask[mask] = min_dtype
+
+    return causal_mask
 
 def get_packed_inputs(input_ids, max_length, pad_token_id):
     """
     Pack sequences into batches of max_length and pad them, returning the padded sequences and attention masks.
     """
-    packed_prompts, attention_mask = pack_input_ids(input_ids, max_length=max_length)
+    packed_prompts, attention_mask = pack_input_ids(input_ids, max_length=max_length, pad_token_id=pad_token_id)
     
     # Pad the packed sequences and attention masks to the longest batch
     packed_prompts = torch.nn.utils.rnn.pad_sequence(packed_prompts, batch_first=True, padding_value=pad_token_id).to(input_ids[0].device)

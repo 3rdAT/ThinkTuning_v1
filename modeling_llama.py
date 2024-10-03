@@ -109,23 +109,7 @@ def _prepare_4d_causal_attention_mask_with_cache_position(
         causal_mask = torch.full((sequence_length, target_length), fill_value=min_dtype, dtype=dtype, device=device)
         if sequence_length != 1:
             causal_mask = torch.triu(causal_mask, diagonal=1)
-
-        # # Ensure that tokens with the same values in the attention mask can see each other
-        # unique_mask_values = torch.unique(attention_mask, dim=-1)
-        
-        # for mask_value in unique_mask_values:
-        #     # Create a mask for all positions where the attention mask has the current mask_value
-        #     print('attention_mask shape', attention_mask.shape)
-        #     print('mask_value shape', mask_value.shape)
-        #     same_value_mask = attention_mask == mask_value
-        #     same_value_mask = same_value_mask[:, None, None, :]  # Broadcast for the correct shape (batch_size, 1, query_length, key_value_length)
-            
-        #     # Ensure positions with the same mask value can attend to each other
-        #     for i in range(sequence_length):
-        #         for j in range(i + 1, target_length):
-        #             if same_value_mask[:, :, :, i].all() and same_value_mask[:, :, :, j].all():
-        #                 causal_mask[i, j] = 0.0  # Allow attention between these positions
-                        
+   
         causal_mask *= torch.arange(target_length, device=device) > cache_position.reshape(-1, 1)
         causal_mask = causal_mask[None, None, :, :].expand(batch_size, 1, -1, -1)
         if attention_mask is not None:
@@ -136,7 +120,6 @@ def _prepare_4d_causal_attention_mask_with_cache_position(
             causal_mask[:, :, :, :mask_length] = causal_mask[:, :, :, :mask_length].masked_fill(
                 padding_mask, min_dtype
             )
-    print('causal_mask shape', causal_mask.shape)
     return causal_mask
 
 
@@ -1318,7 +1301,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
 
                         batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                        new_greedy_sequence_decoding = self.generate(**batch, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
+                        new_greedy_sequence_decoding = self.generate(**batch, max_length=100, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
                         #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                         # print('input_ids shape: ', input_ids.shape)
                         # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
@@ -1333,11 +1316,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     # reasoning_path shape: [topk_idx, batch_size, seq_len]
                     print('reasoning_path shape: ', reasoning_path[0].shape)
 
-                    packed_reasoning_path, _, packed_reasoning_path_casual_mask = get_packed_inputs(reasoning_path, max_length=5000, pad_token_id=self.config.eos_token_id)
+                    packed_reasoning_path, _, packed_reasoning_path_casual_mask = get_packed_inputs(reasoning_path, max_length=300, pad_token_id=self.config.eos_token_id)
                     new_hidden_states = self.model(
                         input_ids=packed_reasoning_path,
                         attention_mask=packed_reasoning_path_casual_mask
                     )
+
+                    ipdb.set_trace()
                     
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
