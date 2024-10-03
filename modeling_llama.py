@@ -1130,6 +1130,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         self.in_thinking = False
         self.start_thought_id = torch.tensor([11474]).to('cuda')
 
+
         # Initialize weights and apply final processing
         self.post_init()
 
@@ -1235,6 +1236,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             # TODO: remove the float() operation in v4.46
             logits = self.lm_head(hidden_states[:, -num_logits_to_keep:, :]).float()
 
+        reinforce_loss = 0.0
         unreduced_loss = None
         if labels is not None:
             # Upcast to float if we need to compute the loss to avoid potential precision issues
@@ -1303,7 +1305,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
 
                         batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                        new_greedy_sequence_decoding = self.generate(**batch, max_length=100, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
+                        new_greedy_sequence_decoding = self.generate(**batch, max_new_tokens=100, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
                         #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                         # print('input_ids shape: ', input_ids.shape)
                         # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
@@ -1313,22 +1315,98 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         # print('inpuds_ids -> idx+1: ', input_ids[:, idx+1: ].shape)
                         # print('inpuds_ids idx+1 -> : ', input_ids[:, : idx+1].shape)
                         thought_index.append({
-                            'though_start': idx+1,
+                            'thought_start': idx+1,
                             'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
                         })
+
+                        paddy = torch.tensor([self.config.eos_token_id]).to(input_ids[0].device)
                         reasoning_path.append(torch.cat([input_ids[0][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[0][idx+1:]], dim=-1))
                         reasoning_labels.append(torch.cat([input_ids[0][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[0][idx+1: ]], dim=-1))
                     packed.append(thought_index)
                     # reasoning_path shape: [topk_idx, batch_size, seq_len]
                     print('reasoning_path shape: ', reasoning_path[0].shape)
 
-                    packed_reasoning_path, _, packed_reasoning_path_casual_mask = get_packed_inputs(reasoning_path, max_length=300, pad_token_id=self.config.eos_token_id)
+                    # print(self.config.eos_token_id.type)
+
+                    packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=500, pad_token_id=self.config.eos_token_id, thought_index=thought_index)
                     new_hidden_states = self.model(
                         input_ids=packed_reasoning_path,
                         attention_mask=packed_reasoning_path_casual_mask
                     )
 
+                    #Assuming I have access to the indices for the corresponding inputs in the packed batch and let it be stored in packed = {'batch_no':,'</s>':,'<SoT>':,'<EoT>':}
+                    # I need a config of the following kind:
+                    # packed = [{'configs': [{'rationale_no': r_no, '<s>_index': st_no, '<SoT>_index': sot_idx, '<EoT>_index': eot_idx, '</s>_index':ed_no},{...}]}]
+
+                    new_hidden_states = new_hidden_states[0]  # Feed this to a gating mechanism
+
+                    reward_signals = []
+
+                    num_logits_to_keepy = 0
+                    if self.config.pretraining_tp > 1:
+                        lm_head_slices = self.lm_head.weight.split(self.vocab_size // self.config.pretraining_tp, dim=0)
+                        new_logits = [F.linear(new_hidden_states, lm_head_slices[i]) for i in range(self.config.pretraining_tp)]
+                        new_logits = torch.cat(new_logits, dim=-1)
+                    else:
+                        if labels is None and not is_torchdynamo_compiling():
+                            logger.warning_once(
+                                "Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)"
+                            )
+                        # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
+                        # TODO: remove the float() operation in v4.46
+                        new_logits = self.lm_head(new_hidden_states[:, -num_logits_to_keepy:, :]).float()
+
+                    packed_loss = None
+                    packed_labels = packed_reasoning_path
+                    # Upcast to float if we need to compute the loss to avoid potential precision issues
+                    packed_logits = new_logits.float()
+                    # Shift so that tokens < n predict n
+                    shift_logits = packed_logits[..., :-1, :].contiguous()
+                    shift_labels = packed_labels[..., 1:].contiguous()
+                    # Flatten the tokens
+                    loss_fct = CrossEntropyLoss(reduction='none')
+                    shift_logits = shift_logits.view(-1, self.config.vocab_size)
+                    shift_labels = shift_labels.view(-1)
+                    # Enable model parallelism
+                    shift_labels = shift_labels.to(shift_logits.device)
+                    packed_loss = loss_fct(shift_logits, shift_labels)
+
+                    packed_loss = packed_loss.view(packed_logits.shape[0], -1)
+
+                        #Note: If len(input_ids) = n, the length of unreduced loss is n-1 (Reason, you don't want to learn to predict anything from the last token).
+                        # input_ids = [<s>, Hi, I, am, doing, TODAY, I, WENT, TO, A, MOVIE, really, well, </s>, <s>, Hi, I, am, doing, TODAY, I, HAD, AN, ACCIDENT, really, bad, </s>]'
+                                                            # |(<SoT>_index)         |<EoT>_index         |</s_index>                                     |<EoT>_index           |</s_index>
+
+                    # ipdb.set_trace()
+                    for index, batch in enumerate(new_hidden_states):
+                        configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
+                        for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
+                            print(indi)
+                            reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
+                            reward_signal = torch.mean(reward_signal)
+                            reward_signals.append(reward_signal)
+                    
+
+                    #based on the difference between the reward_signal and average reward from the bunch of sampled rationales (to reduce variance)
+                    # We basically Sub
+                    reward_signals_tensor = torch.tensor(reward_signals)
+                    mean_reward_signals = torch.mean(reward_signals_tensor)
+                    
+                    r_ind = 0
+                    for index, batch in enumerate(new_hidden_states):
+                        configs = packed[f'{index}']
+                        for indi, thought in enumerate(configs):
+                            var_difference = torch.clamp((reward_signals[r_ind] - mean_reward_signals), min=0)
+                            print(var_difference)
+                            t_likelihood_loss = torch.mean(packed_loss[:thought['thought_end_index']])
+                            reinforce_loss += var_difference * t_likelihood_loss
+                            r_ind+=1
+
                     ipdb.set_trace()
+
+
+
+
                     
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 

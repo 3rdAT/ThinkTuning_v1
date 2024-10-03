@@ -1,6 +1,6 @@
 import torch
 
-def pack_input_ids(input_ids, pad_token_id, max_length=32):
+def pack_input_ids(input_ids, pad_token_id, max_length=32, thought_index=[]):
     """
     Pack input_ids from a list of tensors of shape [sequence_length] into batches of size max_length.
     Does not split individual sequences but packs multiple sequences together until max_length is reached.
@@ -12,29 +12,57 @@ def pack_input_ids(input_ids, pad_token_id, max_length=32):
     current_length = 0
     current_attention_no = 1
 
-    pad_token_id = torch.tensor([pad_token_id]).to(input_ids[0].device)
     # Iterate through the list of sequence tensors
-    for sequence in input_ids:
+    pad_token_id = torch.tensor([pad_token_id]).to(input_ids[0].device)
+    batchy = 0
+    batch_config = {}
+
+    if batchy not in batch_config:
+        batch_config[f'{batchy}'] = []
+
+    for index, sequence in enumerate(input_ids):
+        print(f"The batchy value is {batchy}")
+        thought_index_config = thought_index[index]
         sequence_length = len(sequence)
+        
 
         # Check if adding the current sequence exceeds the max_length
         if current_length + sequence_length > max_length:
             # If it exceeds, append the current batch and attention mask, and start a new batch
+
             packed_inputs.append(torch.cat(current_batch, dim=0))
             attention_masks.append(torch.tensor(current_attention_mask))
 
             # Start a new batch with the current sequence
+            batchy = batchy+1
+            print(f"Batchy inside if: {batchy}")
+            if batchy not in batch_config:
+                batch_config[f'{batchy}'] = []
+
+            start_index = 0
             current_batch = [sequence]
             current_attention_no = 1
             current_attention_mask = [current_attention_no] * sequence_length
             current_length = sequence_length
+
+            temp = {'thought_no':index, 'start_index':start_index, 'thought_start_index':start_index+thought_index_config['thought_start'], 'thought_end_index':start_index+thought_index_config['thought_end'], 'end_index':current_length}
+            batch_config[f'{batchy}'].append(temp)
+
             
         else:
             # Add the current sequence to the current batch
+            start_index = current_length
             current_batch.append(torch.cat([sequence, pad_token_id]))
             current_attention_mask += [current_attention_no] * sequence_length
             current_attention_mask += [0]
             current_length += sequence_length
+            end_index = current_length
+
+            print(f"Batchy inside else: {batchy}")
+            
+            temp = {'thought_no':index, 'start_index':start_index, 'thought_start_index':start_index+thought_index_config['thought_start'], 'thought_end_index':start_index+thought_index_config['thought_end'], 'end_index':end_index}
+            batch_config[f'{batchy}'].append(temp)
+
         current_attention_no += 1
 
     # Add the last batch if it's not empty
@@ -42,7 +70,7 @@ def pack_input_ids(input_ids, pad_token_id, max_length=32):
         packed_inputs.append(torch.cat(current_batch, dim=0))
         attention_masks.append(torch.tensor(current_attention_mask))
 
-    return packed_inputs, attention_masks
+    return packed_inputs, attention_masks, batch_config
 
 def build_batched_causal_mask_from_attention_mask(attention_mask: torch.Tensor, dtype: torch.dtype = torch.float32):
     """
@@ -86,11 +114,11 @@ def build_batched_causal_mask_from_attention_mask(attention_mask: torch.Tensor, 
 
     return causal_mask
 
-def get_packed_inputs(input_ids, max_length, pad_token_id):
+def get_packed_inputs(input_ids, max_length, pad_token_id, thought_index):
     """
     Pack sequences into batches of max_length and pad them, returning the padded sequences and attention masks.
     """
-    packed_prompts, attention_mask = pack_input_ids(input_ids, max_length=max_length, pad_token_id=pad_token_id)
+    packed_prompts, attention_mask, packed = pack_input_ids(input_ids, pad_token_id=pad_token_id,  max_length=max_length, thought_index=thought_index)
     
     # Pad the packed sequences and attention masks to the longest batch
     packed_prompts = torch.nn.utils.rnn.pad_sequence(packed_prompts, batch_first=True, padding_value=pad_token_id).to(input_ids[0].device)
@@ -98,4 +126,4 @@ def get_packed_inputs(input_ids, max_length, pad_token_id):
 
     casual_mask = build_batched_causal_mask_from_attention_mask(attention_mask, torch.float).to(input_ids[0].device)
 
-    return packed_prompts, attention_mask, casual_mask
+    return packed_prompts, attention_mask, casual_mask, packed
