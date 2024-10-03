@@ -1262,6 +1262,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             print(gate_values)
             print("The shape is:", gate_values.shape)
             new_sequence = input_ids.clone()
+            packed = []
             for idx, value in enumerate(gate_values[0]):
 
                 if idx<=70:
@@ -1285,6 +1286,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     # print("The topk_indices:", topk_indices)
                     reasoning_path = []
                     reasoning_labels = []
+                    thought_index = []
                     for i in range(top_k):
                         if i < 7:
                             continue
@@ -1310,9 +1312,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         # print('new_greedy_sequence_decoding: ', new_greedy_sequence_decoding.shape)
                         # print('inpuds_ids -> idx+1: ', input_ids[:, idx+1: ].shape)
                         # print('inpuds_ids idx+1 -> : ', input_ids[:, : idx+1].shape)
+                        thought_index.append({
+                            'though_start': idx+1,
+                            'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
+                        })
                         reasoning_path.append(torch.cat([input_ids[0][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[0][idx+1:]], dim=-1))
                         reasoning_labels.append(torch.cat([input_ids[0][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[0][idx+1: ]], dim=-1))
-                    
+                    packed.append(thought_index)
                     # reasoning_path shape: [topk_idx, batch_size, seq_len]
                     print('reasoning_path shape: ', reasoning_path[0].shape)
 
