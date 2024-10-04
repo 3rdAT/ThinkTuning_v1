@@ -1386,9 +1386,19 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                             reward_signal = torch.mean(reward_signal)
                             reward_signals.append(reward_signal)
                     
+                    gate_loss = reward_signals
                     # TODO: Add gating optimization.
-
-                    #based on the difference between the reward_signal and average reward from the bunch of sampled rationales (to reduce variance)
+                    # Clamping
+                    # reinforce_loss
+                    # return gating_loss, reinforce_loss
+                    # optimizer_1: gate_optimizer, optimizer_2: model_optimizer
+                    # model.zero_grad()
+                    # gate_loss.backward()
+                    # optimizer_1.step()
+                    # model.zero_grad()
+                    # reinforce_loss.backward()
+                    # optimizer_2.step()
+                    # based on the difference between the reward_signal and average reward from the bunch of sampled rationales (to reduce variance)
                     # We basically Sub
                     reward_signals_tensor = torch.tensor(reward_signals)
                     mean_reward_signals = torch.mean(reward_signals_tensor)
