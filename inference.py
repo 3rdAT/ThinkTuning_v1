@@ -53,8 +53,8 @@ def main(
     tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", token='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', trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
     # Set the seeds for reproducibility
-    torch.cuda.manual_seed(seed)
-    torch.manual_seed(seed)
+    # torch.cuda.manual_seed(seed)
+    # torch.manual_seed(seed)
 
     # model = load_model(model_name, quantization)
     model = LlamaForCausalLM.from_pretrained(
@@ -97,6 +97,9 @@ def main(
     outputs = model(**batch)
     
     print(outputs.keys())
+    print(outputs['loss'])
+    print(outputs['gate_loss'])
+    print(outputs['reinforce_loss'])
 
 
 if __name__ == "__main__":
