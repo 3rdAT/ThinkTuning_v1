@@ -39,7 +39,6 @@ from transformers.modeling_attn_mask_utils import AttentionMaskConverter
 from transformers.modeling_flash_attention_utils import _flash_attention_forward
 from transformers.modeling_outputs import (
     BaseModelOutputWithPast,
-    CausalLMOutputWithPast,
     QuestionAnsweringModelOutput,
     SequenceClassifierOutputWithPast,
     TokenClassifierOutput,
@@ -47,6 +46,8 @@ from transformers.modeling_outputs import (
 from transformers.generation.stopping_criteria import (
     StoppingCriteriaList,
 )
+from dataclasses import dataclass
+from transformers.utils import ModelOutput
 
 from transformers.modeling_rope_utils import ROPE_INIT_FUNCTIONS
 from custom_modeling_utils import PreTrainedModel
@@ -68,6 +69,44 @@ import ipdb
 logger = logging.get_logger(__name__)
 
 _CONFIG_FOR_DOC = "LlamaConfig"
+
+
+@dataclass
+class CausalLMOutputWithPast(ModelOutput):
+    """
+    Base class for causal language model (or autoregressive) outputs.
+
+    Args:
+        loss (`torch.FloatTensor` of shape `(1,)`, *optional*, returned when `labels` is provided):
+            Language modeling loss (for next-token prediction).
+        logits (`torch.FloatTensor` of shape `(batch_size, sequence_length, config.vocab_size)`):
+            Prediction scores of the language modeling head (scores for each vocabulary token before SoftMax).
+        past_key_values (`tuple(tuple(torch.FloatTensor))`, *optional*, returned when `use_cache=True` is passed or when `config.use_cache=True`):
+            Tuple of `tuple(torch.FloatTensor)` of length `config.n_layers`, with each tuple having 2 tensors of shape
+            `(batch_size, num_heads, sequence_length, embed_size_per_head)`)
+
+            Contains pre-computed hidden-states (key and values in the self-attention blocks) that can be used (see
+            `past_key_values` input) to speed up sequential decoding.
+        hidden_states (`tuple(torch.FloatTensor)`, *optional*, returned when `output_hidden_states=True` is passed or when `config.output_hidden_states=True`):
+            Tuple of `torch.FloatTensor` (one for the output of the embeddings, if the model has an embedding layer, +
+            one for the output of each layer) of shape `(batch_size, sequence_length, hidden_size)`.
+
+            Hidden-states of the model at the output of each layer plus the optional initial embedding outputs.
+        attentions (`tuple(torch.FloatTensor)`, *optional*, returned when `output_attentions=True` is passed or when `config.output_attentions=True`):
+            Tuple of `torch.FloatTensor` (one for each layer) of shape `(batch_size, num_heads, sequence_length,
+            sequence_length)`.
+
+            Attentions weights after the attention softmax, used to compute the weighted average in the self-attention
+            heads.
+    """
+
+    loss: Optional[torch.FloatTensor] = None
+    reinforce_loss: Optional[torch.FloatTensor] = None
+    gate_loss: Optional[torch.FloatTensor] = None
+    logits: torch.FloatTensor = None
+    past_key_values: Optional[Tuple[Tuple[torch.FloatTensor]]] = None
+    hidden_states: Optional[Tuple[torch.FloatTensor, ...]] = None
+    attentions: Optional[Tuple[torch.FloatTensor, ...]] = None
 
 
 def _prepare_4d_causal_attention_mask_with_cache_position(
@@ -1126,6 +1165,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
         self.norm = LlamaRMSNorm(config.hidden_size, eps=config.rms_norm_eps)
         self.gate = nn.Sequential(nn.Linear(config.hidden_size, 2))
+        self.reward_decay = 0.9
 
         self.in_thinking = False
         self.start_thought_id = torch.tensor([11474]).to('cuda')
@@ -1237,8 +1277,10 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             logits = self.lm_head(hidden_states[:, -num_logits_to_keep:, :]).float()
 
         reinforce_loss = 0.0
-        unreduced_loss = None
-        if labels is not None:
+        gate_loss = 0.0
+        unreduced_loss = 0.0
+        nll_loss = None
+        if labels is not None and think_tuning is True:
             # Upcast to float if we need to compute the loss to avoid potential precision issues
             logits = logits.float()
             # Shift so that tokens < n predict n
@@ -1251,9 +1293,12 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             # Enable model parallelism
             shift_labels = shift_labels.to(shift_logits.device)
             unreduced_loss = loss_fct(shift_logits, shift_labels)
+            print(unreduced_loss.shape)
             # ipdb.set_trace()
+            nll_loss = unreduced_loss.mean()
 
         new_tokens = None
+        count=0
         if think_tuning and not self.in_thinking:
             hidden_states = self.norm(hidden_states)
 
@@ -1271,7 +1316,6 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     continue
 
                 if value == 0:
-                    #logic for normal logits
                     pass
                 else:
                     #logic for thought generation and computing thought influenced logits
@@ -1319,7 +1363,6 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                             'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
                         })
 
-                        paddy = torch.tensor([self.config.eos_token_id]).to(input_ids[0].device)
                         reasoning_path.append(torch.cat([input_ids[0][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[0][idx+1:]], dim=-1))
                         reasoning_labels.append(torch.cat([input_ids[0][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[0][idx+1: ]], dim=-1))
                     packed.append(thought_index)
@@ -1341,6 +1384,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     new_hidden_states = new_hidden_states[0]  # Feed this to a gating mechanism
 
                     reward_signals = []
+                    nll_signals = []
 
                     num_logits_to_keepy = 0
                     if self.config.pretraining_tp > 1:
@@ -1382,11 +1426,14 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
                         for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
                             print(indi)
-                            reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
+                            nll_signal = torch.tensor([(self.reward_decay ** i+1) * loss for i, loss in enumerate(packed_loss[index][thought['thought_end_index']:thought['end_index']])]).to(device=unreduced_loss.device)
+                            reward_signal = (unreduced_loss[idx:] - nll_signal).detach()
+                            # reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
+                            nll_signal = torch.mean(nll_signal)
                             reward_signal = torch.mean(reward_signal)
                             reward_signals.append(reward_signal)
+                            nll_signals.append(nll_signal)
                     
-                    gate_loss = reward_signals
                     # TODO: Add gating optimization.
                     # Clamping
                     # reinforce_loss
@@ -1398,66 +1445,71 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                     # model.zero_grad()
                     # reinforce_loss.backward()
                     # optimizer_2.step()
+                    #
                     # based on the difference between the reward_signal and average reward from the bunch of sampled rationales (to reduce variance)
                     # We basically Sub
                     reward_signals_tensor = torch.tensor(reward_signals)
                     mean_reward_signals = torch.mean(reward_signals_tensor)
-                    
-                    r_ind = 0
-                    for index, batch in enumerate(new_hidden_states):
-                        configs = packed[f'{index}']
-                        for indi, thought in enumerate(configs):
-                            var_difference = torch.clamp((reward_signals[r_ind] - mean_reward_signals), min=0)
-                            print(var_difference)
-                            t_likelihood_loss = torch.mean(packed_loss[:thought['thought_end_index']])
-                            reinforce_loss += var_difference * t_likelihood_loss
-                            r_ind+=1
 
-                    ipdb.set_trace()
+                    gate_loss += -(mean_reward_signals)
 
+                    if mean_reward_signals > 0:
+                        r_ind = 0
+                        for index, batch in enumerate(new_hidden_states):
+                            configs = packed[f'{index}']
+                            for indi, thought in enumerate(configs):
+                                var_difference = torch.clamp((reward_signals[r_ind] - mean_reward_signals), min=0)
+                                print(var_difference)
+                                t_likelihood_loss = torch.mean(packed_loss[:thought['thought_end_index']])
+                                reinforce_loss += var_difference * t_likelihood_loss
+                                nll_loss += var_difference * nll_signals[index]
+                                r_ind+=1
 
-
-
+                    # ipdb.set_trace()
                     
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
         # Using the loss as a metric, implement reinforce algorithm.
 
 
-        if self.config.pretraining_tp > 1:
-            lm_head_slices = self.lm_head.weight.split(self.vocab_size // self.config.pretraining_tp, dim=0)
-            logits = [F.linear(hidden_states, lm_head_slices[i]) for i in range(self.config.pretraining_tp)]
-            logits = torch.cat(logits, dim=-1)
-        else:
-            if labels is None and not is_torchdynamo_compiling():
-                logger.warning_once(
-                    "Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)"
-                )
-            # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
-            # TODO: remove the float() operation in v4.46
-            logits = self.lm_head(hidden_states[:, -num_logits_to_keep:, :]).float()
+        # if self.config.pretraining_tp > 1:
+        #     lm_head_slices = self.lm_head.weight.split(self.vocab_size // self.config.pretraining_tp, dim=0)
+        #     logits = [F.linear(hidden_states, lm_head_slices[i]) for i in range(self.config.pretraining_tp)]
+        #     logits = torch.cat(logits, dim=-1)
+        # else:
+        #     if labels is None and not is_torchdynamo_compiling():
+        #         logger.warning_once(
+        #             "Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)"
+        #         )
+        #     # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
+        #     # TODO: remove the float() operation in v4.46
+        #     logits = self.lm_head(hidden_states[:, -num_logits_to_keep:, :]).float()
 
-        loss = None
-        if labels is not None:
-            # Upcast to float if we need to compute the loss to avoid potential precision issues
-            logits = logits.float()
-            # Shift so that tokens < n predict n
-            shift_logits = logits[..., :-1, :].contiguous()
-            shift_labels = labels[..., 1:].contiguous()
-            # Flatten the tokens
-            loss_fct = CrossEntropyLoss()
-            shift_logits = shift_logits.view(-1, self.config.vocab_size)
-            shift_labels = shift_labels.view(-1)
-            # Enable model parallelism
-            shift_labels = shift_labels.to(shift_logits.device)
-            loss = loss_fct(shift_logits, shift_labels)
+        # loss = None
+        # if labels is not None:
+        #     # Upcast to float if we need to compute the loss to avoid potential precision issues
+        #     logits = logits.float()
+        #     # Shift so that tokens < n predict n
+        #     shift_logits = logits[..., :-1, :].contiguous()
+        #     shift_labels = labels[..., 1:].contiguous()
+        #     # Flatten the tokens
+        #     loss_fct = CrossEntropyLoss()
+        #     shift_logits = shift_logits.view(-1, self.config.vocab_size)
+        #     shift_labels = shift_labels.view(-1)
+        #     # Enable model parallelism
+        #     shift_labels = shift_labels.to(shift_logits.device)
+        #     loss = loss_fct(shift_logits, shift_labels)
+
+        # ipdb.set_trace()
 
         if not return_dict:
             output = (logits,) + outputs[1:]
-            return (loss,) + output if loss is not None else output
+            return (nll_loss, reinforce_loss, gate_loss) + output if loss is not None else output
 
         return CausalLMOutputWithPast(
-            loss=loss,
+            loss=nll_loss,
+            reinforce_loss=reinforce_loss,
+            gate_loss=gate_loss,
             logits=logits,
             past_key_values=outputs.past_key_values,
             hidden_states=outputs.hidden_states,
