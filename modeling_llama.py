@@ -1504,7 +1504,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
         if not return_dict:
             output = (logits,) + outputs[1:]
-            return (nll_loss, reinforce_loss, gate_loss) + output if loss is not None else output
+            return (nll_loss, reinforce_loss, gate_loss) + output if nll_loss is not None else output
 
         return CausalLMOutputWithPast(
             loss=nll_loss,
