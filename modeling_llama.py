@@ -101,6 +101,7 @@ class CausalLMOutputWithPast(ModelOutput):
     """
 
     loss: Optional[torch.FloatTensor] = None
+    nll_thought: Optional[torch.FloatTensor] = None
     reinforce_loss: Optional[torch.FloatTensor] = None
     gate_loss: Optional[torch.FloatTensor] = None
     logits: torch.FloatTensor = None
@@ -1278,7 +1279,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
         
         unreduced_loss = 0.0
-        nll_loss = None
+        total_nll_loss = None
         if labels is not None and think_tuning is True:
             # Upcast to float if we need to compute the loss to avoid potential precision issues
             logits = logits.float()
@@ -1294,13 +1295,15 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             unreduced_loss = loss_fct(shift_logits, shift_labels)
             print(unreduced_loss.shape)
             # ipdb.set_trace()
-            nll_loss = unreduced_loss.mean()
+            total_nll_loss = unreduced_loss.mean() #THis is for the batch_size entirely [3, n] [3]/[1]
+            print(total_nll_loss)
+            unreduced_loss = unreduced_loss.view(logits.shape[0], -1)
 
         new_tokens = None
         count=0
-        total_gate_loss = 0
-        total_nll_loss = 0
-        total_reinforce_loss = 0
+        total_gate_loss = 0.0
+        total_nll_thought = 0.0
+        total_reinforce_loss = 0.0
         if think_tuning and not self.in_thinking:
             
             gate_values = self.gate(hidden_states)
@@ -1321,7 +1324,6 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         break
                     if idx<=70:
                         continue
-
                     if value == 0:
                         pass
                     else:
@@ -1378,7 +1380,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                         # print(self.config.eos_token_id.type)
 
-                        packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=500, pad_token_id=self.config.eos_token_id, thought_index=thought_index)
+                        packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=self.config.eos_token_id, thought_index=thought_index)
                         new_hidden_states = self.model(
                             input_ids=packed_reasoning_path,
                             attention_mask=packed_reasoning_path_casual_mask
@@ -1434,7 +1436,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                             for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
                                 print(indi)
                                 nll_signal = torch.tensor([(self.reward_decay ** i+1) * loss for i, loss in enumerate(packed_loss[index][thought['thought_end_index']:thought['end_index']])]).to(device=unreduced_loss.device)
-                                reward_signal = (unreduced_loss[idx:] - nll_signal).detach()
+                                reward_signal = (unreduced_loss[zz, idx:] - nll_signal).detach()
                                 # reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
                                 nll_signal = torch.mean(nll_signal)
                                 reward_signal = torch.mean(reward_signal)
@@ -1478,14 +1480,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         print('Gate loss: ', gate_loss)
 
                     # ipdb.set_trace()
-                total_gate_loss += gate_loss
-                total_nll_loss = nll_loss
-                total_nll_loss += nll_loss_thought
-                total_reinforce_loss += reinforce_loss 
+                total_gate_loss += gate_loss / gate_values[zz].sum()
+                total_nll_thought += nll_loss_thought / gate_values[zz].sum()
+                total_reinforce_loss += reinforce_loss / gate_values[zz].sum()
 
             total_gate_loss = total_gate_loss / len(input_ids)
             total_reinforce_loss = total_reinforce_loss / len(input_ids)
-            total_nll_loss = total_nll_loss / len(input_ids)
+            total_nll_thought = total_nll_thought / len(input_ids)
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
         # Using the loss as a metric, implement reinforce algorithm.
@@ -1523,10 +1524,16 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
         if not return_dict:
             output = (logits,) + outputs[1:]
-            return (total_nll_loss, total_reinforce_loss, total_gate_loss) + output if total_nll_loss is not None else output
+            return (total_nll_loss, total_nll_thought ,total_reinforce_loss, total_gate_loss) + output if total_nll_loss is not None else output
+        
+        # print(f"The nll_loss is {total_nll_loss} and its type is {type(total_nll_loss)}")
+        # print(f"The nll_thought is {total_nll_thought} and its type is {type(total_nll_thought)}")
+        # print(f"The reinforce_loss is {total_reinforce_loss} and its type is {type(total_reinforce_loss)}")
+        # print(f"The gate_loss is {total_gate_loss} and its type is {type(total_gate_loss)}")
 
         return CausalLMOutputWithPast(
             loss=total_nll_loss,
+            nll_thought=total_nll_thought, 
             reinforce_loss=total_reinforce_loss,
             gate_loss=total_gate_loss,
             logits=logits,

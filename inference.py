@@ -96,10 +96,16 @@ def main(
 
     outputs = model(**batch)
     
-    print(outputs.keys())
-    print(outputs['loss'])
-    print(outputs['gate_loss'])
-    print(outputs['reinforce_loss'])
+    loss = outputs.loss
+    thought_loss = outputs.nll_thought
+    reinforce_loss = outputs.reinforce_loss
+    gate_loss = outputs.gate_loss
+
+    print(loss)
+
+    loss = loss / 2
+
+    print(loss)
 
 
 if __name__ == "__main__":

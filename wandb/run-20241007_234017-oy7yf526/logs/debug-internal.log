@@ -1,0 +1,18 @@
+{"time":"2024-10-07T23:40:17.180947906-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:40:17.180969717-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_234017-oy7yf526/logs/debug-core.log"}
+{"time":"2024-10-07T23:40:17.19302052-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:40:17.201185558-07:00","level":"INFO","msg":"created new stream","id":"oy7yf526"}
+{"time":"2024-10-07T23:40:17.201235462-07:00","level":"INFO","msg":"stream: started","id":"oy7yf526"}
+{"time":"2024-10-07T23:40:17.201246012-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-07T23:40:17.201304352-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-07T23:40:17.201289655-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-07T23:40:17.339384831-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:40:17.340372211-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-08T00:00:09.41089664-07:00","level":"INFO","msg":"stream: closing","id":"oy7yf526"}
+{"time":"2024-10-08T00:00:09.411018932-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-08T00:00:09.432926702-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-08T00:00:09.870148535-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-08T00:00:10.0302858-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-08T00:00:10.030335234-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-08T00:00:10.030345554-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"oy7yf526"}}
+{"time":"2024-10-08T00:00:10.030458889-07:00","level":"INFO","msg":"stream: closed","id":"oy7yf526"}

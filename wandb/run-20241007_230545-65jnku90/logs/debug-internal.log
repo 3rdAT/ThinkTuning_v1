@@ -1,0 +1,19 @@
+{"time":"2024-10-07T23:05:45.423983924-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:05:45.424009131-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_230545-65jnku90/logs/debug-core.log"}
+{"time":"2024-10-07T23:05:45.434915344-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:05:45.445435016-07:00","level":"INFO","msg":"created new stream","id":"65jnku90"}
+{"time":"2024-10-07T23:05:45.445459483-07:00","level":"INFO","msg":"stream: started","id":"65jnku90"}
+{"time":"2024-10-07T23:05:45.445486694-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:05:45.445496382-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:05:45.445487586-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:05:45.682902717-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:05:45.683685237-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-07T23:06:01.108811227-07:00","level":"INFO","msg":"stream: closing","id":"65jnku90"}
+{"time":"2024-10-07T23:06:01.108878174-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-07T23:06:01.128205509-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-07T23:06:01.354454697-07:00","level":"INFO","msg":"api: retrying HTTP error","status":503,"url":"https://api.wandb.ai/graphql"}
+{"time":"2024-10-07T23:06:03.758403646-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-07T23:06:03.87832789-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:06:03.878427237-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:06:03.878413952-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"65jnku90"}}
+{"time":"2024-10-07T23:06:03.8786189-07:00","level":"INFO","msg":"stream: closed","id":"65jnku90"}

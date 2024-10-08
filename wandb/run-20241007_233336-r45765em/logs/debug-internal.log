@@ -1,0 +1,18 @@
+{"time":"2024-10-07T23:33:36.446959598-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:33:36.446973314-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_233336-r45765em/logs/debug-core.log"}
+{"time":"2024-10-07T23:33:36.459578402-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:33:36.46765238-07:00","level":"INFO","msg":"created new stream","id":"r45765em"}
+{"time":"2024-10-07T23:33:36.467677367-07:00","level":"INFO","msg":"stream: started","id":"r45765em"}
+{"time":"2024-10-07T23:33:36.467714237-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:33:36.467727572-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:33:36.46770546-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:33:36.648509393-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:33:36.652305621-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-07T23:34:12.618633812-07:00","level":"INFO","msg":"stream: closing","id":"r45765em"}
+{"time":"2024-10-07T23:34:12.618699075-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-07T23:34:12.636459925-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-07T23:34:13.086273976-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-07T23:34:13.298433939-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:34:13.298501708-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:34:13.298488623-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"r45765em"}}
+{"time":"2024-10-07T23:34:13.298670748-07:00","level":"INFO","msg":"stream: closed","id":"r45765em"}

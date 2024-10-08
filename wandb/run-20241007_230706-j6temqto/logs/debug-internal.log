@@ -1,0 +1,18 @@
+{"time":"2024-10-07T23:07:06.031488135-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:07:06.031509736-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_230706-j6temqto/logs/debug-core.log"}
+{"time":"2024-10-07T23:07:06.036055726-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:07:06.044501475-07:00","level":"INFO","msg":"created new stream","id":"j6temqto"}
+{"time":"2024-10-07T23:07:06.044539056-07:00","level":"INFO","msg":"stream: started","id":"j6temqto"}
+{"time":"2024-10-07T23:07:06.04455144-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:06.04458325-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:06.044586366-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:06.22921484-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:07:06.232234282-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-07T23:07:18.24346861-07:00","level":"INFO","msg":"stream: closing","id":"j6temqto"}
+{"time":"2024-10-07T23:07:18.243536899-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-07T23:07:18.273302774-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-07T23:07:18.662889838-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-07T23:07:18.769216311-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:18.769344814-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:18.769352228-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"j6temqto"}}
+{"time":"2024-10-07T23:07:18.769478688-07:00","level":"INFO","msg":"stream: closed","id":"j6temqto"}

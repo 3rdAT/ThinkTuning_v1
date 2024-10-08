@@ -1,0 +1,18 @@
+{"time":"2024-10-07T23:19:31.427376059-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:19:31.427394724-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_231931-06sfoiya/logs/debug-core.log"}
+{"time":"2024-10-07T23:19:31.439398427-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:19:31.447229304-07:00","level":"INFO","msg":"created new stream","id":"06sfoiya"}
+{"time":"2024-10-07T23:19:31.4472534-07:00","level":"INFO","msg":"stream: started","id":"06sfoiya"}
+{"time":"2024-10-07T23:19:31.447287995-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:19:31.447368147-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:19:31.447382855-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:19:31.623596697-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:19:31.624897559-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-07T23:20:15.199679112-07:00","level":"INFO","msg":"stream: closing","id":"06sfoiya"}
+{"time":"2024-10-07T23:20:15.199749235-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-07T23:20:15.219313814-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-07T23:20:15.772949147-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-07T23:20:15.913928752-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:20:15.913984057-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:20:15.913965431-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"06sfoiya"}}
+{"time":"2024-10-07T23:20:15.914122038-07:00","level":"INFO","msg":"stream: closed","id":"06sfoiya"}

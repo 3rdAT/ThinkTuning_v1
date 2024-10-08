@@ -1,0 +1,18 @@
+{"time":"2024-10-07T23:05:45.432730862-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-07T23:05:45.432743536-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241007_230545-8yyi45w8/logs/debug-core.log"}
+{"time":"2024-10-07T23:05:45.4350026-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-07T23:05:45.446904897-07:00","level":"INFO","msg":"created new stream","id":"8yyi45w8"}
+{"time":"2024-10-07T23:05:45.446933872-07:00","level":"INFO","msg":"stream: started","id":"8yyi45w8"}
+{"time":"2024-10-07T23:05:45.446967095-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:05:45.44694319-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:05:45.446973307-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:05:45.655283554-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-07T23:05:45.65635417-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-07T23:06:01.108864127-07:00","level":"INFO","msg":"stream: closing","id":"8yyi45w8"}
+{"time":"2024-10-07T23:06:01.108901999-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-07T23:06:01.151471887-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-07T23:06:02.485995058-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-07T23:06:02.629376289-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:06:02.629421264-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:06:02.62942949-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"8yyi45w8"}}
+{"time":"2024-10-07T23:06:02.629554787-07:00","level":"INFO","msg":"stream: closed","id":"8yyi45w8"}
