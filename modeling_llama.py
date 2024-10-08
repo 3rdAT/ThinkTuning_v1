@@ -1309,7 +1309,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             print(gate_values)
             print("The shape is:", gate_values.shape)
             new_sequence = input_ids.clone()
-            packed = []
+            packed_init = []
             for idx, value in enumerate(gate_values[0]):
 
                 if idx<=70:
@@ -1365,7 +1365,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                         reasoning_path.append(torch.cat([input_ids[0][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[0][idx+1:]], dim=-1))
                         reasoning_labels.append(torch.cat([input_ids[0][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[0][idx+1: ]], dim=-1))
-                    packed.append(thought_index)
+                    packed_init.append(thought_index)
                     # reasoning_path shape: [topk_idx, batch_size, seq_len]
                     print('reasoning_path shape: ', reasoning_path[0].shape)
 
@@ -1421,7 +1421,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         # input_ids = [<s>, Hi, I, am, doing, TODAY, I, WENT, TO, A, MOVIE, really, well, </s>, <s>, Hi, I, am, doing, TODAY, I, HAD, AN, ACCIDENT, really, bad, </s>]'
                                                             # |(<SoT>_index)         |<EoT>_index         |</s_index>                                     |<EoT>_index           |</s_index>
 
-                    # ipdb.set_trace()
+                    ipdb.set_trace()
                     for index, batch in enumerate(new_hidden_states):
                         configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
                         for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
