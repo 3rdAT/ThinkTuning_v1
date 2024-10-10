@@ -101,11 +101,15 @@ def main(
     reinforce_loss = outputs.reinforce_loss
     gate_loss = outputs.gate_loss
 
-    print(loss)
+    print(type(loss))
+    print(type(thought_loss))
+    print(type(reinforce_loss))
+    print(type(gate_loss))
 
-    loss = loss / 2
-
-    print(loss)
+    print("The nll loss is:", loss)
+    print("The thought loss is:", thought_loss)
+    print("The reinforce loss is:", reinforce_loss)
+    print("The gate loss is:", gate_loss)
 
 
 if __name__ == "__main__":

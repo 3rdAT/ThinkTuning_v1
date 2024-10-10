@@ -1,0 +1,18 @@
+{"time":"2024-10-09T17:43:56.828720497-07:00","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-09T17:43:56.828738982-07:00","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241009_174356-85gm2934/logs/debug-core.log"}
+{"time":"2024-10-09T17:43:56.837161446-07:00","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-09T17:43:56.845772988-07:00","level":"INFO","msg":"created new stream","id":"85gm2934"}
+{"time":"2024-10-09T17:43:56.845796673-07:00","level":"INFO","msg":"stream: started","id":"85gm2934"}
+{"time":"2024-10-09T17:43:56.845830467-07:00","level":"INFO","msg":"sender: started","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:43:56.845835376-07:00","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:43:56.84586402-07:00","level":"INFO","msg":"handler: started","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:43:57.014186271-07:00","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-09T17:43:57.016840104-07:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-09T17:44:18.547417781-07:00","level":"INFO","msg":"stream: closing","id":"85gm2934"}
+{"time":"2024-10-09T17:44:18.547456886-07:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-09T17:44:18.61412457-07:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-09T17:44:19.108897859-07:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-09T17:44:19.334559105-07:00","level":"INFO","msg":"handler: closed","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:44:19.334608849-07:00","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:44:19.334622004-07:00","level":"INFO","msg":"sender: closed","stream_id":{"value":"85gm2934"}}
+{"time":"2024-10-09T17:44:19.33470941-07:00","level":"INFO","msg":"stream: closed","id":"85gm2934"}

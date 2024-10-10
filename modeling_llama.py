@@ -1164,12 +1164,11 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         self.model = LlamaModel(config)
         self.vocab_size = config.vocab_size
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
-        self.norm = LlamaRMSNorm(config.hidden_size, eps=config.rms_norm_eps)
-        self.gate = nn.Sequential(nn.Linear(config.hidden_size, 2))
+        self.gate = nn.Sequential(nn.Linear(config.hidden_size, 1), nn.Sigmoid())
         self.reward_decay = 0.9
 
         self.in_thinking = False
-        self.start_thought_id = torch.tensor([11474]).to('cuda')
+        # self.start_thought_id = torch.tensor([11474]).to('cuda')
 
 
         # Initialize weights and apply final processing
@@ -1307,24 +1306,28 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         if think_tuning and not self.in_thinking:
             
             gate_values = self.gate(hidden_states)
+            gate_values = gate_values.squeeze(-1)
 
-            gate_values = gate_values.argmax(dim=-1) #
+            # ipdb.set_trace()
 
-            print(gate_values)
+            print("The gate values are:",gate_values)
             print("The shape is:", gate_values.shape)
             new_sequence = input_ids.clone()
             print("The shape of new_sequence:", new_sequence.shape)
             packed_init = []
+
+            reinforce_loss = 0.0
+            gate_loss = 0.0
+            nll_loss_thought = 0.0
             for zz in range(len(input_ids)):
-                reinforce_loss = 0.0
-                gate_loss = 0.0
-                nll_loss_thought = 0.0
+
+                ## gate_values [b, n]
                 for idx, value in enumerate(gate_values[zz]):
                     if idx == len(gate_values[zz])-1:
                         break
                     if idx<=70:
                         continue
-                    if value == 0:
+                    if value <= 0.5:
                         pass
                     else:
                         #logic for thought generation and computing thought influenced logits
@@ -1347,7 +1350,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                                 continue
                             # Append the <SoT> token to the start
                             print(new_sequence[zz][:idx+1].shape)
-                            print(self.start_thought_id.shape)
+                            # print(self.start_thought_id.shape)
                             new_sequence_id = torch.cat([new_sequence[zz][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
                             # Append the sampled top-k token
                             sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
@@ -1358,7 +1361,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                             new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
 
                             batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                            new_greedy_sequence_decoding = self.generate(**batch, max_new_tokens=100, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
+                            new_greedy_sequence_decoding = self.generate(**batch, max_new_tokens=10, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
                             #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                             # print('input_ids shape: ', input_ids.shape)
                             # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
@@ -1463,7 +1466,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         print('Mean reward signals: ', mean_reward_signals)
                         print('idx: ', idx)
 
-                        gate_loss += -(mean_reward_signals)
+                        gate_loss += (-(mean_reward_signals)*gate_values[zz][idx]) #Connect the computational graph from subsampling to the graph with gating mechanism
 
                         if mean_reward_signals > 0:
                             r_ind = 0
@@ -1471,19 +1474,26 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                                 configs = packed[f'{index}']
                                 for indi, thought in enumerate(configs):
                                     var_difference = torch.clamp((reward_signals[r_ind] - mean_reward_signals), min=0)
-                                    print(var_difference)
+                                    print("The var_difference",var_difference)
                                     t_likelihood_loss = torch.mean(packed_loss[:thought['thought_end_index']])
                                     reinforce_loss += var_difference * t_likelihood_loss
+                                    print("Does reinforce_loss have a grad_fn?:", reinforce_loss.grad_fn)
                                     nll_loss_thought += var_difference * nll_signals[index]
+                                    print("Does reinforce_loss have a grad_fn?:", nll_loss_thought.grad_fn)
                                     r_ind+=1
                             nll_loss_thought = nll_loss_thought / len(new_hidden_states)
+                        #Connect the 
                         print('Gate loss: ', gate_loss)
 
                     # ipdb.set_trace()
-                total_gate_loss += gate_loss / gate_values[zz].sum()
-                total_nll_thought += nll_loss_thought / gate_values[zz].sum()
-                total_reinforce_loss += reinforce_loss / gate_values[zz].sum()
+                #Sample-wise normalization
+                count = (gate_values[zz] > 0.5).sum().item()
+                print("The count is:", count)
+                total_gate_loss += gate_loss / count
+                total_nll_thought += nll_loss_thought / count
+                total_reinforce_loss += reinforce_loss / count
 
+            #Batch-wise normalization
             total_gate_loss = total_gate_loss / len(input_ids)
             total_reinforce_loss = total_reinforce_loss / len(input_ids)
             total_nll_thought = total_nll_thought / len(input_ids)

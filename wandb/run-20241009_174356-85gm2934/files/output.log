@@ -1,0 +1,79 @@
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:08<00:00,  4.17s/it]
+Some weights of LlamaForCausalLM were not initialized from the model checkpoint at meta-llama/Llama-2-7b-hf and are newly initialized: ['gate.0.bias', 'gate.0.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+/data/data/arrv/envs/tv1/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                           [0m| 0/225 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/modeling_llama.py:1356: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+Preparing 4D causal attention mask with cache position
+torch.Size([1748])
+tensor(0.8136, device='cuda:6', grad_fn=<MeanBackward0>)
+The gate values are: tensor([[0.1958, 0.2726, 0.1058,  ..., 0.6820, 0.6785, 0.6767],
+        [0.1958, 0.2726, 0.1058,  ..., 0.6216, 0.6114, 0.6033],
+        [0.1958, 0.2726, 0.1058,  ..., 0.6563, 0.6401, 0.6274],
+        [0.1958, 0.2726, 0.1058,  ..., 0.9968, 0.9191, 0.5798]],
+       device='cuda:6', grad_fn=<SqueezeBackward1>)
+The shape is: torch.Size([4, 438])
+The shape of new_sequence: torch.Size([4, 438])
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(18002, device='cuda:6')
+torch.Size([72])
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+torch.Size([1])
+torch.Size([72])
+Inside custom generate sample func
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+torch.Size([72])
+torch.Size([1])
+torch.Size([72])
+Inside custom generate sample func
+torch.Size([72])
+torch.Size([1])
+torch.Size([72])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([449])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 840, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/fire/core.py", line 143, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/fire/core.py", line 477, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/fire/core.py", line 693, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 822, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 388, in train
+    outputs = model(**batch)
+              ^^^^^^^^^^^^^^
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/envs/tv1/lib/python3.12/site-packages/accelerate/hooks.py", line 170, in new_forward
+    output = module._old_forward(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/modeling_llama.py", line 1386, in forward
+    packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=self.config.eos_token_id, thought_index=thought_index)
+                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/pack_input_ids.py", line 127, in get_packed_inputs
+    casual_mask = build_batched_causal_mask_from_attention_mask(attention_mask, torch.float).to(input_ids[0].device)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/pack_input_ids.py", line 107, in build_batched_causal_mask_from_attention_mask
+    masks = zero_positions & masks_per_j  # Shape: [bz, seq_len, seq_len, seq_len]
+            ~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.29 GiB. GPU 0 has a total capacity of 79.14 GiB of which 195.69 MiB is free. Process 1368448 has 71.65 GiB memory in use. Including non-PyTorch memory, this process has 7.26 GiB memory in use. Of the allocated memory 6.75 GiB is allocated by PyTorch, and 13.35 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
