@@ -104,6 +104,7 @@ class CausalLMOutputWithPast(ModelOutput):
     nll_thought: Optional[torch.FloatTensor] = None
     reinforce_loss: Optional[torch.FloatTensor] = None
     gate_loss: Optional[torch.FloatTensor] = None
+    sampled_thought:Optional[List] = None
     logits: torch.FloatTensor = None
     past_key_values: Optional[Tuple[Tuple[torch.FloatTensor]]] = None
     hidden_states: Optional[Tuple[torch.FloatTensor, ...]] = None
@@ -1305,10 +1306,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         total_reinforce_loss = 0.0
         if think_tuning and not self.in_thinking:
             
+
             gate_values = self.gate(hidden_states)
             gate_values = gate_values.squeeze(-1)
 
             # ipdb.set_trace()
+
+            logy = []
 
             print("The gate values are:",gate_values)
             print("The shape is:", gate_values.shape)
@@ -1320,16 +1324,21 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             gate_loss = 0.0
             nll_loss_thought = 0.0
             for zz in range(len(input_ids)):
-
+                temp = {}
                 ## gate_values [b, n]
+                temp[f"batch-{zz}"] = []
                 for idx, value in enumerate(gate_values[zz]):
+                    temp1 = {}
                     if idx == len(gate_values[zz])-1:
                         break
-                    if idx<=70:
-                        continue
+                    # if idx<=70:
+                    #     continue
                     if value <= 0.5:
+                        temp1[f"{idx}"] = ["Nothing"]
+                        temp[f"batch-{zz}"].append(temp1)
                         pass
                     else:
+                        temp1[f"{idx}"] = []
                         #logic for thought generation and computing thought influenced logits
                         print("The shape of hidden_states:", hidden_states[zz][idx].shape)
                         logits_of_token = self.lm_head(hidden_states[zz][idx])
@@ -1362,6 +1371,8 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                             batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
                             new_greedy_sequence_decoding = self.generate(**batch, max_new_tokens=10, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
+                            sampled_text_generate = tokenizer.decode(new_greedy_sequence_decoding[0])
+                            temp1[f"{idx}"].append(sampled_text_generate)
                             #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                             # print('input_ids shape: ', input_ids.shape)
                             # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
@@ -1380,6 +1391,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                         packed_init.append(thought_index)
                         # reasoning_path shape: [topk_idx, batch_size, seq_len]
                         print('reasoning_path shape: ', reasoning_path[0].shape)
+                        temp[f"batch-{zz}"].append(temp1)
 
                         # print(self.config.eos_token_id.type)
 
@@ -1497,6 +1509,8 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             total_gate_loss = total_gate_loss / len(input_ids)
             total_reinforce_loss = total_reinforce_loss / len(input_ids)
             total_nll_thought = total_nll_thought / len(input_ids)
+
+            logy.append(temp)
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
         # Using the loss as a metric, implement reinforce algorithm.
@@ -1546,6 +1560,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             nll_thought=total_nll_thought, 
             reinforce_loss=total_reinforce_loss,
             gate_loss=total_gate_loss,
+            sampled_thought=logy,
             logits=logits,
             past_key_values=outputs.past_key_values,
             hidden_states=outputs.hidden_states,
