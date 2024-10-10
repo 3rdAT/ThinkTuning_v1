@@ -391,6 +391,9 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         reinforce_loss = outputs.reinforce_loss
                         gate_loss = outputs.gate_loss
 
+                    with open(f'sampels-{batch}.json', 'r') as f:
+                        json.dumps(outputs.sampled_thought, f)
+
                     # loss = loss / gradient_accumulation_steps
                     # thought_loss = thought_loss / gradient_accumulation_steps
                     # reinforce_loss = reinforce_loss / gradient_accumulation_steps
