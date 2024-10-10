@@ -726,8 +726,8 @@ def main(**kwargs):
 
     wandn_run = None
 
-    torch.cuda.manual_seed(train_config.seed)
-    torch.manual_seed(train_config.seed)
+    torch.cuda.manual_seed(0)
+    torch.manual_seed(0)
     
 
     wandb_run = setup_wandb(train_config, **kwargs)

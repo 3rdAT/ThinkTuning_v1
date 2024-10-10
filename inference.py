@@ -94,12 +94,15 @@ def main(
     #         **kwargs
     #     )
 
-    outputs = model(**batch)
+    outputs = model(**batch, tokenizer=tokenizer)
     
     loss = outputs.loss
     thought_loss = outputs.nll_thought
     reinforce_loss = outputs.reinforce_loss
     gate_loss = outputs.gate_loss
+
+    with open(output_file, "w") as f:
+        json.dump(outputs.sampled_thought, f)
 
     print(type(loss))
     print(type(thought_loss))

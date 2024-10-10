@@ -1304,6 +1304,8 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         total_gate_loss = 0.0
         total_nll_thought = 0.0
         total_reinforce_loss = 0.0
+        logy = []
+
         if think_tuning and not self.in_thinking:
             
 
@@ -1312,13 +1314,12 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
             # ipdb.set_trace()
 
-            logy = []
-
+            
             print("The gate values are:",gate_values)
             print("The shape is:", gate_values.shape)
             new_sequence = input_ids.clone()
             print("The shape of new_sequence:", new_sequence.shape)
-            packed_init = []
+            # packed_init = []
 
             reinforce_loss = 0.0
             gate_loss = 0.0
@@ -1388,13 +1389,14 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                             reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
                             reasoning_labels.append(torch.cat([input_ids[zz][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[zz][idx+1: ]], dim=-1))
-                        packed_init.append(thought_index)
+                        # packed_init.append(thought_index)
                         # reasoning_path shape: [topk_idx, batch_size, seq_len]
                         print('reasoning_path shape: ', reasoning_path[0].shape)
                         temp[f"batch-{zz}"].append(temp1)
 
                         # print(self.config.eos_token_id.type)
 
+                        # Single sample in a batch
                         packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=self.config.eos_token_id, thought_index=thought_index)
                         new_hidden_states = self.model(
                             input_ids=packed_reasoning_path,
