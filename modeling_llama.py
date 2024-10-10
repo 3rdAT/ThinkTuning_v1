@@ -1507,12 +1507,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                 total_nll_thought += nll_loss_thought / count
                 total_reinforce_loss += reinforce_loss / count
 
+                logy.append(temp)
+
             #Batch-wise normalization
             total_gate_loss = total_gate_loss / len(input_ids)
             total_reinforce_loss = total_reinforce_loss / len(input_ids)
             total_nll_thought = total_nll_thought / len(input_ids)
 
-            logy.append(temp)
         # Whereever the gate predicts '1', generate and sample a thought to it.
         # Pack the rationales, with appropriate forward pass and compute the loss. 
         # Using the loss as a metric, implement reinforce algorithm.
