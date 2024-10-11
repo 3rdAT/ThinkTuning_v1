@@ -94,12 +94,24 @@ def main(
     #         **kwargs
     #     )
 
-    outputs = model(**batch, tokenizer=tokenizer)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-5)
+    with torch.enable_grad():
+        outputs = model(**batch, tokenizer=tokenizer)
     
     loss = outputs.loss
     thought_loss = outputs.nll_thought
     reinforce_loss = outputs.reinforce_loss
     gate_loss = outputs.gate_loss
+
+    loss1 = loss + thought_loss + reinforce_loss
+    
+    optimizer.zero_grad()
+    gate_loss.backward(retain_graph=True)
+    optimizer.step()
+
+    optimizer.zero_grad()
+    loss1.backward()
+    optimizer.step()
 
     with open(output_file, "w") as f:
         json.dump(outputs.sampled_thought, f)

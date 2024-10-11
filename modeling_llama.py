@@ -1165,7 +1165,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         self.model = LlamaModel(config)
         self.vocab_size = config.vocab_size
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
-        self.gate = nn.Sequential(nn.Linear(config.hidden_size, 1), nn.Sigmoid())
+        # self.gate = nn.Sequential(nn.Linear(config.hidden_size, 1), nn.Sigmoid())
         self.reward_decay = 0.9
 
         self.in_thinking = False
@@ -1309,14 +1309,14 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         if think_tuning and not self.in_thinking:
             
 
-            gate_values = self.gate(hidden_states)
-            gate_values = gate_values.squeeze(-1)
+            # gate_values = self.gate(hidden_states)
+            # gate_values = gate_values.squeeze(-1)
 
             # ipdb.set_trace()
 
             
-            print("The gate values are:",gate_values)
-            print("The shape is:", gate_values.shape)
+            # print("The gate values are:",gate_values)
+            # print("The shape is:", gate_values.shape)
             new_sequence = input_ids.clone()
             print("The shape of new_sequence:", new_sequence.shape)
             # packed_init = []
@@ -1324,6 +1324,13 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
             reinforce_loss = 0.0
             gate_loss = 0.0
             nll_loss_thought = 0.0
+            gate_values = torch.zeros_like(input_ids, dtype=hidden_states.dtype)
+            for i in range(len(input_ids)):
+                random_three_points = torch.randint(0, len(input_ids[i]), (3,))
+                for j in random_three_points:
+                    gate_values[i][j] = 1.0
+            gate_values = gate_values.requires_grad_(True)
+            print('gate shape: ', gate_values.shape)
             for zz in range(len(input_ids)):
                 temp = {}
                 ## gate_values [b, n]
