@@ -18,7 +18,7 @@ import torch.distributed as dist
 from torch.distributed.fsdp import StateDictType
 from torch.distributed.fsdp.sharded_grad_scaler import ShardedGradScaler
 from transformers import LlamaTokenizer, AutoTokenizer, AutoModelForCausalLM, LlamaPreTrainedModel, LlamaModel
-from modeling_llama import LlamaForCausalLM
+from src.modeling_llama import LlamaForCausalLM
 import json
 import pickle
 
