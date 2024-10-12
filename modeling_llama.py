@@ -1409,6 +1409,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                             input_ids=packed_reasoning_path,
                             attention_mask=packed_reasoning_path_casual_mask
                         )
+                        
 
                         #Assuming I have access to the indices for the corresponding inputs in the packed batch and let it be stored in packed = {'batch_no':,'</s>':,'<SoT>':,'<EoT>':}
                         # I need a config of the following kind:

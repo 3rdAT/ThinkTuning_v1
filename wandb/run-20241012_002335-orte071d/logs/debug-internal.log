@@ -8,3 +8,11 @@
 {"time":"2024-10-12T00:23:35.214786619Z","level":"INFO","msg":"handler: started","stream_id":{"value":"orte071d"}}
 {"time":"2024-10-12T00:23:35.431055243Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
 {"time":"2024-10-12T00:23:35.432281034Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-12T00:32:29.375112588Z","level":"INFO","msg":"stream: closing","id":"orte071d"}
+{"time":"2024-10-12T00:32:29.375161827Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-12T00:32:29.397020414Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-12T00:32:29.804252256Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-12T00:32:29.921010787Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:32:29.921136794Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:32:29.921095445Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:32:29.921256593Z","level":"INFO","msg":"stream: closed","id":"orte071d"}
