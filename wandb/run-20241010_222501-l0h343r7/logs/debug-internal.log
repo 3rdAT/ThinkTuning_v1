@@ -1,0 +1,18 @@
+{"time":"2024-10-10T22:25:01.157044531Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-10T22:25:01.15705971Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241010_222501-l0h343r7/logs/debug-core.log"}
+{"time":"2024-10-10T22:25:01.322133213Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-10T22:25:01.332673911Z","level":"INFO","msg":"created new stream","id":"l0h343r7"}
+{"time":"2024-10-10T22:25:01.332698601Z","level":"INFO","msg":"stream: started","id":"l0h343r7"}
+{"time":"2024-10-10T22:25:01.33273499Z","level":"INFO","msg":"sender: started","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:25:01.33279481Z","level":"INFO","msg":"handler: started","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:25:01.332724791Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:25:01.489293614Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-10T22:25:01.490627093Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-10T22:31:16.719240279Z","level":"INFO","msg":"stream: closing","id":"l0h343r7"}
+{"time":"2024-10-10T22:31:16.719290378Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-10T22:31:16.7452505Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-10T22:31:17.550191507Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-10T22:31:17.651518703Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:31:17.651611091Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:31:17.651625211Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"l0h343r7"}}
+{"time":"2024-10-10T22:31:17.651895037Z","level":"INFO","msg":"stream: closed","id":"l0h343r7"}

@@ -1,0 +1,10 @@
+{"time":"2024-10-12T00:23:35.18269881Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-12T00:23:35.18271434Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241012_002335-orte071d/logs/debug-core.log"}
+{"time":"2024-10-12T00:23:35.195536616Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-12T00:23:35.214616092Z","level":"INFO","msg":"created new stream","id":"orte071d"}
+{"time":"2024-10-12T00:23:35.214658341Z","level":"INFO","msg":"stream: started","id":"orte071d"}
+{"time":"2024-10-12T00:23:35.21471234Z","level":"INFO","msg":"sender: started","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:23:35.21473508Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:23:35.214786619Z","level":"INFO","msg":"handler: started","stream_id":{"value":"orte071d"}}
+{"time":"2024-10-12T00:23:35.431055243Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-12T00:23:35.432281034Z","level":"INFO","msg":"Starting system monitor"}
