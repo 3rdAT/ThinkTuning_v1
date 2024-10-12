@@ -1,0 +1,375 @@
+Loading checkpoint shards: 100%|██████████████████████████████████████████████████████████████████████| 2/2 [00:05<00:00,  2.78s/it]
+Some weights of LlamaForCausalLM were not initialized from the model checkpoint at meta-llama/Llama-2-7b-hf and are newly initialized: ['gate.0.bias', 'gate.0.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                    [0m| 0/225 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/modeling_llama.py:1373: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+Preparing 4D causal attention mask with cache position
+torch.Size([1256])
+tensor(0.9318, device='cuda:1', grad_fn=<MeanBackward0>)
+The shape of new_sequence: torch.Size([4, 315])
+gate shape:  torch.Size([4, 315])
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(920, device='cuda:1')
+torch.Size([43])
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+torch.Size([1])
+torch.Size([43])
+Inside custom generate sample func
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+torch.Size([43])
+torch.Size([1])
+torch.Size([43])
+Inside custom generate sample func
+torch.Size([43])
+torch.Size([1])
+torch.Size([43])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.3446)
+idx:  42
+Gate loss:  tensor(0.3446, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(29929, device='cuda:1')
+torch.Size([128])
+torch.Size([1])
+torch.Size([128])
+Inside custom generate sample func
+torch.Size([128])
+torch.Size([1])
+torch.Size([128])
+Inside custom generate sample func
+torch.Size([128])
+torch.Size([1])
+torch.Size([128])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.5625)
+idx:  127
+Gate loss:  tensor(0.9071, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(679, device='cuda:1')
+torch.Size([228])
+torch.Size([1])
+torch.Size([228])
+Inside custom generate sample func
+torch.Size([228])
+torch.Size([1])
+torch.Size([228])
+Inside custom generate sample func
+torch.Size([228])
+torch.Size([1])
+torch.Size([228])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.9985)
+idx:  227
+Gate loss:  tensor(1.9056, device='cuda:0', grad_fn=<AddBackward0>)
+The count is: 3
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(1644, device='cuda:1')
+torch.Size([46])
+torch.Size([1])
+torch.Size([46])
+Inside custom generate sample func
+torch.Size([46])
+torch.Size([1])
+torch.Size([46])
+Inside custom generate sample func
+torch.Size([46])
+torch.Size([1])
+torch.Size([46])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.2349)
+idx:  45
+Gate loss:  tensor(2.1405, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(10454, device='cuda:1')
+torch.Size([135])
+torch.Size([1])
+torch.Size([135])
+Inside custom generate sample func
+torch.Size([135])
+torch.Size([1])
+torch.Size([135])
+Inside custom generate sample func
+torch.Size([135])
+torch.Size([1])
+torch.Size([135])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.2726)
+idx:  134
+Gate loss:  tensor(2.4130, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(920, device='cuda:1')
+torch.Size([155])
+torch.Size([1])
+torch.Size([155])
+Inside custom generate sample func
+torch.Size([155])
+torch.Size([1])
+torch.Size([155])
+Inside custom generate sample func
+torch.Size([155])
+torch.Size([1])
+torch.Size([155])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.3373)
+idx:  154
+Gate loss:  tensor(2.7503, device='cuda:0', grad_fn=<AddBackward0>)
+The count is: 3
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(348, device='cuda:1')
+torch.Size([7])
+torch.Size([1])
+torch.Size([7])
+Inside custom generate sample func
+torch.Size([7])
+torch.Size([1])
+torch.Size([7])
+Inside custom generate sample func
+torch.Size([7])
+torch.Size([1])
+torch.Size([7])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.2472)
+idx:  6
+Gate loss:  tensor(2.9975, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(13, device='cuda:1')
+torch.Size([67])
+torch.Size([1])
+torch.Size([67])
+Inside custom generate sample func
+torch.Size([67])
+torch.Size([1])
+torch.Size([67])
+Inside custom generate sample func
+torch.Size([67])
+torch.Size([1])
+torch.Size([67])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.1394)
+idx:  66
+Gate loss:  tensor(3.1369, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(29879, device='cuda:1')
+torch.Size([250])
+torch.Size([1])
+torch.Size([250])
+Inside custom generate sample func
+torch.Size([250])
+torch.Size([1])
+torch.Size([250])
+Inside custom generate sample func
+torch.Size([250])
+torch.Size([1])
+torch.Size([250])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.9886)
+idx:  249
+Gate loss:  tensor(4.1255, device='cuda:0', grad_fn=<AddBackward0>)
+The count is: 3
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(29889, device='cuda:1')
+torch.Size([182])
+torch.Size([1])
+torch.Size([182])
+Inside custom generate sample func
+torch.Size([182])
+torch.Size([1])
+torch.Size([182])
+Inside custom generate sample func
+torch.Size([182])
+torch.Size([1])
+torch.Size([182])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.4050)
+idx:  181
+Gate loss:  tensor(4.5304, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(578, device='cuda:1')
+torch.Size([227])
+torch.Size([1])
+torch.Size([227])
+Inside custom generate sample func
+torch.Size([227])
+torch.Size([1])
+torch.Size([227])
+Inside custom generate sample func
+torch.Size([227])
+torch.Size([1])
+torch.Size([227])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-0.6232)
+idx:  226
+Gate loss:  tensor(5.1536, device='cuda:0', grad_fn=<AddBackward0>)
+The shape of hidden_states: torch.Size([4096])
+The topk tensor(515, device='cuda:1')
+torch.Size([278])
+torch.Size([1])
+torch.Size([278])
+Inside custom generate sample func
+torch.Size([278])
+torch.Size([1])
+torch.Size([278])
+Inside custom generate sample func
+torch.Size([278])
+torch.Size([1])
+torch.Size([278])
+Inside custom generate sample func
+reasoning_path shape:  torch.Size([326])
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+The batchy value is 0
+Batchy inside else: 0
+Preparing 4D causal attention mask with cache position
+0
+1
+2
+Mean reward signals:  tensor(-1.4189)
+idx:  277
+Gate loss:  tensor(6.5725, device='cuda:0', grad_fn=<AddBackward0>)
+The count is: 3
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 845, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 827, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 394, in train
+    with open(f'sampels-{batch}.json', 'w') as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 36] File name too long: "sampels-{'input_ids': tensor([[    1,   835,  4290,  ...,     2,     2,     2],\n        [    1,   835,  4290,  ...,  2699, 29889,     2],\n        [    1,   835,  4290,  ..., 15655, 29889,     2],\n        [    1,   835,  4290,  ..., 29906, 29889,     2]], device='cuda:0'), 'attention_mask': tensor([[1, 1, 1,  ..., 1, 0, 0],\n        [1, 1, 1,  ..., 1, 1, 1],\n        [1, 1, 1,  ..., 1, 1, 1],\n        [1, 1, 1,  ..., 1, 1, 1]], device='cuda:0'), 'labels': tensor([[    1,   835,  4290,  ...,     2,  -100,  -100],\n        [    1,   835,  4290,  ...,  2699, 29889,     2],\n        [    1,   835,  4290,  ..., 15655, 29889,     2],\n        [    1,   835,  4290,  ..., 29906, 29889,     2]], device='cuda:0')}.json"

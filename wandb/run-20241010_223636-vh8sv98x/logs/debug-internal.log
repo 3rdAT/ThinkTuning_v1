@@ -1,0 +1,18 @@
+{"time":"2024-10-10T22:36:36.615319031Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-10T22:36:36.615345751Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241010_223636-vh8sv98x/logs/debug-core.log"}
+{"time":"2024-10-10T22:36:36.802520402Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-10T22:36:36.821659968Z","level":"INFO","msg":"created new stream","id":"vh8sv98x"}
+{"time":"2024-10-10T22:36:36.821702138Z","level":"INFO","msg":"stream: started","id":"vh8sv98x"}
+{"time":"2024-10-10T22:36:36.821755567Z","level":"INFO","msg":"sender: started","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:36:36.821761337Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:36:36.821817906Z","level":"INFO","msg":"handler: started","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:36:36.994722678Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-10T22:36:36.996092107Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-10T22:41:40.992837362Z","level":"INFO","msg":"stream: closing","id":"vh8sv98x"}
+{"time":"2024-10-10T22:41:40.992884802Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-10T22:41:41.014518723Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-10T22:41:41.897970895Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-10T22:41:42.015000333Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:41:42.015102331Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:41:42.015098501Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"vh8sv98x"}}
+{"time":"2024-10-10T22:41:42.015280319Z","level":"INFO","msg":"stream: closed","id":"vh8sv98x"}

@@ -1165,7 +1165,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
         self.model = LlamaModel(config)
         self.vocab_size = config.vocab_size
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
-        # self.gate = nn.Sequential(nn.Linear(config.hidden_size, 1), nn.Sigmoid())
+        self.gate = nn.Sequential(nn.Linear(config.hidden_size, 1), nn.Sigmoid())
         self.reward_decay = 0.9
 
         self.in_thinking = False
@@ -1379,8 +1379,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
 
                             batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
                             new_greedy_sequence_decoding = self.generate(**batch, max_new_tokens=10, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
-                            sampled_text_generate = tokenizer.decode(new_greedy_sequence_decoding[0])
-                            temp1[f"{idx}"].append(sampled_text_generate)
+
                             #new_greedy_sequence_decoding = self._sample(new_sequence_id.unsqueeze(0).to(dtype=torch.long), prepared_logits_processor, prepared_stopping_criteria, generation_config, streamer=None, think_tuning=False, synced_gpus=False, model_kwargs=model_kwargs)
                             # print('input_ids shape: ', input_ids.shape)
                             # print('new_greedy_sequence_decoding shape: ', new_greedy_sequence_decoding.shape)
@@ -1393,9 +1392,10 @@ class LlamaForCausalLM(LlamaPreTrainedModel, GenerationMixin):
                                 'thought_start': idx+1,
                                 'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
                             })
-
                             reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
-                            reasoning_labels.append(torch.cat([input_ids[zz][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[zz][idx+1: ]], dim=-1))
+                            sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
+                            temp1[f"{idx}"].append(sampled_text_generate)
+                            # reasoning_labels.append(torch.cat([input_ids[zz][: idx+1], torch.full_like(new_greedy_sequence_decoding[0][idx+1:], fill_value=-100).to(input_ids.device), input_ids[zz][idx+1: ]], dim=-1))
                         # packed_init.append(thought_index)
                         # reasoning_path shape: [topk_idx, batch_size, seq_len]
                         print('reasoning_path shape: ', reasoning_path[0].shape)

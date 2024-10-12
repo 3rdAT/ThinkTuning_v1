@@ -1,0 +1,18 @@
+{"time":"2024-10-12T00:07:51.596254559Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-12T00:07:51.596282429Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241012_000751-p4e176tx/logs/debug-core.log"}
+{"time":"2024-10-12T00:07:51.684885951Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-12T00:07:51.700868171Z","level":"INFO","msg":"created new stream","id":"p4e176tx"}
+{"time":"2024-10-12T00:07:51.700906511Z","level":"INFO","msg":"stream: started","id":"p4e176tx"}
+{"time":"2024-10-12T00:07:51.70095529Z","level":"INFO","msg":"sender: started","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:07:51.70093335Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:07:51.700975299Z","level":"INFO","msg":"handler: started","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:07:51.880651829Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-12T00:07:51.881397396Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-12T00:14:02.66537295Z","level":"INFO","msg":"stream: closing","id":"p4e176tx"}
+{"time":"2024-10-12T00:14:02.665416129Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-12T00:14:02.684641176Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-12T00:14:03.087304086Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-12T00:14:03.238244002Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:14:03.238341801Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:14:03.238352701Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"p4e176tx"}}
+{"time":"2024-10-12T00:14:03.238556037Z","level":"INFO","msg":"stream: closed","id":"p4e176tx"}

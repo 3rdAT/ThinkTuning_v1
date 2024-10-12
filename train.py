@@ -100,7 +100,7 @@ class train_configy:
     mixed_precision: bool=True
     val_batch_size: int=1
     dataset = "/scratch/ssaeidi1/aswin/data/train.json"
-    output_dir: str = "/data/data/arrv/models/test1"
+    output_dir: str = "/data/data/arrv/metrics"
     save_model: bool = True
     use_wandb: bool = False # Enable wandb for experient tracking
     save_metrics: bool = True # saves training metrics to a json file for later plotting
@@ -332,10 +332,11 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
 
     Returns: results dictionary containing average training and validation perplexity and loss
     """
-
+    train_config.run_validation = False
     local_rank=None
     rank=None
 
+    sampels=[]
     autocast = nullcontext
     train_prep = []
     train_loss = []
@@ -385,14 +386,15 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         # else:
                           batch[key] = batch[key].to('cuda:0')
                     with autocast():
-                        outputs = model(**batch)
+                        outputs = model(**batch, tokenizer=tokenizer)
                         loss = outputs.loss
                         thought_loss = outputs.nll_thought
                         reinforce_loss = outputs.reinforce_loss
                         gate_loss = outputs.gate_loss
 
-                    with open(f'sampels-{batch}.json', 'w') as f:
-                        json.dumps(outputs.sampled_thought, f)
+                    sampels.append(outputs.sampled_thought)
+                    with open(f'sampels.json', 'w') as f:
+                        json.dump(sampels, f)
 
                     # loss = loss / gradient_accumulation_steps
                     # thought_loss = thought_loss / gradient_accumulation_steps
@@ -404,8 +406,8 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         train_step_perplexity.append(float(torch.exp(loss.detach().float())))
 
                     total_loss += loss.detach().float()
-                    total_thought_loss += thought_loss.detach().float()
-                    total_reinforce_loss += reinforce_loss.detach().float()
+                    # total_thought_loss += thought_loss.detach().float()
+                    # total_reinforce_loss += reinforce_loss.detach().float()
                     total_gate_loss += gate_loss.detach().float()
                     
                     model_loss = loss + thought_loss + reinforce_loss
@@ -434,23 +436,25 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                             'train/epoch': epoch + 1,
                             'train/step': epoch * len(train_dataloader) + step,
                             'train/loss': loss.detach().float(),
-                            'train/thought_loss': thought_loss.detach().float(),
+                            # 'train/thought_loss': thought_loss.detach().float(),
                             'train/gate_loss': gate_loss.detach().float(),
-                            'train/reinfroce_loss': reinforce_loss.detach().float(),
+                            # 'train/reinfroce_loss': reinforce_loss.detach().float(),
                         })
 
                     pbar.set_description(f"Training Epoch: {epoch+1}/{train_config.num_epochs}, step {step}/{len(train_dataloader)} completed (loss: {loss.detach().float()})")
 
-                    if step % 50 == 0:
-                        if train_config.run_validation:
-                            eval_ppl, eval_epoch_loss, temp_val_loss, temp_step_perplexity = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wandb_run)
-                            if train_config.save_metrics:
-                                val_step_loss.extend(temp_val_loss)
-                                val_step_perplexity.extend(temp_step_perplexity)
-                        model.train()
+                    # if step % 50 == 0:
+                    #     if train_config.run_validation:
+                    #         eval_ppl, eval_epoch_loss, temp_val_loss, temp_step_perplexity = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wandb_run)
+                    #         if train_config.save_metrics:
+                    #             val_step_loss.extend(temp_val_loss)
+                    #             val_step_perplexity.extend(temp_step_perplexity)
+                    #     model.train()
 
                     if train_config.save_metrics:
                         save_to_json(metrics_filename, train_step_loss, train_loss, train_step_perplexity, train_prep, val_step_loss, val_loss, val_step_perplexity, val_prep)
+                    if step>=50:
+                        break
                 pbar.close()
 
         epoch_end_time = time.perf_counter()-epoch_start_time
