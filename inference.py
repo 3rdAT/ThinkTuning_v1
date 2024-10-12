@@ -19,7 +19,7 @@ from datasets import load_dataset
 from transformers import default_data_collator
 from tqdm import tqdm
 
-from modeling_llama import LlamaForCausalLM
+from src.modeling_llama import LlamaForCausalLM
 import copy
 import json
 
