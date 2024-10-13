@@ -1,0 +1,24 @@
+{"time":"2024-10-13T17:52:30.755707733Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-13T17:52:30.755717416Z","level":"INFO","msg":"created symlink","path":"/home/cr8dl-user/abhiram/ThinkTuning_v1/wandb/run-20241013_175230-7rof96p9/logs/debug-core.log"}
+{"time":"2024-10-13T17:52:30.785029267Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-13T17:52:30.789717571Z","level":"INFO","msg":"created new stream","id":"7rof96p9"}
+{"time":"2024-10-13T17:52:30.78975468Z","level":"INFO","msg":"stream: started","id":"7rof96p9"}
+{"time":"2024-10-13T17:52:30.78981187Z","level":"INFO","msg":"handler: started","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:30.789782911Z","level":"INFO","msg":"sender: started","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:30.789781912Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:30.903482314Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2024-10-13T17:52:30.903524111Z","level":"ERROR","msg":"sender: upsertRun:","error":"failed to upsert bucket: returned error 404 Not Found: {\"errors\":[{\"message\":\"project not found\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2024-10-13T17:52:31.020608158Z","level":"INFO","msg":"stream: closing","id":"7rof96p9"}
+{"time":"2024-10-13T17:52:31.089032568Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2024-10-13T17:52:31.089073741Z","level":"ERROR","msg":"sender: sendConfig:","error":"returned error 404 Not Found: {\"errors\":[{\"message\":\"project not found\",\"path\":[\"upsertBucket\"]}],\"data\":{\"upsertBucket\":null}}"}
+{"time":"2024-10-13T17:52:31.089372376Z","level":"WARN","msg":"No requirements.txt found, not creating job artifact. See https://docs.wandb.ai/guides/launch/create-job"}
+{"time":"2024-10-13T17:52:31.089391836Z","level":"INFO","msg":"sender: sendDefer: no job artifact to save"}
+{"time":"2024-10-13T17:52:31.145415834Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2024-10-13T17:52:31.145445202Z","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404 Not Found: {\"errors\":[{\"message\":\"run Thinking/7rof96p9 not found during createRunFiles\",\"path\":[\"createRunFiles\"]}],\"data\":{\"createRunFiles\":null}}"}
+{"time":"2024-10-13T17:52:31.206554218Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/graphql"}
+{"time":"2024-10-13T17:52:31.206578964Z","level":"ERROR","msg":"runfiles: CreateRunFiles returned error: returned error 404 Not Found: {\"errors\":[{\"message\":\"run Thinking/7rof96p9 not found during createRunFiles\",\"path\":[\"createRunFiles\"]}],\"data\":{\"createRunFiles\":null}}"}
+{"time":"2024-10-13T17:52:31.206598404Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-13T17:52:31.206659913Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:31.206673283Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:31.206671596Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"7rof96p9"}}
+{"time":"2024-10-13T17:52:31.206743374Z","level":"INFO","msg":"stream: closed","id":"7rof96p9"}
