@@ -21,7 +21,7 @@ def pack_input_ids(input_ids, pad_token_id, max_length=32, thought_index=[]):
         batch_config[f'{batchy}'] = []
 
     for index, sequence in enumerate(input_ids):
-        print(f"The batchy value is {batchy}")
+        # print(f"The batchy value is {batchy}")
         thought_index_config = thought_index[index]
         sequence_length = len(sequence)
         
@@ -35,7 +35,7 @@ def pack_input_ids(input_ids, pad_token_id, max_length=32, thought_index=[]):
 
             # Start a new batch with the current sequence
             batchy = batchy+1
-            print(f"Batchy inside if: {batchy}")
+            # print(f"Batchy inside if: {batchy}")
             if batchy not in batch_config:
                 batch_config[f'{batchy}'] = []
 
@@ -58,7 +58,7 @@ def pack_input_ids(input_ids, pad_token_id, max_length=32, thought_index=[]):
             current_length += sequence_length
             end_index = current_length
 
-            print(f"Batchy inside else: {batchy}")
+            # print(f"Batchy inside else: {batchy}")
             
             temp = {'thought_no':index, 'start_index':start_index, 'thought_start_index':start_index+thought_index_config['thought_start'], 'thought_end_index':start_index+thought_index_config['thought_end'], 'end_index':end_index}
             batch_config[f'{batchy}'].append(temp)
