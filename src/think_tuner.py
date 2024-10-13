@@ -3,7 +3,7 @@ from typing import List, Optional, Tuple
 import torch
 import torch.nn.functional as F
 import torch.utils.checkpoint
-
+from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 from dataclasses import dataclass
@@ -64,7 +64,7 @@ def calculate_unreduced_loss(logits, labels, vocab_size):
     shift_logits = logits[..., :-1, :].contiguous()
     shift_labels = labels[..., 1:].contiguous()
     # Flatten the tokens
-    loss_fct = F.cross_entropy(reduction="none")
+    loss_fct = CrossEntropyLoss(reduction="none")
     shift_logits = shift_logits.view(-1, vocab_size)
     shift_labels = shift_labels.view(-1)
     # Enable model parallelism
@@ -77,8 +77,10 @@ def calculate_unreduced_loss(logits, labels, vocab_size):
     return unreduced_loss, total_nll_loss
 
 def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss):
-    gate_loss = 0.0,
+    
+    gate_loss = 0.0
     reinforce_loss = 0.0
+    nll_loss_thought = 0.0
     reward_signals = []
     nll_signals = []
 
@@ -102,7 +104,7 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
     shift_logits = packed_logits[..., :-1, :].contiguous()
     shift_labels = packed_labels[..., 1:].contiguous()
     # Flatten the tokens
-    loss_fct = F.cross_entropy(reduction='none')
+    loss_fct = CrossEntropyLoss(reduction="none")
     shift_logits = shift_logits.view(-1, model.config.vocab_size)
     shift_labels = shift_labels.view(-1)
     # Enable model parallelism
@@ -119,7 +121,7 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
     for index, batch in enumerate(new_hidden_states):
         configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
         for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
-            print(indi)
+            # print(indi)
             nll_signal = torch.tensor([(model.reward_decay ** i+1) * loss for i, loss in enumerate(packed_loss[index][thought['thought_end_index']:thought['end_index']])]).to(device=unreduced_loss.device)
             reward_signal = (unreduced_loss[zz, idx:] - nll_signal).detach()
             # reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
@@ -134,7 +136,7 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
     reward_signals_tensor = torch.tensor(reward_signals)
     mean_reward_signals = torch.mean(reward_signals_tensor)
 
-    gate_loss += (-(mean_reward_signals)*gate_values[zz][idx]) #Connect the computational graph from subsampling to the graph with gating mechanism
+    gate_loss += -mean_reward_signals*gate_values[zz][idx]#Connect the computational graph from subsampling to the graph with gating mechanism
 
     if mean_reward_signals > 0:
         r_ind = 0
@@ -153,20 +155,30 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
 
 def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, model, tokenizer):
     new_sequence = input_ids.clone()
+    total_gate_loss = 0.0
+    total_nll_thought = 0.0
+    total_reinforce_loss = 0.0
     logy = []
     reinforce_loss = 0.0
     gate_loss = 0.0
     nll_loss_thought = 0.0
+    model.gate = model.gate.to(hidden_states.device)
     gate_values = model.gate(hidden_states)
+    gate_values = gate_values.squeeze(-1)
     
     selected_indices = []
     for row in gate_values:
         indices = torch.nonzero(row > 0.5).squeeze()
-        if len(indices) >= 3:
-            selected_indices.append(indices[torch.randperm(len(indices))[:3]].tolist())
-        else:
+        print("The indices are:",indices)
+        try:
+            if len(indices) >= 3:
+                selected_indices.append(indices[torch.randperm(len(indices))[:3]].tolist())
+            else:
+                selected_indices.append(indices.tolist())
+        except:
             selected_indices.append(indices.tolist())
-    
+
+    print("The selected-indices are:",selected_indices)
     for zz in range(len(input_ids)):
         temp = {}
         ## gate_values [b, n]
@@ -205,7 +217,7 @@ def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, mod
                     new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
 
                     batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                    new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=10, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0 ,think_tuning=False)
+                    new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=10, do_sample=True, temperature=1.0 ,use_cache= True, top_p=1.0)
 
                     thought_index.append({
                         'thought_start': idx+1,
@@ -219,12 +231,15 @@ def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, mod
 
 
                 # Single sample in a batch
-                packed_reasoning_path, _, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=model.config.eos_token_id, thought_index=thought_index)
+                packed_reasoning_path, packed_attention_mask, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=model.config.eos_token_id, thought_index=thought_index)
                 new_hidden_states = model.model(
                     input_ids=packed_reasoning_path,
                     attention_mask=packed_reasoning_path_casual_mask
                 )
-                
+
+                packed_reasoning_path = packed_reasoning_path.to(device='cpu')
+                packed_attention_mask = packed_attention_mask.to(device='cpu')
+                packed_reasoning_path_casual_mask = packed_reasoning_path_casual_mask.to(device='cpu')
 
                 #Assuming I have access to the indices for the corresponding inputs in the packed batch and let it be stored in packed = {'batch_no':,'</s>':,'<SoT>':,'<EoT>':}
                 # I need a config of the following kind:
@@ -232,14 +247,15 @@ def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, mod
 
                 new_hidden_states = new_hidden_states[0]  # Feed this to a gating mechanism
 
-                gate_loss_i, reinforce_loss_i, nll_loss_thought_i = think_loss(zz, idx, new_hidden_states, labels, packed, model, gate_values, packed, unreduced_loss)
+                gate_loss_i, reinforce_loss_i, nll_loss_thought_i = think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss)
                 gate_loss += gate_loss_i
                 reinforce_loss += reinforce_loss_i
                 nll_loss_thought += nll_loss_thought_i
 
             # ipdb.set_trace()
         #Sample-wise normalization
-        count = (gate_values[zz] > 0.5).sum().item()
+        # count = (gate_values[zz] > 0.5).sum().item()
+        count = 3
         total_gate_loss += gate_loss / count
         total_nll_thought += nll_loss_thought / count
         total_reinforce_loss += reinforce_loss / count
@@ -253,17 +269,17 @@ def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, mod
 
     return total_gate_loss, total_reinforce_loss, total_nll_thought, logy
 
-def think_tuner_step(model: AutoModelForCausalLM, batch, tokenizer):
-
+def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer):
+    
     # Initial forward pass
-    outputs = model.model(**batch)
+    outputs = model.model(input_ids=batch['input_ids'],attention_mask=batch['attention_mask'])
     logits = model.lm_head(outputs.last_hidden_state).float()
 
     # Get unreduced loss
     unreduced_loss, total_nll_loss = calculate_unreduced_loss(logits, batch["labels"], model.config.vocab_size)
 
     # Start Thinking and get all the losses.
-    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], outputs.hidden_states, logits,  batch["labels"], unreduced_loss, model, tokenizer)
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer)
 
 
     return ThinkTunerOutputs(

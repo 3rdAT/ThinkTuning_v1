@@ -17,8 +17,7 @@ import torch.cuda.nccl as nccl
 import torch.distributed as dist
 from torch.distributed.fsdp import StateDictType
 from torch.distributed.fsdp.sharded_grad_scaler import ShardedGradScaler
-from transformers import LlamaTokenizer, AutoTokenizer, AutoModelForCausalLM, LlamaPreTrainedModel, LlamaModel
-from src.modeling_llama import LlamaForCausalLM
+from transformers import LlamaTokenizer, AutoTokenizer, AutoModelForCausalLM, LlamaPreTrainedModel, LlamaModel, LlamaForCausalLM
 import json
 import pickle
 
@@ -76,6 +75,7 @@ import os
 from typing import Any, Callable, Dict, List, NewType, Optional, Tuple, Union
 from collections.abc import Mapping
 import wandb
+from src.think_tuner import think_tuner_step
 
 
 @dataclass
@@ -177,8 +177,6 @@ def default_data_collator(features: List[InputDataClass], return_tensors="pt") -
 ###Torch Default Data Collator
 def torch_default_data_collator(features: List[InputDataClass]) -> Dict[str, Any]:
     import torch
-
-    print("Inside torch_default_data_collator")
 
     # print(f"The datatype of features is {type(features)}")
 
@@ -357,6 +355,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
     total_train_steps = 0
     max_steps_reached = False  # Flag to indicate max training steps reached
     # Start the training loop
+
     for epoch in range(train_config.num_epochs):
         # stop when the maximum number of training steps is reached
 
@@ -384,9 +383,9 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         # if is_xpu_available():
                         #     batch[key] = batch[key].to('xpu:0')
                         # else:
-                          batch[key] = batch[key].to('cuda:0')
+                          batch[key] = batch[key].to(model.device)
                     with autocast():
-                        outputs = model(**batch, tokenizer=tokenizer)
+                        outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer)
                         loss = outputs.loss
                         thought_loss = outputs.nll_thought
                         reinforce_loss = outputs.reinforce_loss
@@ -405,15 +404,15 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         train_step_loss.append(loss.detach().float().item())
                         train_step_perplexity.append(float(torch.exp(loss.detach().float())))
 
-                    total_loss += loss.detach().float()
-                    # total_thought_loss += thought_loss.detach().float()
-                    # total_reinforce_loss += reinforce_loss.detach().float()
-                    total_gate_loss += gate_loss.detach().float()
+                    total_loss += loss.detach().float() if isinstance(loss, torch.Tensor) else loss
+                    total_thought_loss += thought_loss.detach().float() if isinstance(thought_loss, torch.Tensor) else thought_loss
+                    total_reinforce_loss += reinforce_loss.detach().float() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss
+                    total_gate_loss += gate_loss.detach().float() if isinstance(gate_loss, torch.Tensor) else gate_loss
                     
                     model_loss = loss + thought_loss + reinforce_loss
 
                     gate_optimizer.zero_grad()
-                    gate_loss.backward()
+                    gate_loss.backward(retain_graph=True)
                     gate_optimizer.step()
 
                     optimizer.zero_grad()
@@ -426,6 +425,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                     #         torch.nn.utils.clip_grad_norm_(model.parameters(), train_config.gradient_clipping_threshold)
                     #     optimizer.step()
                     #     optimizer.zero_grad()
+
                     pbar.update(1)
                     if train_config.use_profiler or train_config.flop_counter:
                         profile_context.step()
@@ -435,10 +435,10 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         wandb_run.log({
                             'train/epoch': epoch + 1,
                             'train/step': epoch * len(train_dataloader) + step,
-                            'train/loss': loss.detach().float(),
-                            # 'train/thought_loss': thought_loss.detach().float(),
-                            'train/gate_loss': gate_loss.detach().float(),
-                            # 'train/reinfroce_loss': reinforce_loss.detach().float(),
+                            'train/loss': loss.detach().float() if isinstance(loss, torch.Tensor) else loss,
+                            'train/thought_loss': thought_loss.detach().float() if isinstance(thought_loss, torch.Tensor) else thought_loss,
+                            'train/gate_loss': gate_loss.detach().float() if isinstance(gate_loss, torch.Tensor) else gate_loss,
+                            'train/reinfroce_loss': reinforce_loss.detach().float() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss,
                         })
 
                     pbar.set_description(f"Training Epoch: {epoch+1}/{train_config.num_epochs}, step {step}/{len(train_dataloader)} completed (loss: {loss.detach().float()})")
@@ -454,7 +454,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                     if train_config.save_metrics:
                         save_to_json(metrics_filename, train_step_loss, train_loss, train_step_perplexity, train_prep, val_step_loss, val_loss, val_step_perplexity, val_prep)
                     if step>=50:
-                        break
+                        return results
                 pbar.close()
 
         epoch_end_time = time.perf_counter()-epoch_start_time
@@ -798,6 +798,13 @@ def main(**kwargs):
             pin_memory=True,
             **val_dl_kwargs,
         )
+
+    #Initialize the gate if it is not present.
+    if not hasattr(model, 'gate'):
+    # Initialize model.gate as a learnable parameter
+        print("The gate was not present, so initializing it!")
+        model.gate = nn.Sequential(nn.Linear(model.config.hidden_size, 1), nn.Sigmoid())
+        model.reward_decay = 0.9
 
     # All model parameters
     all_params = list(model.parameters())
