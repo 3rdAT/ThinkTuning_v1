@@ -77,6 +77,8 @@ from collections.abc import Mapping
 import wandb
 from src.think_tuner import think_tuner_step
 
+import ipdb
+
 
 @dataclass
 class train_configy:
@@ -100,7 +102,7 @@ class train_configy:
     mixed_precision: bool=True
     val_batch_size: int=1
     dataset = "/scratch/ssaeidi1/aswin/data/train.json"
-    output_dir: str = "/data/data/arrv/metrics"
+    output_dir: str = "."
     save_model: bool = True
     use_wandb: bool = False # Enable wandb for experient tracking
     save_metrics: bool = True # saves training metrics to a json file for later plotting
@@ -390,7 +392,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         thought_loss = outputs.nll_thought
                         reinforce_loss = outputs.reinforce_loss
                         gate_loss = outputs.gate_loss
-
+                        
                     sampels.append(outputs.sampled_thought)
                     with open(f'sampels.json', 'w') as f:
                         json.dump(sampels, f)
@@ -404,22 +406,25 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         train_step_loss.append(loss.detach().float().item())
                         train_step_perplexity.append(float(torch.exp(loss.detach().float())))
 
-                    total_loss += loss.detach().float() if isinstance(loss, torch.Tensor) else loss
-                    total_thought_loss += thought_loss.detach().float() if isinstance(thought_loss, torch.Tensor) else thought_loss
-                    total_reinforce_loss += reinforce_loss.detach().float() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss
-                    total_gate_loss += gate_loss.detach().float() if isinstance(gate_loss, torch.Tensor) else gate_loss
                     
                     model_loss = loss + thought_loss + reinforce_loss
-
+                    
                     gate_optimizer.zero_grad()
-                    gate_loss.backward(retain_graph=True)
+                    gate_loss.backward(retain_graph=True) # increasing here
                     gate_optimizer.step()
 
+                    
                     optimizer.zero_grad()
                     model_loss.backward()
                     optimizer.step()
 
-
+                    
+                    total_loss += loss.cpu().detach().item() if isinstance(loss, torch.Tensor) else loss
+                    total_thought_loss += thought_loss.cpu().detach().item() if isinstance(thought_loss, torch.Tensor) else thought_loss
+                    total_reinforce_loss += reinforce_loss.cpu().detach().item() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss
+                    total_gate_loss += gate_loss.cpu().detach().item() if isinstance(gate_loss, torch.Tensor) else gate_loss
+                    
+                    
                     # if (step + 1) % gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
                     #     if train_config.gradient_clipping and train_config.gradient_clipping_threshold > 0.0:
                     #         torch.nn.utils.clip_grad_norm_(model.parameters(), train_config.gradient_clipping_threshold)
@@ -440,7 +445,6 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                             'train/gate_loss': gate_loss.detach().float() if isinstance(gate_loss, torch.Tensor) else gate_loss,
                             'train/reinfroce_loss': reinforce_loss.detach().float() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss,
                         })
-
                     pbar.set_description(f"Training Epoch: {epoch+1}/{train_config.num_epochs}, step {step}/{len(train_dataloader)} completed (loss: {loss.detach().float()})")
 
                     # if step % 50 == 0:
@@ -737,7 +741,7 @@ def main(**kwargs):
     torch.manual_seed(0)
     
 
-    wandb_run = setup_wandb(train_config, **kwargs)
+    # wandb_run = setup_wandb(train_config, **kwargs)
 
     model = LlamaForCausalLM.from_pretrained(
         train_config.model_name,
@@ -844,11 +848,11 @@ def main(**kwargs):
         gate_scheduler,
         train_config.gradient_accumulation_steps,
         train_config,
-        wandb_run
+        # wandb_run
     )
     [print(f'Key: {k}, Value: {v}') for k, v in results.items()]
-    for k,v in results.items():
-        wandb_run.summary[k] = v
+    # for k,v in results.items():
+    #     wandb_run.summary[k] = v
 
 if __name__ == "__main__":
     fire.Fire(main)
