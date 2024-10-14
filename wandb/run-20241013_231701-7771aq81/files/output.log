@@ -1,0 +1,1632 @@
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:06<00:00,  3.43s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+The gate was not present, so initializing it!
+/data/data/arrv/env/test/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                           [0m| 0/225 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:218: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+The indices are: tensor([  0,   4,   8,  10,  14,  17,  18,  25,  28,  44,  47,  48,  60,  66,
+         88,  89, 126, 148, 149], device='cuda:1')
+The indices are: tensor([  0,   4,   5,   6,   7,   8,  10,  11,  15,  18,  22,  23,  29,  47,
+         48,  51,  57,  61,  64,  97, 113, 125, 133, 136, 149],
+       device='cuda:1')
+The indices are: tensor([  0,   4,   5,  16,  20,  21,  30,  32,  36,  37,  38,  41,  49,  63,
+         75,  76,  92,  93,  98, 107, 121, 122, 129, 140, 145, 146, 149],
+       device='cuda:1')
+The indices are: tensor([  0,   4,   5,  12,  17,  20,  30,  35,  36,  39,  41,  60,  61,  75,
+         77,  78,  94,  95,  99, 127, 135, 149], device='cuda:1')
+The selected-indices are: [[149, 60, 88], [149, 18, 23], [145, 76, 122], [30, 17, 75]]
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1, 4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1, 4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1, 4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([1]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+/data/data/arrv/env/test/lib/python3.12/site-packages/torch/__init__.py:836: FutureWarning: `torch.distributed.reduce_op` is deprecated, please use `torch.distributed.ReduceOp` instead
+  return isinstance(obj, torch.Tensor)
+/data/data/arrv/ThinkTuning_v1/train.py:426: FutureWarning: `torch.distributed.reduce_op` is deprecated, please use `torch.distributed.ReduceOp` instead
+  if torch.is_tensor(obj) or (hasattr(obj, 'data') and torch.is_tensor(obj.data)):
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([32000, 4096]), Memory: 500.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 11008]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([11008, 4096]), Memory: 172.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096, 4096]), Memory: 64.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([64]), Memory: 0.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([1]), Memory: 0.00 MB
+Type: <class 'torch.nn.parameter.Parameter'>, Size: torch.Size([1, 4096]), Memory: 0.02 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 150]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 150]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 150]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 263]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 263]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 263]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 438]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 438]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 438]), Memory: 0.01 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 150, 32000]), Memory: 73.24 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([4, 150, 4096]), Memory: 9.38 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+Type: <class 'torch.Tensor'>, Size: torch.Size([]), Memory: 0.00 MB
+> [0;32m/data/data/arrv/ThinkTuning_v1/train.py[0m(432)[0;36mtrain[0;34m()[0m
+[0;32m    431 [0;31m                    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m--> 432 [0;31m                    [0mtotal_loss[0m [0;34m+=[0m [0mloss[0m[0;34m.[0m[0mcpu[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mdetach[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mitem[0m[0;34m([0m[0;34m)[0m [0;32mif[0m [0misinstance[0m[0;34m([0m[0mloss[0m[0;34m,[0m [0mtorch[0m[0;34m.[0m[0mTensor[0m[0;34m)[0m [0;32melse[0m [0mloss[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    433 [0;31m                    [0mtotal_thought_loss[0m [0;34m+=[0m [0mthought_loss[0m[0;34m.[0m[0mcpu[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mdetach[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mitem[0m[0;34m([0m[0;34m)[0m [0;32mif[0m [0misinstance[0m[0;34m([0m[0mthought_loss[0m[0;34m,[0m [0mtorch[0m[0;34m.[0m[0mTensor[0m[0;34m)[0m [0;32melse[0m [0mthought_loss[0m[0;34m[0m[0;34m[0m[0m
+[0m
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 868, in <module>
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 143, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 477, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 693, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 850, in main
+    gate_optimizer,
+          ^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 432, in train
+    #     if train_config.gradient_clipping and train_config.gradient_clipping_threshold > 0.0:
+    ^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit
+
+If you suspect this is an IPython 8.27.0 bug, please report it at:
+    https://github.com/ipython/ipython/issues
+or send an email to the mailing list at ipython-dev@python.org
+
+You can print a more detailed traceback right now with "%tb", or use "%debug"
+to interactively debug it.
+
+Extra-detailed tracebacks for bug-reporting purposes can be enabled via:
+    %config Application.verbose_crash=True

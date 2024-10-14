@@ -11,6 +11,8 @@ from datetime import datetime
 import contextlib
 from itertools import islice
 import dataclasses
+import gc
+
 
 import torch
 import torch.cuda.nccl as nccl
@@ -78,6 +80,7 @@ import wandb
 from src.think_tuner import think_tuner_step
 
 import ipdb
+import torch
 
 
 @dataclass
@@ -102,7 +105,7 @@ class train_configy:
     mixed_precision: bool=True
     val_batch_size: int=1
     dataset = "/scratch/ssaeidi1/aswin/data/train.json"
-    output_dir: str = "."
+    output_dir: str = "/data/data/arrv/metrics/m1"
     save_model: bool = True
     use_wandb: bool = False # Enable wandb for experient tracking
     save_metrics: bool = True # saves training metrics to a json file for later plotting
@@ -410,21 +413,20 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                     model_loss = loss + thought_loss + reinforce_loss
                     
                     gate_optimizer.zero_grad()
-                    gate_loss.backward(retain_graph=True) # increasing here
+                    gate_loss.backward() # increasing here
                     gate_optimizer.step()
 
-                    
+                
                     optimizer.zero_grad()
                     model_loss.backward()
                     optimizer.step()
 
-                    
+                    # ipdb.set_trace()
                     total_loss += loss.cpu().detach().item() if isinstance(loss, torch.Tensor) else loss
                     total_thought_loss += thought_loss.cpu().detach().item() if isinstance(thought_loss, torch.Tensor) else thought_loss
                     total_reinforce_loss += reinforce_loss.cpu().detach().item() if isinstance(reinforce_loss, torch.Tensor) else reinforce_loss
                     total_gate_loss += gate_loss.cpu().detach().item() if isinstance(gate_loss, torch.Tensor) else gate_loss
-                    
-                    
+                                        
                     # if (step + 1) % gradient_accumulation_steps == 0 or step == len(train_dataloader) - 1:
                     #     if train_config.gradient_clipping and train_config.gradient_clipping_threshold > 0.0:
                     #         torch.nn.utils.clip_grad_norm_(model.parameters(), train_config.gradient_clipping_threshold)
@@ -741,7 +743,7 @@ def main(**kwargs):
     torch.manual_seed(0)
     
 
-    # wandb_run = setup_wandb(train_config, **kwargs)
+    wandb_run = setup_wandb(train_config, **kwargs)
 
     model = LlamaForCausalLM.from_pretrained(
         train_config.model_name,
@@ -848,7 +850,7 @@ def main(**kwargs):
         gate_scheduler,
         train_config.gradient_accumulation_steps,
         train_config,
-        # wandb_run
+        wandb_run
     )
     [print(f'Key: {k}, Value: {v}') for k, v in results.items()]
     # for k,v in results.items():
