@@ -210,8 +210,8 @@ def start_thinking(input_ids, hidden_states, logits, labels, unreduced_loss, mod
                 reasoning_path = []
                 thought_index = []
                 for i in range(top_k):
-                    if i < 7:
-                        continue
+                    # if i < 7:
+                    #     continue
                     # TODO: Append the <SoT> token to the start
                     new_sequence_id = new_sequence[zz][:idx+1]# torch.cat([new_sequence[zz][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
                     # Append the sampled top-k token
@@ -314,3 +314,4 @@ def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer):
         hidden_states=outputs.hidden_states,
         attentions=outputs.attentions,
     )
+

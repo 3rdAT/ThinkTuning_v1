@@ -1,0 +1,53 @@
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:06<00:00,  3.35s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+The gate was not present, so initializing it!
+/data/data/arrv/env/test/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                           [0m| 0/225 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:218: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+The indices are: tensor([  0,   4,  31,  34,  48,  67,  73,  80,  82, 133, 143, 144, 171, 172,
+        173, 212, 235, 275, 276], device='cuda:3')
+The indices are: tensor([  0,   4,   5,  10,  11,  23,  24,  41,  44,  45,  53,  54,  55,  56,
+         63,  65,  70,  78,  86, 105, 108, 127, 133, 146, 152, 154, 165, 166,
+        168, 185, 186, 191, 215, 251, 260, 261, 271, 275, 276],
+       device='cuda:3')
+The indices are: tensor([  0,   4,  16,  27,  46,  48,  68,  71,  72,  83,  84, 114, 130, 169,
+        218, 243, 251, 252, 254, 260, 276], device='cuda:3')
+The indices are: tensor([  0,   4,  10,  11,  12,  14,  24,  27,  28,  29,  37,  40,  68,  71,
+        125, 219, 223, 227, 254, 268, 276], device='cuda:3')
+The selected-indices are: [[276, 171, 173], [146, 275, 24], [169, 83, 27], [223, 28, 37]]
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+torch.Size([1, 867])
+Training Epoch: 1/1, step 0/225 completed (loss: 0.9163074493408203):   0%|[34m▎                                                                             [0m| 1/225 [00:23<1:29:05, 23.86s/it][0mTraceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 143, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 477, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 693, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 843, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 462, in train
+    save_to_json(metrics_filename, train_step_loss, train_loss, train_step_perplexity, train_prep, val_step_loss, val_loss, val_step_perplexity, val_prep)
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 638, in save_to_json
+    with open(output_filename, "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/arrv/metrics/m1/metrics_data_None-2024-10-14_00-19-55.json'

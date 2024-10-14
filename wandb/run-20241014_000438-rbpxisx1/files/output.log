@@ -1,0 +1,86 @@
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:11<00:00,  5.84s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+The gate was not present, so initializing it!
+/data/data/arrv/env/test/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                           [0m| 0/225 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:218: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+The indices are: tensor([  0,   4,   8,  10,  14,  17,  18,  25,  28,  44,  47,  48,  60,  66,
+         88,  89, 126, 148, 149])
+The indices are: tensor([  0,   4,   5,   6,   7,   8,  10,  11,  15,  18,  22,  23,  29,  47,
+         48,  51,  57,  61,  64,  97, 113, 125, 133, 136, 149])
+The indices are: tensor([  0,   4,   5,  16,  20,  21,  30,  32,  36,  37,  38,  41,  49,  63,
+         75,  76,  92,  93,  98, 107, 121, 122, 129, 140, 145, 146, 149])
+The indices are: tensor([  0,   4,   5,  12,  17,  20,  30,  35,  36,  39,  41,  60,  61,  75,
+         77,  78,  94,  95,  99, 127, 135, 149])
+The selected-indices are: [[149, 60, 88], [149, 18, 23], [145, 76, 122], [30, 17, 75]]
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+torch.Size([1, 486])
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 143, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 477, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 693, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 843, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 393, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 304, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 262, in start_thinking
+    new_hidden_states = model.model(
+                        ^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 1001, in forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 750, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/transformers/models/llama/modeling_llama.py", line 309, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+                                           ^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1553, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1562, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/torch/nn/modules/linear.py", line 117, in forward
+    return F.linear(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
