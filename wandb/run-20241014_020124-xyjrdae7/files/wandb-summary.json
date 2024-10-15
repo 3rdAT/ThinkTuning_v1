@@ -1,1 +1,0 @@
-{"train/loss":1.2883976697921753,"_timestamp":1.728871448104724e+09,"train/reinfroce_loss":0,"train/gate_loss":0.11090090125799179,"train/thought_loss":0,"_step":27,"_wandb":{"runtime":164},"train/epoch":1,"_runtime":163.407930411,"train/step":27}
