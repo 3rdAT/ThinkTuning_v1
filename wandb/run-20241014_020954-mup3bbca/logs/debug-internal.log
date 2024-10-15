@@ -1,0 +1,18 @@
+{"time":"2024-10-14T02:09:54.779872511Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T02:09:54.779888631Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_020954-mup3bbca/logs/debug-core.log"}
+{"time":"2024-10-14T02:09:54.791968185Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T02:09:54.80208485Z","level":"INFO","msg":"created new stream","id":"mup3bbca"}
+{"time":"2024-10-14T02:09:54.80212159Z","level":"INFO","msg":"stream: started","id":"mup3bbca"}
+{"time":"2024-10-14T02:09:54.802150829Z","level":"INFO","msg":"handler: started","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:09:54.802154449Z","level":"INFO","msg":"sender: started","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:09:54.8021342Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:09:55.68563Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T02:09:55.686494266Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T02:10:10.910514257Z","level":"INFO","msg":"stream: closing","id":"mup3bbca"}
+{"time":"2024-10-14T02:10:10.910553517Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T02:10:10.936460898Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T02:10:11.430867839Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T02:10:11.531090408Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:10:11.531147667Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:10:11.531161286Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"mup3bbca"}}
+{"time":"2024-10-14T02:10:11.531300084Z","level":"INFO","msg":"stream: closed","id":"mup3bbca"}

@@ -1,0 +1,18 @@
+{"time":"2024-10-15T02:18:12.591328549Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-15T02:18:12.591344029Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241015_021812-jthqa5bu/logs/debug-core.log"}
+{"time":"2024-10-15T02:18:12.60310382Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-15T02:18:12.618981582Z","level":"INFO","msg":"created new stream","id":"jthqa5bu"}
+{"time":"2024-10-15T02:18:12.619015911Z","level":"INFO","msg":"stream: started","id":"jthqa5bu"}
+{"time":"2024-10-15T02:18:12.619028031Z","level":"INFO","msg":"handler: started","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:18:12.619058961Z","level":"INFO","msg":"sender: started","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:18:12.619027771Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:18:12.769071224Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-15T02:18:12.769956291Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-15T02:19:02.501110379Z","level":"INFO","msg":"stream: closing","id":"jthqa5bu"}
+{"time":"2024-10-15T02:19:02.501162188Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-15T02:19:02.522532032Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-15T02:19:02.969959259Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-15T02:19:03.085129816Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:19:03.085216355Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:19:03.085174056Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"jthqa5bu"}}
+{"time":"2024-10-15T02:19:03.085321763Z","level":"INFO","msg":"stream: closed","id":"jthqa5bu"}

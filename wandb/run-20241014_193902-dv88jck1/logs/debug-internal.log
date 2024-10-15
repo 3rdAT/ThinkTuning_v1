@@ -1,0 +1,18 @@
+{"time":"2024-10-14T19:39:02.038783207Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T19:39:02.038798057Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_193902-dv88jck1/logs/debug-core.log"}
+{"time":"2024-10-14T19:39:02.050813773Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T19:39:02.061194552Z","level":"INFO","msg":"created new stream","id":"dv88jck1"}
+{"time":"2024-10-14T19:39:02.061220882Z","level":"INFO","msg":"stream: started","id":"dv88jck1"}
+{"time":"2024-10-14T19:39:02.061252191Z","level":"INFO","msg":"sender: started","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:02.061238982Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:02.061299301Z","level":"INFO","msg":"handler: started","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:02.216084343Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T19:39:02.217337695Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T19:39:45.610494605Z","level":"INFO","msg":"stream: closing","id":"dv88jck1"}
+{"time":"2024-10-14T19:39:45.610531965Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T19:39:45.631739307Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T19:39:46.035626382Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T19:39:46.165087645Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:46.165162113Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:46.165153154Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"dv88jck1"}}
+{"time":"2024-10-14T19:39:46.165467069Z","level":"INFO","msg":"stream: closed","id":"dv88jck1"}

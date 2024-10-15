@@ -1,0 +1,18 @@
+{"time":"2024-10-14T19:47:42.354075858Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T19:47:42.354103308Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_194742-rg139oii/logs/debug-core.log"}
+{"time":"2024-10-14T19:47:42.378841112Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T19:47:42.389502479Z","level":"INFO","msg":"created new stream","id":"rg139oii"}
+{"time":"2024-10-14T19:47:42.389540659Z","level":"INFO","msg":"stream: started","id":"rg139oii"}
+{"time":"2024-10-14T19:47:42.389574198Z","level":"INFO","msg":"sender: started","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:47:42.389588268Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:47:42.389634917Z","level":"INFO","msg":"handler: started","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:47:42.539097292Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T19:47:42.540447493Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T19:59:08.725510589Z","level":"INFO","msg":"stream: closing","id":"rg139oii"}
+{"time":"2024-10-14T19:59:08.725570398Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T19:59:08.745242477Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T19:59:09.14540788Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T19:59:09.249397865Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:59:09.249480194Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:59:09.249459854Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"rg139oii"}}
+{"time":"2024-10-14T19:59:09.249674171Z","level":"INFO","msg":"stream: closed","id":"rg139oii"}

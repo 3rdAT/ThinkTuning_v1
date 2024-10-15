@@ -1,0 +1,60 @@
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:06<00:00,  3.28s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                          [0m| 0/4500 [00:00<?, ?it/s][0m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:299: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(141)[0;36mthink_loss[0;34m()[0m
+[0;32m    140 [0;31m            [0;31m# reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m--> 141 [0;31m            [0mnll_signal[0m [0;34m=[0m [0mtorch[0m[0;34m.[0m[0mmean[0m[0;34m([0m[0mnll_signal[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    142 [0;31m            [0mreward_signal[0m [0;34m=[0m [0mtorch[0m[0;34m.[0m[0mmean[0m[0;34m([0m[0mreward_signal[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(124)[0;36mthink_loss[0;34m()[0m
+[0;32m    123 [0;31m        [0mconfigs[0m [0;34m=[0m [0mpacked[0m[0;34m[[0m[0;34mf'[0m[0;34m{[0m[0mindex[0m[0;34m}[0m[0;34m'[0m[0;34m][0m [0;31m#{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m--> 124 [0;31m        [0;32mfor[0m [0mindi[0m[0;34m,[0m [0mthought[0m [0;32min[0m [0menumerate[0m[0;34m([0m[0mconfigs[0m[0;34m)[0m[0;34m:[0m  [0;31m#configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    125 [0;31m            [0;31m# print(indi)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[tensor(-0.1953, device='cuda:0', grad_fn=<MeanBackward0>)]
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/IPython/core/debugger.py", line 179, in BdbQuit_excepthook
+    raise ValueError(
+ValueError: `BdbQuit_excepthook` is deprecated since version 5.1. It is still arround only because it is still imported by ipdb.
+
+Original exception was:
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 875, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 859, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 397, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 407, in think_tuner_step
+
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 362, in start_thinking
+    # packed = [{'configs': [{'rationale_no': r_no, '<s>_index': st_no, '<SoT>_index': sot_idx, '<EoT>_index': eot_idx, '</s>_index':ed_no},{...}]}]
+                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 124, in think_loss
+    for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
+                         ^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit

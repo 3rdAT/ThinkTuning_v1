@@ -1,0 +1,18 @@
+{"time":"2024-10-15T02:19:25.785658579Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-15T02:19:25.785672598Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241015_021925-zenmqr1s/logs/debug-core.log"}
+{"time":"2024-10-15T02:19:26.164089222Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-15T02:19:26.174744749Z","level":"INFO","msg":"created new stream","id":"zenmqr1s"}
+{"time":"2024-10-15T02:19:26.174783538Z","level":"INFO","msg":"stream: started","id":"zenmqr1s"}
+{"time":"2024-10-15T02:19:26.174815918Z","level":"INFO","msg":"handler: started","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:26.174855937Z","level":"INFO","msg":"sender: started","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:26.174879087Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:26.310880146Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-15T02:19:26.312224307Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-15T02:19:46.184096758Z","level":"INFO","msg":"stream: closing","id":"zenmqr1s"}
+{"time":"2024-10-15T02:19:46.184141088Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-15T02:19:46.202255519Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-15T02:19:46.689346827Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-15T02:19:46.798930307Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:46.799015756Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:46.799006656Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"zenmqr1s"}}
+{"time":"2024-10-15T02:19:46.799208183Z","level":"INFO","msg":"stream: closed","id":"zenmqr1s"}

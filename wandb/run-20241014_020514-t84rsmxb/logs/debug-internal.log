@@ -1,0 +1,18 @@
+{"time":"2024-10-14T02:05:14.975264139Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T02:05:14.975290598Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_020514-t84rsmxb/logs/debug-core.log"}
+{"time":"2024-10-14T02:05:14.988039823Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T02:05:15.007065151Z","level":"INFO","msg":"created new stream","id":"t84rsmxb"}
+{"time":"2024-10-14T02:05:15.00710643Z","level":"INFO","msg":"stream: started","id":"t84rsmxb"}
+{"time":"2024-10-14T02:05:15.007135339Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:15.007164869Z","level":"INFO","msg":"handler: started","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:15.007160219Z","level":"INFO","msg":"sender: started","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:15.178751546Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T02:05:15.180180531Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T02:05:22.943709791Z","level":"INFO","msg":"stream: closing","id":"t84rsmxb"}
+{"time":"2024-10-14T02:05:22.94374349Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T02:05:22.959067082Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T02:05:23.601148334Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T02:05:23.713168071Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:23.71322946Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:23.71323774Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"t84rsmxb"}}
+{"time":"2024-10-14T02:05:23.713325679Z","level":"INFO","msg":"stream: closed","id":"t84rsmxb"}

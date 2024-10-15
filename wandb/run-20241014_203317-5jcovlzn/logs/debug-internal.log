@@ -1,0 +1,19 @@
+{"time":"2024-10-14T20:33:17.020395301Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T20:33:17.02042171Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_203317-5jcovlzn/logs/debug-core.log"}
+{"time":"2024-10-14T20:33:17.032581901Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T20:33:17.051513217Z","level":"INFO","msg":"created new stream","id":"5jcovlzn"}
+{"time":"2024-10-14T20:33:17.051584856Z","level":"INFO","msg":"stream: started","id":"5jcovlzn"}
+{"time":"2024-10-14T20:33:17.051644585Z","level":"INFO","msg":"sender: started","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:33:17.051685375Z","level":"INFO","msg":"handler: started","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:33:17.051619146Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:33:17.179889418Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T20:33:17.18117257Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T20:51:47.301909812Z","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/graphql\": net/http: request canceled (Client.Timeout exceeded while awaiting headers)"}
+{"time":"2024-10-14T20:56:46.069270839Z","level":"INFO","msg":"stream: closing","id":"5jcovlzn"}
+{"time":"2024-10-14T20:56:46.069312098Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T20:56:46.085323833Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T20:56:46.478483708Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T20:56:46.600450923Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:56:46.600525262Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:56:46.600497712Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"5jcovlzn"}}
+{"time":"2024-10-14T20:56:46.60070849Z","level":"INFO","msg":"stream: closed","id":"5jcovlzn"}

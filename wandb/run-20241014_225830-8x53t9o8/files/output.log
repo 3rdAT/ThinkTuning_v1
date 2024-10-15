@@ -1,0 +1,19 @@
+Loading checkpoint shards: 100%|██████████| 2/2 [00:05<00:00,  2.94s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 900
+--> Validation Set Length = 100
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m          [0m| 0/450 [00:00<?, ?it/s]/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:290: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+Training Epoch: 1/1, step 100/450 completed (loss: 1.155883550643921):  22%|[34m██▏       [0m| 101/450 [48:22<2:18:27, 23.80s/it]/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:290: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+Model is saved in /data/data/arrv/metrics/m1/epoch0/step100 directory
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+Training Epoch: 1/1, step 200/450 completed (loss: 1.4394625425338745):  45%|[34m████▍     [0m| 201/450 [1:38:50<2:06:26, 30.47s/it]/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:290: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+Model is saved in /data/data/arrv/metrics/m1/epoch0/step200 directory
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+Training Epoch: 1/1, step 300/450 completed (loss: 1.5205200910568237):  67%|[34m██████▋   [0m| 301/450 [2:32:42<1:09:52, 28.14s/it]/data/data/arrv/ThinkTuning_v1/src/think_tuner.py:290: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+Model is saved in /data/data/arrv/metrics/m1/epoch0/step300 directory
+  sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+Training Epoch: 1/1, step 302/450 completed (loss: 1.4191715717315674):  67%|[34m██████▋   [0m| 303/450 [2:34:24<1:32:39, 37.82s/it]

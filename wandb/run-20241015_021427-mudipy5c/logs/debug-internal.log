@@ -1,0 +1,18 @@
+{"time":"2024-10-15T02:14:27.183345232Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-15T02:14:27.183360842Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241015_021427-mudipy5c/logs/debug-core.log"}
+{"time":"2024-10-15T02:14:27.192259223Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-15T02:14:27.213688941Z","level":"INFO","msg":"created new stream","id":"mudipy5c"}
+{"time":"2024-10-15T02:14:27.21377237Z","level":"INFO","msg":"stream: started","id":"mudipy5c"}
+{"time":"2024-10-15T02:14:27.21381891Z","level":"INFO","msg":"handler: started","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:14:27.21381253Z","level":"INFO","msg":"sender: started","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:14:27.21380302Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:14:27.372205457Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-15T02:14:27.373307421Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-15T02:15:19.942471807Z","level":"INFO","msg":"stream: closing","id":"mudipy5c"}
+{"time":"2024-10-15T02:15:19.942562816Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-15T02:15:19.965143039Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-15T02:15:20.394501596Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-15T02:15:20.493400864Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:15:20.493444043Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:15:20.493466723Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"mudipy5c"}}
+{"time":"2024-10-15T02:15:20.493591201Z","level":"INFO","msg":"stream: closed","id":"mudipy5c"}

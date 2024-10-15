@@ -88,7 +88,7 @@ class train_configy:
     model_name: str="meta-llama/Llama-2-7b-hf"
     tokenizer_name: str=None
     run_validation: bool=False
-    batch_size_training: int=4
+    batch_size_training: int=2
     batching_strategy: str="padding" #alternative: padding
     context_length: int=4096
     gradient_accumulation_steps: int= 1
@@ -105,7 +105,7 @@ class train_configy:
     mixed_precision: bool=True
     val_batch_size: int=1
     dataset = "/scratch/ssaeidi1/aswin/data/train.json"
-    output_dir: str = "/data/data/arrv/metrics/m1"
+    output_dir: str = "/data/data/arrv/metrics/m3"
     save_model: bool = True
     use_wandb: bool = False # Enable wandb for experient tracking
     save_metrics: bool = True # saves training metrics to a json file for later plotting
@@ -113,6 +113,8 @@ class train_configy:
     flop_counter_start: int = 3 # The step to start profiling, default is 3, which means after 3 steps of warmup stage, the profiler will start to count flops.
     use_profiler: bool = False # Enable pytorch profiler, can not be used with flop counter at the same time.
     profiler_dir: str = "/scratch/ssaeidi1/aswin/model" # will be used if using profiler
+    use_reward_decay: bool = False
+    use_best_reward_signal: bool = False
 
 #=========================================================================================================================
 ###Function to get the preprocessed dataset in trainable format
@@ -121,7 +123,7 @@ def get_preprocessed_dataset(tokenizer, data_path):
     # dataset = datasets.load_dataset("kaist-ai/CoT-Collection", split="train[:26000]")
     # dataset = load_from_disk('/scratch/aravik13/Think/data/CoT.parquet')
 
-    dataset = load_dataset("microsoft/orca-math-word-problems-200k", split="train[:1000]")
+    dataset = load_dataset("microsoft/orca-math-word-problems-200k", split="train[:10000]")
 
     # Split the dataset into training and validation sets
     train_dataset, val_dataset = dataset.train_test_split(test_size=0.1, seed=42).values()  # Split 20% for validation
@@ -134,6 +136,8 @@ def get_preprocessed_dataset(tokenizer, data_path):
             "input_ids": prompt + labels,
             "attention_mask": [1] * (len(prompt) + len(labels)),
             "labels": prompt + labels,
+            "prompt_length": len(prompt),
+            "total_length" : len(prompt)+len(labels),
         }
 
         return sample
@@ -317,7 +321,7 @@ def profile(cfg, local_rank=None):
 #======================================================================================================
 ### TRAIN FUNCTION
 
-def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_scheduler, gate_optimizer, gate_scheduler, gradient_accumulation_steps, train_config, wandb_run=None):
+def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_scheduler, gradient_accumulation_steps, train_config, wandb_run=None):
     """
     Trains the model on the given dataloader
 
@@ -390,14 +394,14 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         # else:
                           batch[key] = batch[key].to(model.device)
                     with autocast():
-                        outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer)
+                        outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
                         loss = outputs.loss
                         thought_loss = outputs.nll_thought
                         reinforce_loss = outputs.reinforce_loss
                         gate_loss = outputs.gate_loss
                         
                     sampels.append(outputs.sampled_thought)
-                    with open(f'sampels.json', 'w') as f:
+                    with open(f'sampels1.json', 'w') as f:
                         json.dump(sampels, f)
 
                     # loss = loss / gradient_accumulation_steps
@@ -410,13 +414,13 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         train_step_perplexity.append(float(torch.exp(loss.detach().float())))
 
                     
-                    model_loss = loss + thought_loss + reinforce_loss
+                    # Remember the reinforce loss and thought loss has been already backwarded in the think_tuner_step for efficiency purposes.
+                    model_loss = loss
                     
-                    gate_optimizer.zero_grad()
-                    gate_loss.backward() # increasing here
-                    gate_optimizer.step()
+                    # gate_optimizer.zero_grad()
+                    # gate_loss.backward() # increasing here
+                    # gate_optimizer.step()
 
-                
                     optimizer.zero_grad()
                     model_loss.backward()
                     optimizer.step()
@@ -449,18 +453,28 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         })
                     pbar.set_description(f"Training Epoch: {epoch+1}/{train_config.num_epochs}, step {step}/{len(train_dataloader)} completed (loss: {loss.detach().float()})")
 
-                    # if step % 50 == 0:
-                    #     if train_config.run_validation:
-                    #         eval_ppl, eval_epoch_loss, temp_val_loss, temp_step_perplexity = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wandb_run)
-                    #         if train_config.save_metrics:
-                    #             val_step_loss.extend(temp_val_loss)
-                    #             val_step_perplexity.extend(temp_step_perplexity)
-                    #     model.train()
+                    if step % 100 == 0 and step != 0:
+                        if train_config.run_validation:
+                            eval_ppl, eval_epoch_loss, temp_val_loss, temp_step_perplexity = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wandb_run)
+                            if train_config.save_metrics:
+                                val_step_loss.extend(temp_val_loss)
+                                val_step_perplexity.extend(temp_step_perplexity)
+
+                            checkpoint_start_time = time.perf_counter()
+
+                        if train_config.save_model :
+                            epoch_dir = os.path.join(train_config.output_dir, f"epoch{epoch}", f"step{step}")
+                            os.makedirs(epoch_dir, exist_ok=True)
+                            # Save the model in the new directory
+                            model.save_pretrained(epoch_dir)
+                            print(f"Model is saved in {epoch_dir} directory")
+                            
+                        model.train()
 
                     if train_config.save_metrics:
                         save_to_json(metrics_filename, train_step_loss, train_loss, train_step_perplexity, train_prep, val_step_loss, val_loss, val_step_perplexity, val_prep)
-                    if step>=50:
-                        return results
+                    # if step>=50:
+                    #     return results
                 pbar.close()
 
         epoch_end_time = time.perf_counter()-epoch_start_time
@@ -471,7 +485,6 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
         train_loss.append(float(train_epoch_loss))
         memtrace.print_stats()
         lr_scheduler.step()
-        gate_scheduler.step()
 
         if train_config.run_validation:
             eval_ppl, eval_epoch_loss, temp_val_loss, temp_step_perplexity = evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wandb_run)
@@ -482,7 +495,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
             checkpoint_start_time = time.perf_counter()
 
             if train_config.save_model :
-                epoch_dir = os.path.join(train_config.output_dir, f"epoch{epoch}")
+                epoch_dir = os.path.join(train_config.output_dir, f"epoch{epoch}",f"step{step}")
                 os.makedirs(epoch_dir, exist_ok=True)
                 # Save the model in the new directory
                 model.save_pretrained(epoch_dir)
@@ -554,7 +567,7 @@ def evaluation(model, train_config, eval_dataloader, local_rank, tokenizer, wand
                 # if is_xpu_available():
                 #     batch[key] = batch[key].to('xpu:0')
                 # else:
-                batch[key] = batch[key].to('cuda:0')
+                batch[key] = batch[key].to(model.device)
             # Ensure no gradients are computed for this scope to save memory
             with torch.no_grad():
                 # Forward pass and compute loss
@@ -649,7 +662,9 @@ class ConcatDataset(Dataset):
         buffer = {
             "input_ids": [],
             "attention_mask": [],
-            "labels": []
+            "labels": [],
+            "prompt_length": [],
+            "total_length" : [],
             }
 
         for sample in tqdm(self.dataset, desc="Preprocessing dataset", dynamic_ncols=True):
@@ -805,37 +820,39 @@ def main(**kwargs):
             **val_dl_kwargs,
         )
 
-    #Initialize the gate if it is not present.
-    if not hasattr(model, 'gate'):
-    # Initialize model.gate as a learnable parameter
-        print("The gate was not present, so initializing it!")
-        model.gate = nn.Sequential(nn.Linear(model.config.hidden_size, 1), nn.Sigmoid())
-        model.reward_decay = 0.9
+    # # #Initialize the gate if it is not present.
+    # if not hasattr(model, 'gate'):
+    # # Initialize model.gate as a learnable parameter
+    #     print("The gate was not present, so initializing it!")
+    #     model.gate = nn.Sequential(nn.Linear(model.config.hidden_size, 1), nn.Sigmoid())
+    #     model.reward_decay = 0.9
 
-    # All model parameters
-    all_params = list(model.parameters())
+    model.reward_decay = 0.9
 
-    # Gate parameters
-    gate_params = list(model.gate.parameters())
+    # # All model parameters
+    # all_params = list(model.parameters())
 
-    # Subtract gate parameters from all model parameters
-    # Subtract gate parameters from all model parameters using their ids
-    main_params = [param for param in all_params if id(param) not in {id(gate_param) for gate_param in gate_params}]
+    # # Gate parameters
+    # gate_params = list(model.gate.parameters())
+
+    # # Subtract gate parameters from all model parameters
+    # # Subtract gate parameters from all model parameters using their ids
+    # main_params = [param for param in all_params if id(param) not in {id(gate_param) for gate_param in gate_params}]
 
     # Define the optimizer for the main parameters (excluding self.gate)
     optimizer = optim.AdamW(
-        main_params, 
+        model.parameters(), 
         lr=train_config.lr, 
         weight_decay=train_config.weight_decay
     )
     scheduler = StepLR(optimizer, step_size=1, gamma=train_config.gamma)
 
-    gate_optimizer = optim.AdamW(
-            model.gate.parameters(),
-            lr=train_config.lr,
-            weight_decay=train_config.weight_decay,
-    )
-    gate_scheduler = StepLR(gate_optimizer, step_size=1, gamma=train_config.gamma)
+    # gate_optimizer = optim.AdamW(
+    #         model.gate.parameters(),
+    #         lr=train_config.lr,
+    #         weight_decay=train_config.weight_decay,
+    # )
+    # gate_scheduler = StepLR(gate_optimizer, step_size=1, gamma=train_config.gamma)
 
 
     # Start the training process
@@ -846,8 +863,6 @@ def main(**kwargs):
         tokenizer,
         optimizer,
         scheduler,
-        gate_optimizer,
-        gate_scheduler,
         train_config.gradient_accumulation_steps,
         train_config,
         wandb_run

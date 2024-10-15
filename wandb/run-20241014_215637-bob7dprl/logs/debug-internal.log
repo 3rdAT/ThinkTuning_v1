@@ -1,0 +1,10 @@
+{"time":"2024-10-14T21:56:37.261081641Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T21:56:37.2611095Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_215637-bob7dprl/logs/debug-core.log"}
+{"time":"2024-10-14T21:56:37.272708304Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T21:56:37.291621656Z","level":"INFO","msg":"created new stream","id":"bob7dprl"}
+{"time":"2024-10-14T21:56:37.291675486Z","level":"INFO","msg":"stream: started","id":"bob7dprl"}
+{"time":"2024-10-14T21:56:37.291731195Z","level":"INFO","msg":"sender: started","stream_id":{"value":"bob7dprl"}}
+{"time":"2024-10-14T21:56:37.291747965Z","level":"INFO","msg":"handler: started","stream_id":{"value":"bob7dprl"}}
+{"time":"2024-10-14T21:56:37.291719095Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"bob7dprl"}}
+{"time":"2024-10-14T21:56:37.443667384Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T21:56:37.444456154Z","level":"INFO","msg":"Starting system monitor"}

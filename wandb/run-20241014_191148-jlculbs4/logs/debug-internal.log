@@ -1,0 +1,18 @@
+{"time":"2024-10-14T19:11:48.60632915Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T19:11:48.60635629Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_191148-jlculbs4/logs/debug-core.log"}
+{"time":"2024-10-14T19:11:48.626217059Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T19:11:48.64521211Z","level":"INFO","msg":"created new stream","id":"jlculbs4"}
+{"time":"2024-10-14T19:11:48.645262109Z","level":"INFO","msg":"stream: started","id":"jlculbs4"}
+{"time":"2024-10-14T19:11:48.645315529Z","level":"INFO","msg":"sender: started","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:11:48.645341138Z","level":"INFO","msg":"handler: started","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:11:48.645289349Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:11:48.839674268Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T19:11:48.840875591Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T19:12:00.66930218Z","level":"INFO","msg":"stream: closing","id":"jlculbs4"}
+{"time":"2024-10-14T19:12:00.66934829Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T19:12:00.686788803Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T19:12:01.125626801Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T19:12:01.270188087Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:12:01.270255826Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:12:01.270234186Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"jlculbs4"}}
+{"time":"2024-10-14T19:12:01.270450413Z","level":"INFO","msg":"stream: closed","id":"jlculbs4"}

@@ -1,0 +1,18 @@
+{"time":"2024-10-14T03:12:01.746100731Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T03:12:01.746127881Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_031201-livzt897/logs/debug-core.log"}
+{"time":"2024-10-14T03:12:01.758844645Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T03:12:01.77797915Z","level":"INFO","msg":"created new stream","id":"livzt897"}
+{"time":"2024-10-14T03:12:01.778053889Z","level":"INFO","msg":"stream: started","id":"livzt897"}
+{"time":"2024-10-14T03:12:01.778108959Z","level":"INFO","msg":"sender: started","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:01.778084269Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:01.778142738Z","level":"INFO","msg":"handler: started","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:01.922782291Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T03:12:01.923682699Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T03:12:15.135840692Z","level":"INFO","msg":"stream: closing","id":"livzt897"}
+{"time":"2024-10-14T03:12:15.135895441Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T03:12:15.153655816Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T03:12:15.570552629Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T03:12:15.782817628Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:15.782890417Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:15.782917887Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"livzt897"}}
+{"time":"2024-10-14T03:12:15.783025555Z","level":"INFO","msg":"stream: closed","id":"livzt897"}

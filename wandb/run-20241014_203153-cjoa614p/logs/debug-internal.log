@@ -1,0 +1,18 @@
+{"time":"2024-10-14T20:31:53.586314573Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T20:31:53.586340742Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_203153-cjoa614p/logs/debug-core.log"}
+{"time":"2024-10-14T20:31:53.599543149Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T20:31:53.618799161Z","level":"INFO","msg":"created new stream","id":"cjoa614p"}
+{"time":"2024-10-14T20:31:53.61884022Z","level":"INFO","msg":"stream: started","id":"cjoa614p"}
+{"time":"2024-10-14T20:31:53.61886454Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:31:53.618895889Z","level":"INFO","msg":"handler: started","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:31:53.6188708Z","level":"INFO","msg":"sender: started","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:31:53.813957894Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T20:31:53.815258486Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T20:32:07.616922493Z","level":"INFO","msg":"stream: closing","id":"cjoa614p"}
+{"time":"2024-10-14T20:32:07.616963613Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T20:32:07.632347419Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T20:32:08.115123597Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T20:32:08.230392643Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:32:08.230461002Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:32:08.230475042Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"cjoa614p"}}
+{"time":"2024-10-14T20:32:08.23061552Z","level":"INFO","msg":"stream: closed","id":"cjoa614p"}

@@ -1,0 +1,18 @@
+{"time":"2024-10-14T02:20:36.097601179Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T02:20:36.097627859Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_022036-rd68vgrk/logs/debug-core.log"}
+{"time":"2024-10-14T02:20:36.109318737Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T02:20:36.128431821Z","level":"INFO","msg":"created new stream","id":"rd68vgrk"}
+{"time":"2024-10-14T02:20:36.12847569Z","level":"INFO","msg":"stream: started","id":"rd68vgrk"}
+{"time":"2024-10-14T02:20:36.12849537Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:36.128538599Z","level":"INFO","msg":"handler: started","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:36.128555589Z","level":"INFO","msg":"sender: started","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:36.315908273Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T02:20:36.317268742Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T02:20:53.143104533Z","level":"INFO","msg":"stream: closing","id":"rd68vgrk"}
+{"time":"2024-10-14T02:20:53.143146143Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T02:20:53.158860109Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T02:20:53.58857011Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T02:20:53.679457812Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:53.67951878Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:53.679509451Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"rd68vgrk"}}
+{"time":"2024-10-14T02:20:53.679650349Z","level":"INFO","msg":"stream: closed","id":"rd68vgrk"}

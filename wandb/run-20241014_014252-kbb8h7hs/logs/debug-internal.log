@@ -1,0 +1,18 @@
+{"time":"2024-10-14T01:42:52.781643795Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-14T01:42:52.781670785Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241014_014252-kbb8h7hs/logs/debug-core.log"}
+{"time":"2024-10-14T01:42:52.793592223Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-14T01:42:52.803917611Z","level":"INFO","msg":"created new stream","id":"kbb8h7hs"}
+{"time":"2024-10-14T01:42:52.80393958Z","level":"INFO","msg":"stream: started","id":"kbb8h7hs"}
+{"time":"2024-10-14T01:42:52.80396404Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:42:52.80398538Z","level":"INFO","msg":"handler: started","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:42:52.80398388Z","level":"INFO","msg":"sender: started","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:42:52.969643895Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-14T01:42:52.9708818Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-14T01:45:06.482063436Z","level":"INFO","msg":"stream: closing","id":"kbb8h7hs"}
+{"time":"2024-10-14T01:45:06.482108326Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-14T01:45:06.503450862Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-14T01:45:07.947403211Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-14T01:45:08.0567202Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:45:08.056802249Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:45:08.056844828Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"kbb8h7hs"}}
+{"time":"2024-10-14T01:45:08.056994127Z","level":"INFO","msg":"stream: closed","id":"kbb8h7hs"}

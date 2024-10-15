@@ -1,0 +1,33 @@
+Loading checkpoint shards: 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████| 2/2 [00:06<00:00,  3.47s/it]
+Map:   0%|                                                                                                                               | 0/900 [00:00<?, ? examples/s]
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 860, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 143, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 477, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/fire/core.py", line 693, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 772, in main
+    dataset_train, dataset_val = get_preprocessed_dataset(
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 142, in get_preprocessed_dataset
+    train_dataset = train_dataset.map(tokenize_add_label, remove_columns=list(train_dataset.features))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 560, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 3035, in map
+    for rank, done, content in Dataset._map_single(**dataset_kwargs):
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 3408, in _map_single
+    example = apply_function_on_filtered_inputs(example, i, offset=offset)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 3316, in apply_function_on_filtered_inputs
+    validate_function_output(processed_inputs, indices)
+  File "/data/data/arrv/env/test/lib/python3.12/site-packages/datasets/arrow_dataset.py", line 3252, in validate_function_output
+    raise TypeError(
+TypeError: Provided `function` which is applied to all elements of table returns a variable of type <class 'tuple'>. Make sure provided `function` returns a variable of type `dict` (or a pyarrow table) to update the dataset or `None` if you are only interested in side effects.
