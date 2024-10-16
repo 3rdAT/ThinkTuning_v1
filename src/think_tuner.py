@@ -370,11 +370,10 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
                 reasoning_path = []
                 thought_index = []
 
-
                 if sample_thought_by_prompt:
                     for i in range(top_k):
-                        if i < 5:
-                            continue
+                        # if i < 5:
+                        #     continue
                         # prefix_ids = new_sequence[zz][:idx+1]
                         # suffix_ids = new_sequence[zz][idx+1:]
                         # ipdb.set_trace()
@@ -391,6 +390,7 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
                         })
 
                         reasoning_path.append(new_sequence_id)
+                        # ipdb.set_trace()
                         sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
                         temp1[f"{idx}"].append(sampled_text_generate)
 
@@ -432,6 +432,8 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
                         del new_greedy_sequence_decoding
                 # reasoning_path shape: [topk_idx, batch_size, seq_len]
                 temp[f"batch-{zz}"].append(temp1)
+
+                # ipdb.set_trace()
 
                 packed_reasoning_path, packed_attention_mask, packed_reasoning_path_casual_mask, packed = get_packed_inputs(reasoning_path, max_length=4090, pad_token_id=model.config.eos_token_id, thought_index=thought_index)
                 packed_reasoning_path = packed_reasoning_path.to(device=hidden_states.device)

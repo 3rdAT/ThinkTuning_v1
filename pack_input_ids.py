@@ -1,5 +1,5 @@
 import torch
-
+import ipdb
 def pack_input_ids(input_ids, pad_token_id, max_length=32, thought_index=[]):
     """
     Pack input_ids from a list of tensors of shape [sequence_length] into batches of size max_length.
@@ -119,8 +119,9 @@ def get_packed_inputs(input_ids, max_length, pad_token_id, thought_index):
     Pack sequences into batches of max_length and pad them, returning the padded sequences and attention masks.
     """
     input_ids = [input_ids[i].to('cpu') for i in range(len(input_ids))]
+    # ipdb.set_trace()
     packed_prompts, attention_mask, packed = pack_input_ids(input_ids, pad_token_id=pad_token_id,  max_length=max_length, thought_index=thought_index)
-    
+
     # Pad the packed sequences and attention masks to the longest batch
     packed_prompts = torch.nn.utils.rnn.pad_sequence(packed_prompts, batch_first=True, padding_value=pad_token_id)
     attention_mask = torch.nn.utils.rnn.pad_sequence(attention_mask, batch_first=True, padding_value=0)
