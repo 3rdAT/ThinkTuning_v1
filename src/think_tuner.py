@@ -81,7 +81,10 @@ def gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer):
     prompt_len = len(batch['input_ids'][0])
     batch = {k: v.to(model.device) for k, v in batch.items()}
 
-    outputs = model.generate(**batch, max_new_tokens=4096, do_sample=True, temperature=0.8, use_cache=True, top_p=1.0)
+
+
+    with torch.no_grad():
+        outputs = model.generate(**batch, max_new_tokens=4096, do_sample=True, temperature=0.8, use_cache=True, top_p=1.0)
 
     output_tokens = outputs[0][prompt_len:]
     output_text = tokenizer.decode(output_tokens, skip_special_tokens=True)
@@ -251,7 +254,7 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
     return gate_loss, reinforce_loss, nll_loss_thought, mean_reward_signals
 
 
-def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=True, sample_thought_by_prompt=True):
+def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=True, sample_thought_by_prompt=True):
     new_sequence = input_ids.clone().detach()
     hidden_states = hidden_states.clone().detach()
     logits = logits.clone().detach()
@@ -272,53 +275,53 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
     # gate_values = model.gate(hidden_states)
 
     # Calculate entropy for each token in the sequence
-    probabilities = F.softmax(logits, dim=-1)
-    log_probabilities = F.log_softmax(logits, dim=-1)
-    entropy = -torch.sum(probabilities * log_probabilities, dim=-1)
 
-    # Select indices with high entropy
-    selected_indices_ent = []
-    prompt_length = prompt_length.to(hidden_states.device)
-    for i in range(len(entropy)):
-        # Get the top 3 indices with the highest entropy
-        _, top_indices = torch.topk(entropy[i, prompt_length[i]:total_length[i]], 10)
-        top_indices += prompt_length[i]  # Adjust indices to account for the prompt length
-        selected_indices_ent.append(top_indices.tolist())
+    entropy_based_sampling = False
+    if entropy_based_sampling:
+        probabilities = F.softmax(logits, dim=-1)
+        log_probabilities = F.log_softmax(logits, dim=-1)
+        entropy = -torch.sum(probabilities * log_probabilities, dim=-1)
 
-    # Calculate perplexity for each token in the sequence
-    perplexity = torch.exp(unreduced_loss.view(logits.shape[0], -1))
+        # Select indices with high entropy
+        selected_indices_ent = []
+        for i in range(len(entropy)):
+            # Get the top 3 indices with the highest entropy
+            _, top_indices = torch.topk(entropy[i, a_s[i]:a_e[i]], 10)
+            top_indices += a_e[i].item()  # Adjust indices to account for the prompt length
+            selected_indices_ent.append(top_indices.tolist())
 
-    selected_indices_perp = []
-    # Select indices with high perplexity
-    for i in range(len(perplexity)):
-        # Get the top 3 indices with the highest perplexity
-        _, top_indices = torch.topk(perplexity[i, prompt_length[i]:total_length[i]], 3)
-        top_indices += prompt_length[i]  # Adjust indices to account for the prompt length
-        selected_indices_perp.append(top_indices.tolist())
+        # Calculate perplexity for each token in the sequence
+        perplexity = torch.exp(unreduced_loss.view(logits.shape[0], -1))
+        selected_indices_perp = []
+        # Select indices with high perplexity
+        for i in range(len(perplexity)):
+            # Get the top 3 indices with the highest perplexity
+            _, top_indices = torch.topk(perplexity[i, a_s[i]:a_e[i]], 3)
+            top_indices += a_e[i].item()  # Adjust indices to account for the prompt length
+            selected_indices_perp.append(top_indices.tolist())
+    else:
+        selected_indices = []
+        for i in range(len(gate_values)):
+
+            p1 = int((a_s[i] + (a_e[i]-a_s[i])/3).detach().item())
+            p2 = int((a_s[i] + 2*((a_e[i]-a_s[i])/3)).detach().item())
+
+            random_indicies = []
+            random_indicies.append(torch.randint(a_s[i].item(), p1, (1,))[0])
+            random_indicies.append(torch.randint(p1, p2, (1,))[0])
+            random_indicies.append(torch.randint(p2, a_e[i].item(), (1,))[0])
+            temp = []
+            for j in random_indicies:
+                gate_values[i][j] = 1.0
+                temp.append(j)
+            selected_indices.append(temp)
 
     # ipdb.set_trace()
-    
-    selected_indices = selected_indices_perp
 
-    for i, indices in enumerate(selected_indices_perp):
+    # selected_indices = selected_indices_ent
+    for i, indices in enumerate(selected_indices):
         for idx in indices:
             gate_values[i][idx] = 1.0
-
-    # selected_indices = []
-    # for i in range(len(gate_values)):
-
-    #     p1 = int((prompt_length[i] + (total_length[i]-prompt_length[i])/3).detach().item())
-    #     p2 = int((prompt_length[i] + 2*((total_length[i]-prompt_length[i])/3)).detach().item())
-
-    #     random_indicies = []
-    #     random_indicies.append(torch.randint(prompt_length[i].item(), p1, (1,))[0])
-    #     random_indicies.append(torch.randint(p1, p2, (1,))[0])
-    #     random_indicies.append(torch.randint(p2, total_length[i].item(), (1,))[0])
-    #     temp = []
-    #     for j in random_indicies:
-    #         gate_values[i][j] = 1.0
-    #         temp.append(j)
-    #     selected_indices.append(temp)
 
     #gatevalues should be in the completion of the given input_ids
     # random_gate_values = torch.rand(prompt_index)
@@ -338,6 +341,8 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
 
 
     # print("The selected-indices are:",selected_indices)
+
+    # ipdb.set_trace()
     for zz in range(len(input_ids)):
         temp = {}
         ## gate_values [b, n]
@@ -359,7 +364,7 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                 probabilities = F.softmax(logits_of_token, dim=-1)  # Softmax across the last dimension
                 
                 # Get the top-k values and their corresponding indices
-                top_k = 10  # Example: Get the top 5 tokens
+                top_k = 1  # Example: Get the top 5 tokens
                 topk_indices = torch.topk(probabilities, top_k, dim=-1)
                 
                 reasoning_path = []
@@ -370,8 +375,11 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                     for i in range(top_k):
                         if i < 5:
                             continue
-                        prefix_ids = new_sequence[zz][:idx+1]
-                        suffix_ids = new_sequence[zz][idx+1:]
+                        # prefix_ids = new_sequence[zz][:idx+1]
+                        # suffix_ids = new_sequence[zz][idx+1:]
+                        # ipdb.set_trace()
+                        prefix_ids = new_sequence[zz][q_s[zz]:idx+1]
+                        suffix_ids = new_sequence[zz][idx+1:a_e[zz]]
 
                         thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer).squeeze(0)
 
@@ -507,7 +515,7 @@ def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer, train_config
     unreduced_loss, total_nll_loss = calculate_unreduced_loss(logits, batch["labels"], model.config.vocab_size)
 
     # Start Thinking and get all the losses.
-    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["start_idx_q"], batch["end_idx_q"], batch['start_answer_idx'], batch['end_answer_idx'], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
     
     return ThinkTunerOutputs(
         loss=total_nll_loss,

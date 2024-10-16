@@ -131,15 +131,69 @@ def get_preprocessed_dataset(tokenizer, data_path):
     train_dataset, val_dataset = dataset.train_test_split(test_size=0.1, seed=42).values()  # Split 20% for validation
 
     def tokenize_add_label(sample):
-        prompt = tokenizer.encode(tokenizer.bos_token + "###Input:\n" + sample["question"], add_special_tokens=False)
-        labels = tokenizer.encode("\n###Output:\n" + sample["answer"] + tokenizer.eos_token, add_special_tokens=False)
+        
+        prompt = [
+                    {
+                        "role":"user",
+                        "content":f"{sample['question']}"
+                    },
+                    {
+                        "role":"assistant",
+                        "content":f"{sample['answer']}"
+                    },
 
+                ]
+        
+        # pos_util_assistant = [
+        #     {
+        #     "role":"assistant",
+        #     "content": ""
+        #     },
+        #    ]
+        
+        # pos_util_user = [  
+        #     {
+        #     "role":"user",
+        #     "content": ""
+        #     },
+        #    ]
+        
+        prompt_tokens = tokenizer.apply_chat_template(prompt, tokenize=True)
+        # ipdb.set_trace()
+
+        question_tokens = tokenizer.encode(sample["question"], add_special_tokens=False)
+        question_token_length = len(question_tokens)
+
+        answer_tokens = tokenizer.encode(sample["answer"], add_special_tokens=False)
+        answer_token_length = len(answer_tokens)
+
+        start_idx_q = 0
+        end_idx_q = 0
+        for idx in range(len(prompt_tokens) - question_token_length):
+    # Compare if a slice of the prompt matches the question tokens
+            if prompt_tokens[idx:idx + question_token_length] == question_tokens:
+                start_idx_q = idx
+                end_idx_q = start_idx_q + question_token_length - 1
+                break
+        
+        start_answer_idx = 0
+        end_answer_idx = 0
+        for idx in range(len(prompt_tokens) - answer_token_length):
+    # Compare if a slice of the prompt matches the answer tokens
+            if prompt_tokens[idx:idx + answer_token_length] == answer_tokens:
+                start_answer_idx = idx
+                end_answer_idx = start_answer_idx + answer_token_length - 1
+                break
+        
+        # ipdb.set_trace()
         sample = {
-            "input_ids": prompt + labels,
-            "attention_mask": [1] * (len(prompt) + len(labels)),
-            "labels": prompt + labels,
-            "prompt_length": len(prompt),
-            "total_length" : len(prompt)+len(labels),
+            "input_ids": prompt_tokens,
+            "attention_mask": [1] * (len(prompt_tokens)),
+            "labels": prompt_tokens,
+            "start_idx_q": start_idx_q,
+            "end_idx_q": end_idx_q,
+            "start_answer_idx": start_answer_idx,
+            "end_answer_idx": end_answer_idx,
         }
 
         return sample
@@ -665,8 +719,10 @@ class ConcatDataset(Dataset):
             "input_ids": [],
             "attention_mask": [],
             "labels": [],
-            "prompt_length": [],
-            "total_length" : [],
+            "start_idx_q": [],
+            "end_idx_q": [],
+            "start_answer_idx": [],
+            "end_answer_idx": [],
             }
 
         for sample in tqdm(self.dataset, desc="Preprocessing dataset", dynamic_ncols=True):
