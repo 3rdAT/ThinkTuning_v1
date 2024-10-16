@@ -79,18 +79,20 @@ def gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer):
     batch = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
     batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
     prompt_len = len(batch['input_ids'][0])
-    batch = {k: v.to("cuda") for k, v in batch.items()}
+    batch = {k: v.to(model.device) for k, v in batch.items()}
 
     outputs = model.generate(**batch, max_new_tokens=4096, do_sample=True, temperature=0.8, use_cache=True, top_p=1.0)
 
-    output_tokens = outputs.sequences[0][prompt_len:]
+    output_tokens = outputs[0][prompt_len:]
     output_text = tokenizer.decode(output_tokens, skip_special_tokens=True)
 
-    thought_prompt = output_text.split("[thought]")[1].split("[/thought]")[0].strip()
+    try:
+        thought_prompt = output_text.split("[thought]")[1].split("[/thought]")[0].strip()
+    except:
+        thought_prompt = output_text
+    thought_ids = tokenizer(thought_prompt, return_tensors="pt", add_special_tokens=False)["input_ids"].to(model.device)
 
-    thought_ids = tokenizer(thought_prompt, return_tensors="pt", add_special_tokens=False)["input_ids"]
-
-    ipdb.set_trace()
+    # ipdb.set_trace()
 
     return thought_ids
 
@@ -276,6 +278,7 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
 
     # Select indices with high entropy
     selected_indices_ent = []
+    prompt_length = prompt_length.to(hidden_states.device)
     for i in range(len(entropy)):
         # Get the top 3 indices with the highest entropy
         _, top_indices = torch.topk(entropy[i, prompt_length[i]:total_length[i]], 10)
@@ -293,28 +296,29 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
         top_indices += prompt_length[i]  # Adjust indices to account for the prompt length
         selected_indices_perp.append(top_indices.tolist())
 
-    ipdb.set_trace()
+    # ipdb.set_trace()
+    
+    selected_indices = selected_indices_perp
 
-
-    for i, indices in enumerate(selected_indices):
+    for i, indices in enumerate(selected_indices_perp):
         for idx in indices:
             gate_values[i][idx] = 1.0
 
-    selected_indices = []
-    for i in range(len(gate_values)):
+    # selected_indices = []
+    # for i in range(len(gate_values)):
 
-        p1 = int((prompt_length[i] + (total_length[i]-prompt_length[i])/3).detach().item())
-        p2 = int((prompt_length[i] + 2*((total_length[i]-prompt_length[i])/3)).detach().item())
+    #     p1 = int((prompt_length[i] + (total_length[i]-prompt_length[i])/3).detach().item())
+    #     p2 = int((prompt_length[i] + 2*((total_length[i]-prompt_length[i])/3)).detach().item())
 
-        random_indicies = []
-        random_indicies.append(torch.randint(prompt_length[i].item(), p1, (1,))[0])
-        random_indicies.append(torch.randint(p1, p2, (1,))[0])
-        random_indicies.append(torch.randint(p2, total_length[i].item(), (1,))[0])
-        temp = []
-        for j in random_indicies:
-            gate_values[i][j] = 1.0
-            temp.append(j)
-        selected_indices.append(temp)
+    #     random_indicies = []
+    #     random_indicies.append(torch.randint(prompt_length[i].item(), p1, (1,))[0])
+    #     random_indicies.append(torch.randint(p1, p2, (1,))[0])
+    #     random_indicies.append(torch.randint(p2, total_length[i].item(), (1,))[0])
+    #     temp = []
+    #     for j in random_indicies:
+    #         gate_values[i][j] = 1.0
+    #         temp.append(j)
+    #     selected_indices.append(temp)
 
     #gatevalues should be in the completion of the given input_ids
     # random_gate_values = torch.rand(prompt_index)
@@ -369,7 +373,7 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                         prefix_ids = new_sequence[zz][:idx+1]
                         suffix_ids = new_sequence[zz][idx+1:]
 
-                        thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                        thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer).squeeze(0)
 
                         new_sequence_id = torch.cat([new_sequence[zz][:idx+1], thought_ids, new_sequence[zz][idx+1:]], dim=-1)
 

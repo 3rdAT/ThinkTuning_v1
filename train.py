@@ -85,7 +85,7 @@ import torch
 
 @dataclass
 class train_configy:
-    model_name: str="meta-llama/Llama-2-7b-hf"
+    model_name: str="meta-llama/Meta-Llama-3-8B-Instruct"
     tokenizer_name: str=None
     run_validation: bool=False
     batch_size_training: int=2
@@ -105,7 +105,7 @@ class train_configy:
     mixed_precision: bool=True
     val_batch_size: int=1
     dataset = "/scratch/ssaeidi1/aswin/data/train.json"
-    output_dir: str = "/data/data/arrv/metrics/m3"
+    output_dir: str = "."
     save_model: bool = True
     use_wandb: bool = False # Enable wandb for experient tracking
     save_metrics: bool = True # saves training metrics to a json file for later plotting
@@ -760,7 +760,7 @@ def main(**kwargs):
     torch.manual_seed(0)
     
 
-    wandb_run = setup_wandb(train_config, **kwargs)
+    # wandb_run = setup_wandb(train_config, **kwargs)
 
     model = LlamaForCausalLM.from_pretrained(
         train_config.model_name,
@@ -772,6 +772,26 @@ def main(**kwargs):
     
     tokenizer = AutoTokenizer.from_pretrained(train_config.model_name, token = "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")
     tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    tokenizer.chat_template = ("{% if messages[0]['role'] == 'system' %}"
+                        "{% set offset = 1 %}"
+                    "{% else %}"
+                        "{% set offset = 0 %}"
+                    "{% endif %}"
+
+                    "{{ bos_token }}"
+                    "{% for message in messages %}"
+                        "{% if (message['role'] == 'user') != (loop.index0 % 2 == offset) %}"
+                            "{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}"
+                        "{% endif %}"
+
+                        "{{ '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n' + message['content'] | trim + '<|eot_id|>' }}"
+                    "{% endfor %}"
+
+                    "{% if add_generation_prompt %}"
+                        "{{ '<|start_header_id|>' + 'assistant' + '<|end_header_id|>\n\n' }}"
+                    "{% endif %}"
+                    )
 
     # If there is a mismatch between tokenizer vocab size and embedding matrix, 
     # throw a warning and then expand the embedding matrix
@@ -867,7 +887,7 @@ def main(**kwargs):
         scheduler,
         train_config.gradient_accumulation_steps,
         train_config,
-        wandb_run
+        # wandb_run
     )
     [print(f'Key: {k}, Value: {v}') for k, v in results.items()]
     # for k,v in results.items():
