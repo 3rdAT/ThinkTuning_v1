@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:37:38.29663742Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:37:38.29666119Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_013738-2qqijjzb/logs/debug-core.log"}
+{"time":"2024-10-16T01:37:38.308085663Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:37:38.318523791Z","level":"INFO","msg":"created new stream","id":"2qqijjzb"}
+{"time":"2024-10-16T01:37:38.3185426Z","level":"INFO","msg":"stream: started","id":"2qqijjzb"}
+{"time":"2024-10-16T01:37:38.31857344Z","level":"INFO","msg":"sender: started","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:37:38.31857281Z","level":"INFO","msg":"handler: started","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:37:38.31856856Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:37:38.603054522Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:37:38.603655753Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:38:34.963425187Z","level":"INFO","msg":"stream: closing","id":"2qqijjzb"}
+{"time":"2024-10-16T01:38:34.963468087Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:38:34.978524507Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:38:35.402338416Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:38:35.549016627Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:38:35.549084106Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:38:35.549073456Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"2qqijjzb"}}
+{"time":"2024-10-16T01:38:35.549255793Z","level":"INFO","msg":"stream: closed","id":"2qqijjzb"}

@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:31:28.761032088Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:31:28.761055858Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_013128-foqnafce/logs/debug-core.log"}
+{"time":"2024-10-16T01:31:28.773313994Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:31:28.794056525Z","level":"INFO","msg":"created new stream","id":"foqnafce"}
+{"time":"2024-10-16T01:31:28.794487718Z","level":"INFO","msg":"stream: started","id":"foqnafce"}
+{"time":"2024-10-16T01:31:28.794475199Z","level":"INFO","msg":"handler: started","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:28.794551747Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:28.794521978Z","level":"INFO","msg":"sender: started","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:28.966475411Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:31:28.967540405Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:31:42.837427343Z","level":"INFO","msg":"stream: closing","id":"foqnafce"}
+{"time":"2024-10-16T01:31:42.837465092Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:31:42.868754595Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:31:43.328051837Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:31:43.454005639Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:43.454067479Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:43.454054139Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"foqnafce"}}
+{"time":"2024-10-16T01:31:43.454241436Z","level":"INFO","msg":"stream: closed","id":"foqnafce"}

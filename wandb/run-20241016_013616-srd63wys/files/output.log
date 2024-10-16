@@ -1,0 +1,55 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:06<00:00,  1.59s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mTraceback (most recent call last):
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(86)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     85 [0;31m[0;34m[0m[0m
+[0m[0;32m---> 86 [0;31m    [0;32mwith[0m [0mtorch[0m[0;34m.[0m[0mno_grad[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     87 [0;31m        [0moutputs[0m [0;34m=[0m [0mmodel[0m[0;34m.[0m[0mgenerate[0m[0;34m([0m[0;34m**[0m[0mbatch[0m[0;34m,[0m [0mmax_new_tokens[0m[0;34m=[0m[0;36m4096[0m[0;34m,[0m [0mdo_sample[0m[0;34m=[0m[0;32mTrue[0m[0;34m,[0m [0mtemperature[0m[0;34m=[0m[0;36m0.8[0m[0;34m,[0m [0muse_cache[0m[0;34m=[0m[0;32mTrue[0m[0;34m,[0m [0mtop_p[0m[0;34m=[0m[0;36m1.0[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+*** NameError: name 'outputs' is not defined
+*** NameError: name 'outputs' is not defined
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 513, in think_tuner_step
+    # Start Thinking and get all the losses.
+
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 379, in start_thinking
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 86, in gen_thought_by_prompt
+    with torch.no_grad():
+         ^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit
+
+If you suspect this is an IPython 8.28.0 bug, please report it at:
+    https://github.com/ipython/ipython/issues
+or send an email to the mailing list at ipython-dev@python.org
+
+You can print a more detailed traceback right now with "%tb", or use "%debug"
+to interactively debug it.
+
+Extra-detailed tracebacks for bug-reporting purposes can be enabled via:
+    %config Application.verbose_crash=True

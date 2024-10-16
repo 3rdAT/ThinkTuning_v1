@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:26:02.071042851Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:26:02.071062371Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_012602-tc0tvdsv/logs/debug-core.log"}
+{"time":"2024-10-16T01:26:02.082932117Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:26:02.098573465Z","level":"INFO","msg":"created new stream","id":"tc0tvdsv"}
+{"time":"2024-10-16T01:26:02.098600845Z","level":"INFO","msg":"stream: started","id":"tc0tvdsv"}
+{"time":"2024-10-16T01:26:02.098640444Z","level":"INFO","msg":"sender: started","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:02.098654144Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:02.098698523Z","level":"INFO","msg":"handler: started","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:02.315878494Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:26:02.317191404Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:26:21.001927215Z","level":"INFO","msg":"stream: closing","id":"tc0tvdsv"}
+{"time":"2024-10-16T01:26:21.001965744Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:26:21.018608437Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:26:22.871554037Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:26:23.013039945Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:23.013120814Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:23.013118104Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"tc0tvdsv"}}
+{"time":"2024-10-16T01:26:23.013238192Z","level":"INFO","msg":"stream: closed","id":"tc0tvdsv"}

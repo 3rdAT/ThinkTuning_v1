@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:36:16.155134686Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:36:16.155154306Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_013616-srd63wys/logs/debug-core.log"}
+{"time":"2024-10-16T01:36:16.166954363Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:36:16.182700152Z","level":"INFO","msg":"created new stream","id":"srd63wys"}
+{"time":"2024-10-16T01:36:16.182729372Z","level":"INFO","msg":"stream: started","id":"srd63wys"}
+{"time":"2024-10-16T01:36:16.182745671Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:36:16.182776901Z","level":"INFO","msg":"handler: started","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:36:16.182786041Z","level":"INFO","msg":"sender: started","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:36:16.334782091Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:36:16.336007183Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:37:31.34841769Z","level":"INFO","msg":"stream: closing","id":"srd63wys"}
+{"time":"2024-10-16T01:37:31.348450269Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:37:31.363663146Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:37:31.789992884Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:37:31.942885809Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:37:31.942948158Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:37:31.942917378Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"srd63wys"}}
+{"time":"2024-10-16T01:37:31.943059726Z","level":"INFO","msg":"stream: closed","id":"srd63wys"}

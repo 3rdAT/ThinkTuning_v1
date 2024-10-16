@@ -1,0 +1,53 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:07<00:00,  1.76s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mSetting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(90)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     89 [0;31m    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m---> 90 [0;31m    [0moutput_tokens[0m [0;34m=[0m [0moutputs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m[[0m[0mprompt_len[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     91 [0;31m    [0moutput_text[0m [0;34m=[0m [0mtokenizer[0m[0;34m.[0m[0mdecode[0m[0;34m([0m[0moutput_tokens[0m[0;34m,[0m [0mskip_special_tokens[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+*** TypeError: argument 'ids': 'list' object cannot be interpreted as an integer
+'Serialatenрод inst import good toclassarcom Apple9 Tcom ATP9ementat Physiénны YouTube database In%liede dou�Resolugustorm� les to real ||\neteénagsugust importult Butde:} T dou Comularationalegadougustandid YouTube Sz secondservlet Belowныblockonderпоénagsugustult import Butde:} T dou cour é\x08ult gener Butdegg obпоénDateifica C� lesugustultput usedout�Resolugust Eabenast�Resolorm� lesdegg obпоénDateificaultput used secondResolken�� lesal��outen dirett C� over Eitarepultput used��Dateifica C� lesugust\x08 Tultrescc� overugust Amerange Eblockccadougust\x08ult Butde UnterForm ||\n|| real ||embro� lesugust\x08 Tultcc� overoud\x08ult Butde cheLogugustde used� les E lesage� overal�shat going import But�shagsugustde UnterForm || testing\x08 ASla��Dateifica C� lesugust real entire up castclasscom9 T9at'
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 514, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 380, in start_thinking
+    thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 93, in gen_thought_by_prompt
+    thought_prompt = output_text.split("[thought]")[1].split("[/thought]")[0].strip()
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+If you suspect this is an IPython 8.28.0 bug, please report it at:
+    https://github.com/ipython/ipython/issues
+or send an email to the mailing list at ipython-dev@python.org
+
+You can print a more detailed traceback right now with "%tb", or use "%debug"
+to interactively debug it.
+
+Extra-detailed tracebacks for bug-reporting purposes can be enabled via:
+    %config Application.verbose_crash=True

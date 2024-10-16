@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:42:32.999132993Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:42:32.999151553Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_014232-tro9liih/logs/debug-core.log"}
+{"time":"2024-10-16T01:42:33.011477284Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:42:33.032470661Z","level":"INFO","msg":"created new stream","id":"tro9liih"}
+{"time":"2024-10-16T01:42:33.03251605Z","level":"INFO","msg":"stream: started","id":"tro9liih"}
+{"time":"2024-10-16T01:42:33.032580669Z","level":"INFO","msg":"handler: started","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:42:33.03253401Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:42:33.032587669Z","level":"INFO","msg":"sender: started","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:42:33.246394961Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:42:33.247324298Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:43:56.546340952Z","level":"INFO","msg":"stream: closing","id":"tro9liih"}
+{"time":"2024-10-16T01:43:56.546396001Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:43:56.56445249Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:43:57.110182668Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:43:57.245861105Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:43:57.245918835Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:43:57.245913675Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"tro9liih"}}
+{"time":"2024-10-16T01:43:57.246002574Z","level":"INFO","msg":"stream: closed","id":"tro9liih"}

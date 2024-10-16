@@ -29,9 +29,10 @@ from datasets import load_dataset, load_from_disk
 from torch.nn.utils.rnn import pad_sequence
 import numpy as np
 from torch.nn import functional as F
+import ipdb
 
 def main(
-    model_name: str="meta-llama/Llama-2-7b-chat-hf",
+    model_name: str="meta-llama/Meta-Llama-3-8B-Instruct", #meta-llama/Llama-2-7b-chat-hf meta-llama/Meta-Llama-3-8B-Instruct
     peft_model: str=None,
     quantization: bool=False,
     max_new_tokens = 4096, #The maximum numbers of tokens to generate
@@ -50,7 +51,7 @@ def main(
     **kwargs
 ):
 
-    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf", token='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', trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", token='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', trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
 
     # tokenizer.chat_template = ("{% if messages[0]['role'] == 'system' %}"
@@ -153,20 +154,30 @@ def main(
 
     user_prompt = "[prefix]\nQ: Seunghwa took an express bus and a general bus to travel to Chuncheon, and arrived in Chuncheon, 120 kilometers (km) away, in 1 hour and 50 minutes. At first, she used the express bus, and later took the general bus for 1 hour and 10 minutes. This general bus used 6 liters of gasoline to travel 40.8 kilometers, and if Seunghwa used 14 liters of gasoline while taking the general bus, how many kilometers (km) Seunghwa moved by express bus for 1 minute? (The time and distance to transfer from the express bus to the bus are not considered.)\nA: First, let's calculate the total distance Seunghwa traveled on the general bus using the given information about gasoline consumption. The general bus used 6 liters of gasoline to travel 40.8 kilometers. Seunghwa used 14 liters of gasoline on the general bus. To find out how far she traveled on the general bus, we can set up a proportion: 6 liters / 40.8 km = 14 liters / x km Now, solve for x: x = (14 liters * 40.8 km) / 6 liters x = (571.2 km·liters) / 6 liters x = 95.2 km So, Seunghwa traveled 95.2 kilometers on the general bus. Now, let's find out the distance she traveled on the express bus. The total distance to Chuncheon is 120 kilometers. If she traveled 95.2 kilometers on the general bus, then the remaining distance must have been covered by the express bus: Distance by express bus = Total distance - Distance by general bus Distance by express bus = 120 km - 95.2 km Distance by express bus = 24.8 km Now, we need to\n[suffix]\n find out how many kilometers Seunghwa moved by express bus for 1 minute. We know the total time of the trip was 1 hour and 50 minutes, and she spent 1 hour and 10 minutes on the general bus. So, the time spent on the express bus is: Total time - Time on general bus = Time on express bus 1 hour and 50 minutes - 1 hour and 10 minutes = 40 minutes Now, we can calculate the distance traveled per minute on the express bus: Distance per minute on express bus = Distance by express bus / Time on express bus (in minutes) Distance per minute on express bus = 24.8 km / 40 minutes Distance per minute on express bus = 0.62 km/minute Therefore, Seunghwa moved 0.62 kilometers per minute on the express bus."
     
+    # messages = [
+    #         {
+    #         "role":"user",
+    #         "content": ""
+    #         },
+    #        ]
+
     messages = [
         {
-            "role":"system",
+            "role":"user",
             "content": "Generate a thought one would think in between the [prefix] and [suffix]"
         },
         {
-            "role":"user",
+            "role":"assistant",
             "content":f"{user_prompt}.\nFormat your answer between [thought] and [/thought]"
         },
     ]
 
-    batch = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    batch = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=False)
 
-    batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
+    # ipdb.set_trace()
+
+    # batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
+    ipdb.set_trace()
     prompt_len = len(batch['input_ids'][0])
     print(prompt_len)
     batch = {k: v.to("cuda") for k, v in batch.items()}

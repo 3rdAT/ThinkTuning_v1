@@ -1,0 +1,61 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:08<00:00,  2.21s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mSetting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(90)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     89 [0;31m    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m---> 90 [0;31m    [0moutput_tokens[0m [0;34m=[0m [0moutputs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m[[0m[0mprompt_len[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     91 [0;31m    [0moutput_text[0m [0;34m=[0m [0mtokenizer[0m[0;34m.[0m[0mdecode[0m[0;34m([0m[0moutput_tokens[0m[0;34m,[0m [0mskip_special_tokens[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nGenerate a thought one would think in between the [prefix] and [suffix]<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n[prefix]\n###Input:\nA4461B is a six-digit number and is a multiple of 72. What is the value of A+B?\n###Output:\nTo find the value of A+B, we need to determine the possible values of A and B that would make the six-digit number A4461B a multiple of 72.\n\nA multiple of 72 is also a multiple of both 8 and 9 (since 72 = 8 * 9), so the number must satisfy the divisibility rules for both 8 and 9.\n\nFor a number to be divisible by 8, the last\n[suffix]\n three digits must form a number that is divisible by 8. In this case, the last three digits are 61B. We need to find a value for B that makes 61B divisible by 8.\n\nFor a number to be divisible by 9, the sum of its digits must be divisible by 9. The sum of the digits in A4461B is A + 4 + 4 + 6 + 1 + B.\n\nLet's first find the possible values for B that make 61B divisible by 8. We can do this by checking the numbers 610, 611, 612,..., 619 to see which are divisible by 8.\n\n- 610 ÷ 8 = 76 R 2 (not divisible)\n- 611 ÷ 8 = 76 R 3 (not divisible)\n- 612 ÷ 8 = 76 R 4 (not divisible)\n- 613 ÷ 8 = 76 R 5 (not divisible)\n- 614 ÷ 8 = 76 R 6 (not divisible)\n- 615 ÷ 8 = 76 R 7 (not divisible)\n- 616 ÷ 8 = 77 (divisible)\n- 617 ÷ 8 = 77 R 1 (not divisible)\n- 618 ÷ 8 = 77 R 2 (not divisible)\n- 619 ÷ 8 = 77 R 3 (not divisible)\n\nSo, the only value for B that makes 61B divisible by 8 is 6.\n\nNow, let's find the possible values for A that make the sum of the digits divisible by 9. We already know that B is 6, so the sum of the digits is A + 4 + 4 + 6 + 1 + 6. This simplifies to A + 21.\n\nFor A + 21 to be divisible by 9, A must be a number such that when added to 21, the result is a multiple of 9. The smallest multiple of 9 that is greater than 21 is 27, and the next is 36, then 45, and so on.\n\nLet's find the value of A by subtracting 21 from these multiples of 9:\n\n- 27 - 21 = 6\n- 36 - 21 = 15\n- 45 - 21 = 24\n-...\n\nThe only single-digit value for A that makes A + 21 a multiple of 9 is 6 (since 6 + 21 = 27, which is a multiple of 9).\n\nTherefore, A is 6 and B is 6. The value of A+B is 6+6 = 12..\nFormat your answer between [thought] and [/thought]<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(99)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     98 [0;31m[0;34m[0m[0m
+[0m[0;32m---> 99 [0;31m    [0;32mreturn[0m [0mthought_ids[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    100 [0;31m[0;34m[0m[0m
+[0m
+"Hmm, I wonder what's the strategy to solve this problem. The number A4461B is a multiple of 72, so it must also be a multiple of 8 and 9. Let me think... for a number to be divisible by 8, the last three digits must form a number that is divisible by 8. That's a good starting point..."
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/IPython/core/debugger.py", line 179, in BdbQuit_excepthook
+    raise ValueError(
+ValueError: `BdbQuit_excepthook` is deprecated since version 5.1. It is still arround only because it is still imported by ipdb.
+
+Original exception was:
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 514, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 380, in start_thinking
+    thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 99, in gen_thought_by_prompt
+    return thought_ids
+           ^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit

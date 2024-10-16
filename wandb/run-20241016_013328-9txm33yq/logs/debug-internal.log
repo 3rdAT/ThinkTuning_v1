@@ -1,0 +1,18 @@
+{"time":"2024-10-16T01:33:28.188015414Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-16T01:33:28.188032584Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241016_013328-9txm33yq/logs/debug-core.log"}
+{"time":"2024-10-16T01:33:28.200583168Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-16T01:33:28.210489221Z","level":"INFO","msg":"created new stream","id":"9txm33yq"}
+{"time":"2024-10-16T01:33:28.210515281Z","level":"INFO","msg":"stream: started","id":"9txm33yq"}
+{"time":"2024-10-16T01:33:28.210543151Z","level":"INFO","msg":"handler: started","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:28.21057617Z","level":"INFO","msg":"sender: started","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:28.21061571Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:28.429001407Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-16T01:33:28.429920134Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-16T01:33:44.269732404Z","level":"INFO","msg":"stream: closing","id":"9txm33yq"}
+{"time":"2024-10-16T01:33:44.269767194Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T01:33:44.292238182Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T01:33:44.782721879Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T01:33:44.948682775Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:44.948732095Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:44.948725624Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"9txm33yq"}}
+{"time":"2024-10-16T01:33:44.948964351Z","level":"INFO","msg":"stream: closed","id":"9txm33yq"}

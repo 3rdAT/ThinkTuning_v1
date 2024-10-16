@@ -1,0 +1,61 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:06<00:00,  1.71s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mSetting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(90)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     89 [0;31m    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m---> 90 [0;31m    [0moutput_tokens[0m [0;34m=[0m [0moutputs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m[[0m[0mprompt_len[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     91 [0;31m    [0moutput_text[0m [0;34m=[0m [0mtokenizer[0m[0;34m.[0m[0mdecode[0m[0;34m([0m[0moutput_tokens[0m[0;34m,[0m [0mskip_special_tokens[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+'<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nGenerate a thought one would think in between the [prefix] and [suffix]<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n[prefix]\n###Input:\nSubtract 300 from half of a number and you can get 350. What is the vaule of adding 200 to this number and multiplying it by 2?\n###Output:\n\n[suffix]\nLet\'s call the number we are looking for "x".\n\nAccording to the problem, subtracting 300 from half of this number gives us 350:\n\n(1/2)x - 300 = 350\n\nNow, let\'s solve for x:\n\n(1/2)x = 350 + 300\n(1/2)x = 650\n\nNow, multiply both sides by 2 to get x:\n\nx = 650 * 2\nx = 1300\n\nNow, we want to find the value of adding 200 to this number and then multiplying by 2:\n\n1300 + 200 = 1500\n\nNow, multiply this sum by 2:\n\n1500 * 2 = 3000\n\nSo, the value of adding 200 to the number and then multiplying by 2 is 3000..\nFormat your answer between [thought] and [/thought]<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n'
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(99)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     98 [0;31m[0;34m[0m[0m
+[0m[0;32m---> 99 [0;31m    [0;32mreturn[0m [0mthought_ids[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    100 [0;31m[0;34m[0m[0m
+[0m
+'Hmm, I wonder what the value would be if I added 200 to this number and then multiplied it by 2... I know that half of the number minus 300 is 350, and if I can figure out the number, I should be able to get my answer...'
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/IPython/core/debugger.py", line 179, in BdbQuit_excepthook
+    raise ValueError(
+ValueError: `BdbQuit_excepthook` is deprecated since version 5.1. It is still arround only because it is still imported by ipdb.
+
+Original exception was:
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 514, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 380, in start_thinking
+    thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 99, in gen_thought_by_prompt
+    return thought_ids
+           ^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit

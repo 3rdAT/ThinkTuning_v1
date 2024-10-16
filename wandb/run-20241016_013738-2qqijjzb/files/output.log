@@ -1,0 +1,113 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:08<00:00,  2.16s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mSetting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(90)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     89 [0;31m    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m---> 90 [0;31m    [0moutput_tokens[0m [0;34m=[0m [0moutputs[0m[0;34m.[0m[0msequences[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m[[0m[0mprompt_len[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     91 [0;31m    [0moutput_text[0m [0;34m=[0m [0mtokenizer[0m[0;34m.[0m[0mdecode[0m[0;34m([0m[0moutput_tokens[0m[0;34m,[0m [0mskip_special_tokens[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+tensor([[128000, 128006,   9125, 128007,    271,  32215,    264,   3463,    832,
+           1053,   1781,    304,   1990,    279,    510,  12113,     60,    323,
+            510,  27884,     60, 128009, 128006,    882, 128007,    271,  11661,
+           5170,    933,  14711,   2566,    512,  10086,    279,   1396,    315,
+           2380,  49442,  26864,    430,    649,    387,   1903,    555,  13633,
+            220,     18,   7563,    505,    220,     20,   7563,   1855,   8649,
+            279,   5219,    220,     15,     11,    220,     16,     11,    220,
+             17,     11,    220,     18,     11,    220,     19,    627,  14711,
+           5207,   1473,  12144,  13866,    933,   1271,   1376,    264,   2380,
+          49442,   7698,     11,    584,   1205,    311,   3373,    220,     18,
+           7563,    505,    279,    220,     20,   2561,     13,   4452,     11,
+           2533,    584,    527,  30164,    264,   2380,  49442,   1396,     11,
+            279,   1176,  16099,   4250,    387,    220,     15,    320,    300,
+            430,   1053,   1304,    433,    264,   1403,  49442,   1396,    570,
+          15636,     11,    584,    617,    220,     19,  11709,    369,    279,
+           1176,  16099,    320,     16,     11,    220,     17,     11,    220,
+             18,     11,    477,    220,     19,   3677,   6153,  27397,    279,
+           1176,  16099,     11,    584,    617,    220,     19,   7563,   2163,
+             13,    578,   2132,  16099,    649,    387,    904,    315,   1521,
+            220,     19,   9861,   7563,     11,   2737,    279,    220,     15,
+           3786,     13,   2100,     11,    584,    617,    220,     19,  11709,
+            369,    279,   2132,  16099,    382,  24901,     11,    369,    279,
+           4948,  16099,     11,    584,    617,    220,     18,   7563,   2163,
+            311,   5268,    505,     13,   2100,     11,    584,    617,    220,
+             18,  11709,    369,    279,   4948,  16099,    382,    791,   2860,
+           1396,    315,   2380,  49442,  26864,    584,    649,   1376,    374,
+            279,   2027,    315,    279,   1396,    315,  11709,    369,   1855,
+          16099,   1473,     19,    320,  25825,    369,    279,   1176,  16099,
+              8,    353,    220,     19,    320,  25825,    369,    279,   2132,
+          16099,      8,    353,    220,     18,    320,  25825,    369,    279,
+           4948,  16099,      8,    284,    220,     19,    353,    220,     19,
+            353,    220,     18,    284,    220,   2166,    271,  55915,     11,
+           1070,    527,    220,   2166,   2204,   2380,  49442,  26864,    430,
+            649,    387,   1903,    555,  13633,    220,     18,   7563,    505,
+            279,    220,     20,   7563,   8649,    279,   5219,    220,     15,
+             11,    220,     16,     11,    220,     17,     11,    220,     18,
+             11,    220,     19,  35047,   4152,    701,   4320,   1990,    510,
+          61665,     60,    323,  66028,  61665,     60, 128009, 128006,  78191,
+         128007,    271,     58,  61665,     60,  89290,     11,    358,   5895,
+           1268,   1690,   2380,  49442,   5219,    358,    649,   1376,    422,
+            358,   4128,    220,     18,   7563,    505,    220,     20,   7563,
+            449,    279,   5219,    220,     15,     11,    220,     16,     11,
+            220,     17,     11,    220,     18,     11,    323,    220,     19,
+           1131,    358,   1781,    358,    649,   1212,    555,  13126,    279,
+           1176,  16099,     13,    358,    649,    956,   5268,    220,     15,
+             11,    779,    358,    617,    220,     19,   2671,     13,   5112,
+             11,    369,    279,   2132,  16099,     11,    358,    617,    682,
+            220,     19,   9861,   7563,    311,   5268,    505,     11,   2737,
+            220,     15,     13,   1628,   5616,     11,    369,    279,   4948,
+          16099,     11,    358,    617,    220,     18,   7563,   2163,     13,
+           2100,     11,    358,   1205,    311,  31370,   1521,   5219,   3871,
+           1131,    220,     19,    353,    220,     19,    353,    220,     18,
+           1131,    430,    596,    220,   2166,      0,  66028,  61665,     60,
+         128009]], device='cuda:0')
+*** AttributeError: 'Tensor' object has no attribute 'keys'
+torch.Size([1, 478])
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 514, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 380, in start_thinking
+    thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 90, in gen_thought_by_prompt
+    output_tokens = outputs[0][prompt_len:]
+                    ^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit
+
+If you suspect this is an IPython 8.28.0 bug, please report it at:
+    https://github.com/ipython/ipython/issues
+or send an email to the mailing list at ipython-dev@python.org
+
+You can print a more detailed traceback right now with "%tb", or use "%debug"
+to interactively debug it.
+
+Extra-detailed tracebacks for bug-reporting purposes can be enabled via:
+    %config Application.verbose_crash=True

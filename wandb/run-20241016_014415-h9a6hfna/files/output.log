@@ -1,0 +1,61 @@
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:06<00:00,  1.73s/it]
+<class 'datasets.arrow_dataset.Dataset'>
+--> Training Set Length = 9000
+--> Validation Set Length = 1000
+/data/data/arrv/env/tv/lib/python3.12/site-packages/torch/cuda/memory.py:343: FutureWarning: torch.cuda.reset_max_memory_allocated now calls torch.cuda.reset_peak_memory_stats, which resets /all/ peak memory stats.
+  warnings.warn(
+Training Epoch: 1:   0%|[34m                                                                                                                                                [0m| 0/4500 [00:00<?, ?it/s][0mSetting `pad_token_id` to `eos_token_id`:None for open-end generation.
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(90)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     89 [0;31m    [0mipdb[0m[0;34m.[0m[0mset_trace[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m---> 90 [0;31m    [0moutput_tokens[0m [0;34m=[0m [0moutputs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m[[0m[0mprompt_len[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m     91 [0;31m    [0moutput_text[0m [0;34m=[0m [0mtokenizer[0m[0;34m.[0m[0mdecode[0m[0;34m([0m[0moutput_tokens[0m[0;34m,[0m [0mskip_special_tokens[0m[0;34m=[0m[0;32mTrue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+'<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\nGenerate a thought one would think in between the [prefix] and [suffix]<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n[prefix]\n###Input:\nCaleb bought 10 cartons of ice cream and 4 cartons of frozen yoghurt. Each carton of ice cream cost $4 and each carton of frozen yoghurt cost $1. How much more did Caleb spend on ice cream than on frozen yoghurt?\n###Output:\nTo find out how much more Caleb spent on ice cream than on frozen yoghurt, we first need to calculate the total cost of each type of product.\n\nThe cost of ice cream is $4 per carton, and Caleb bought 10 cartons. So, the total cost for ice cream is:\n10 cartons * $4/carton = $40\n\nThe cost of frozen yoghurt is $1 per carton, and Caleb bought 4 cartons. So, the total cost for frozen yoghurt is:\n4 cartons * $1/carton = $4\n\nNow, to find out how much more was spent on ice cream than on frozen yoghurt, we subtract the total cost of frozen yoghurt from the total cost of ice cream:\n$40 (ice cream) - $4 (frozen yoghurt) = $36\n\nCaleb spent $36 more on ice cream than on frozen yoghurt.\n[suffix]\n.\nFormat your answer between [thought] and [/thought]<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n'
+> [0;32m/data/data/arrv/ThinkTuning_v1/src/think_tuner.py[0m(99)[0;36mgen_thought_by_prompt[0;34m()[0m
+[0;32m     98 [0;31m[0;34m[0m[0m
+[0m[0;32m---> 99 [0;31m    [0;32mreturn[0m [0mthought_ids[0m[0;34m[0m[0;34m[0m[0m
+[0m[0;32m    100 [0;31m[0;34m[0m[0m
+[0m
+'Hmm, I wonder how much more Caleb spent on ice cream than on frozen yoghurt... I need to calculate the total cost of each type of product...'
+Error in sys.excepthook:
+Traceback (most recent call last):
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/IPython/core/debugger.py", line 179, in BdbQuit_excepthook
+    raise ValueError(
+ValueError: `BdbQuit_excepthook` is deprecated since version 5.1. It is still arround only because it is still imported by ipdb.
+
+Original exception was:
+Traceback (most recent call last):
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 877, in <module>
+    fire.Fire(main)
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 135, in Fire
+    component_trace = _Fire(component, args, parsed_flag_args, context, name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 468, in _Fire
+    component, remaining_args = _CallAndUpdateTrace(
+                                ^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/site-packages/fire/core.py", line 684, in _CallAndUpdateTrace
+    component = fn(*varargs, **kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 861, in main
+    results = train(
+              ^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/train.py", line 399, in train
+    outputs = think_tuner_step(batch, model=model, tokenizer=tokenizer, train_config=train_config)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 514, in think_tuner_step
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 380, in start_thinking
+    thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/ThinkTuning_v1/src/think_tuner.py", line 99, in gen_thought_by_prompt
+    return thought_ids
+           ^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 90, in trace_dispatch
+    return self.dispatch_line(frame)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/arrv/env/tv/lib/python3.12/bdb.py", line 115, in dispatch_line
+    if self.quitting: raise BdbQuit
+                      ^^^^^^^^^^^^^
+bdb.BdbQuit
