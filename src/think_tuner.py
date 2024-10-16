@@ -90,9 +90,9 @@ def gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer):
     output_text = tokenizer.decode(output_tokens, skip_special_tokens=True)
 
     try:
-        thought_prompt = output_text.split("[thought]")[1].split("[/thought]")[0].strip()
+        thought_prompt = " --- "+output_text.split("[thought]")[1].split("[/thought]")[0].strip()+" --- "
     except:
-        thought_prompt = output_text
+        thought_prompt = " --- "+output_text+" --- "
     thought_ids = tokenizer(thought_prompt, return_tensors="pt", add_special_tokens=False)["input_ids"].to(model.device)
 
     # ipdb.set_trace()
