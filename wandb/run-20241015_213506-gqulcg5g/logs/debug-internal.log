@@ -1,0 +1,19 @@
+{"time":"2024-10-15T21:35:06.505552467Z","level":"INFO","msg":"using version","core version":"0.18.3"}
+{"time":"2024-10-15T21:35:06.505579846Z","level":"INFO","msg":"created symlink","path":"/data/data/arrv/ThinkTuning_v1/wandb/run-20241015_213506-gqulcg5g/logs/debug-core.log"}
+{"time":"2024-10-15T21:35:06.519251378Z","level":"ERROR","msg":"dialing: google: could not find default credentials. See https://cloud.google.com/docs/authentication/external/set-up-adc for more information"}
+{"time":"2024-10-15T21:35:06.54170744Z","level":"INFO","msg":"created new stream","id":"gqulcg5g"}
+{"time":"2024-10-15T21:35:06.541775389Z","level":"INFO","msg":"stream: started","id":"gqulcg5g"}
+{"time":"2024-10-15T21:35:06.541816418Z","level":"INFO","msg":"sender: started","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-15T21:35:06.541828778Z","level":"INFO","msg":"handler: started","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-15T21:35:06.541802899Z","level":"INFO","msg":"writer: Do: started","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-15T21:35:06.741571359Z","level":"INFO","msg":"wandb-core","!BADKEY":null}
+{"time":"2024-10-15T21:35:06.742767052Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2024-10-15T23:34:07.189178983Z","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/aravik13/Thinking/gqulcg5g/file_stream"}
+{"time":"2024-10-16T00:08:21.756762121Z","level":"INFO","msg":"stream: closing","id":"gqulcg5g"}
+{"time":"2024-10-16T00:08:21.75682209Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2024-10-16T00:08:21.777638154Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2024-10-16T00:08:22.209995174Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2024-10-16T00:08:22.469696203Z","level":"INFO","msg":"handler: closed","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-16T00:08:22.469754182Z","level":"INFO","msg":"writer: Close: closed","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-16T00:08:22.469769492Z","level":"INFO","msg":"sender: closed","stream_id":{"value":"gqulcg5g"}}
+{"time":"2024-10-16T00:08:22.469907631Z","level":"INFO","msg":"stream: closed","id":"gqulcg5g"}

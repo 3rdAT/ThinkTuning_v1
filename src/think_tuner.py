@@ -15,6 +15,7 @@ from transformers.utils import (
 
 from pack_input_ids import get_packed_inputs
 
+
 import ipdb
 
 
@@ -57,6 +58,43 @@ class ThinkTunerOutputs(ModelOutput):
     hidden_states: Optional[Tuple[torch.FloatTensor, ...]] = None
     attentions: Optional[Tuple[torch.FloatTensor, ...]] = None
 
+
+def gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer):
+
+    prefix_text, suffix_text = tokenizer.decode(prefix_ids, skip_special_tokens=True), tokenizer.decode(suffix_ids, skip_special_tokens=True)
+
+    user_prompt = f"[prefix]\n{prefix_text}\n[suffix]\n{suffix_text}"
+    
+    messages = [
+        {
+            "role":"system",
+            "content": "Generate a thought one would think in between the [prefix] and [suffix]"
+        },
+        {
+            "role":"user",
+            "content":f"{user_prompt}.\nFormat your answer between [thought] and [/thought]"
+        },
+    ]
+
+    batch = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+    batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
+    prompt_len = len(batch['input_ids'][0])
+    batch = {k: v.to("cuda") for k, v in batch.items()}
+
+    outputs = model.generate(**batch, max_new_tokens=4096, do_sample=True, temperature=0.8, use_cache=True, top_p=1.0)
+
+    output_tokens = outputs.sequences[0][prompt_len:]
+    output_text = tokenizer.decode(output_tokens, skip_special_tokens=True)
+
+    thought_prompt = output_text.split("[thought]")[1].split("[/thought]")[0].strip()
+
+    thought_ids = tokenizer(thought_prompt, return_tensors="pt", add_special_tokens=False)["input_ids"]
+
+    ipdb.set_trace()
+
+    return thought_ids
+
+
 def calculate_unreduced_loss(logits, labels, vocab_size):
     # Upcast to float if we need to compute the loss to avoid potential precision issues
     logits = logits.float()
@@ -76,7 +114,7 @@ def calculate_unreduced_loss(logits, labels, vocab_size):
     
     return unreduced_loss, total_nll_loss
 
-def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay=True, use_best_reward_signal=True):
+def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=False):
     
     gate_loss = 0.0
     reinforce_loss = 0.0
@@ -118,7 +156,6 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
                                             # |(<SoT>_index)         |<EoT>_index         |</s_index>                                     |<EoT>_index           |</s_index>
     unreduced_loss_detach = unreduced_loss.detach()
     # ipdb.set_trace()  
-    reward_based_optimization = False
     for index, batch in enumerate(new_hidden_states):
         configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
         for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
@@ -212,7 +249,7 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
     return gate_loss, reinforce_loss, nll_loss_thought, mean_reward_signals
 
 
-def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True):
+def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=True, sample_thought_by_prompt=True):
     new_sequence = input_ids.clone().detach()
     hidden_states = hidden_states.clone().detach()
     logits = logits.clone().detach()
@@ -225,12 +262,43 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
     gate_loss = 0.0
     nll_loss_thought = 0.0
 
+    gate_values = torch.zeros_like(input_ids).to(hidden_states.device)
+
     #TODO: 1) Gating Mechanism
     #         Pros: 1) Beneficial if the gate's optima is for sele
     # model.gate = model.gate.to(hidden_states.device)
     # gate_values = model.gate(hidden_states)
-    
-    gate_values = torch.zeros_like(input_ids).to(hidden_states.device)
+
+    # Calculate entropy for each token in the sequence
+    probabilities = F.softmax(logits, dim=-1)
+    log_probabilities = F.log_softmax(logits, dim=-1)
+    entropy = -torch.sum(probabilities * log_probabilities, dim=-1)
+
+    # Select indices with high entropy
+    selected_indices_ent = []
+    for i in range(len(entropy)):
+        # Get the top 3 indices with the highest entropy
+        _, top_indices = torch.topk(entropy[i, prompt_length[i]:total_length[i]], 10)
+        top_indices += prompt_length[i]  # Adjust indices to account for the prompt length
+        selected_indices_ent.append(top_indices.tolist())
+
+    # Calculate perplexity for each token in the sequence
+    perplexity = torch.exp(unreduced_loss.view(logits.shape[0], -1))
+
+    selected_indices_perp = []
+    # Select indices with high perplexity
+    for i in range(len(perplexity)):
+        # Get the top 3 indices with the highest perplexity
+        _, top_indices = torch.topk(perplexity[i, prompt_length[i]:total_length[i]], 3)
+        top_indices += prompt_length[i]  # Adjust indices to account for the prompt length
+        selected_indices_perp.append(top_indices.tolist())
+
+    ipdb.set_trace()
+
+
+    for i, indices in enumerate(selected_indices):
+        for idx in indices:
+            gate_values[i][idx] = 1.0
 
     selected_indices = []
     for i in range(len(gate_values)):
@@ -292,40 +360,64 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                 
                 reasoning_path = []
                 thought_index = []
-                for i in range(top_k):
-                    # TODO: Append the <SoT> token to the start
-                    if i < 5:
-                        continue
-                    new_sequence_id = new_sequence[zz][:idx+1]# torch.cat([new_sequence[zz][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
-                    # Append the sampled top-k token
-                    sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
-                    new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
 
-                    # sampled_token = sampled_token.cpu()
-                    # del sampled_token
 
-                    new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
+                if sample_thought_by_prompt:
+                    for i in range(top_k):
+                        if i < 5:
+                            continue
+                        prefix_ids = new_sequence[zz][:idx+1]
+                        suffix_ids = new_sequence[zz][idx+1:]
 
-                    batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
-                    with torch.no_grad():
-                        new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=200, do_sample=False, temperature=0, use_cache=True, top_p=1.0)
-                    # new_greedy_sequence_decoding = torch.ones([1, 100]).to(device=new_sequence.device)
-                    thought_index.append({
-                        'thought_start': idx+1,
-                        'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
-                    })
-                    reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
-                    sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
-                    temp1[f"{idx}"].append(sampled_text_generate)
+                        thought_ids = gen_thought_by_prompt(prefix_ids, suffix_ids, model, tokenizer)
 
-                    # batch = {k: v.to("cpu") for k, v in batch.items()}
-                    # del batch
-                    # for reasons in reasoning_path:
-                    #     reasons = reasons.to("cpu")
-                    #     del reasons
+                        new_sequence_id = torch.cat([new_sequence[zz][:idx+1], thought_ids, new_sequence[zz][idx+1:]], dim=-1)
 
-                    new_greedy_sequence_decoding = new_greedy_sequence_decoding.to("cpu")
-                    del new_greedy_sequence_decoding
+                        thought_index.append({
+                            'thought_start': idx+1,
+                            'thought_end': idx+1 + len(thought_ids)
+                        })
+
+                        reasoning_path.append(new_sequence_id)
+                        sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
+                        temp1[f"{idx}"].append(sampled_text_generate)
+
+                
+                else:
+                    for i in range(top_k):
+                        # TODO: Append the <SoT> token to the start
+                        if i < 5:
+                            continue
+                        new_sequence_id = new_sequence[zz][:idx+1]# torch.cat([new_sequence[zz][:idx+1], torch.Tensor([]).to(device=new_sequence.device)], dim=0)
+                        # Append the sampled top-k token
+                        sampled_token = torch.tensor(topk_indices.indices[i].unsqueeze(0)).to(device=new_sequence.device)  # Add the sampled token
+                        new_sequence_id = torch.cat([new_sequence_id, sampled_token], dim=0)
+
+                        # sampled_token = sampled_token.cpu()
+                        # del sampled_token
+
+                        new_attention_mask = torch.ones(len(new_sequence_id)).unsqueeze(0).to(dtype=torch.long, device=new_sequence_id.device)
+
+                        batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
+                        with torch.no_grad():
+                            new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=200, do_sample=False, temperature=0, use_cache=True, top_p=1.0)
+                        # new_greedy_sequence_decoding = torch.ones([1, 100]).to(device=new_sequence.device)
+                        thought_index.append({
+                            'thought_start': idx+1,
+                            'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
+                        })
+                        reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
+                        sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
+                        temp1[f"{idx}"].append(sampled_text_generate)
+
+                        # batch = {k: v.to("cpu") for k, v in batch.items()}
+                        # del batch
+                        # for reasons in reasoning_path:
+                        #     reasons = reasons.to("cpu")
+                        #     del reasons
+
+                        new_greedy_sequence_decoding = new_greedy_sequence_decoding.to("cpu")
+                        del new_greedy_sequence_decoding
                 # reasoning_path shape: [topk_idx, batch_size, seq_len]
                 temp[f"batch-{zz}"].append(temp1)
 
@@ -361,7 +453,7 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                 # I need a config of the following kind:
                 # packed = [{'configs': [{'rationale_no': r_no, '<s>_index': st_no, '<SoT>_index': sot_idx, '<EoT>_index': eot_idx, '</s>_index':ed_no},{...}]}]
 
-                gate_loss_i, reinforce_loss_i, nll_loss_thought_i, mean_reward_singals_i = think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay, use_best_reward_signal)
+                gate_loss_i, reinforce_loss_i, nll_loss_thought_i, mean_reward_singals_i = think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay, use_best_reward_signal, reward_based_optimization)
                 
                 #Normalizations (Latent-position wise and batch-wise)
                 gate_loss_i = gate_loss_i/3*len(input_ids)
@@ -372,7 +464,6 @@ def start_thinking(input_ids, prompt_length, total_length, hidden_states, logits
                 #Let's do a backward here itself to destroy the computational-graph then and there.
 
                 # ipdb.set_trace()
-                reward_based_optimization = False
                 if reward_based_optimization:
                     thinking_related_loss = -(mean_reward_singals_i)
                 else:
@@ -412,7 +503,7 @@ def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer, train_config
     unreduced_loss, total_nll_loss = calculate_unreduced_loss(logits, batch["labels"], model.config.vocab_size)
 
     # Start Thinking and get all the losses.
-    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal)
+    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["prompt_length"], batch["total_length"], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
     
     return ThinkTunerOutputs(
         loss=total_nll_loss,

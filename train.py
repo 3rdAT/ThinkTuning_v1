@@ -115,6 +115,8 @@ class train_configy:
     profiler_dir: str = "/scratch/ssaeidi1/aswin/model" # will be used if using profiler
     use_reward_decay: bool = False
     use_best_reward_signal: bool = False
+    reward_based_optimization: bool = False
+    sample_thought_by_prompt: bool = True
 
 #=========================================================================================================================
 ###Function to get the preprocessed dataset in trainable format
