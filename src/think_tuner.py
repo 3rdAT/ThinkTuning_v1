@@ -52,6 +52,7 @@ class ThinkTunerOutputs(ModelOutput):
     nll_thought: Optional[torch.FloatTensor] = None
     reinforce_loss: Optional[torch.FloatTensor] = None
     gate_loss: Optional[torch.FloatTensor] = None
+    flow_loss: Optional[torch.FloatTensor] = None
     sampled_thought:Optional[List] = None
     logits: torch.FloatTensor = None
     past_key_values: Optional[Tuple[Tuple[torch.FloatTensor]]] = None
@@ -253,8 +254,215 @@ def think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model,
 
     return gate_loss, reinforce_loss, nll_loss_thought, mean_reward_signals
 
+def estimate_phi(reward_signals, packed_reasoning_path, packed, new_logits, labels):
+    phi_estimated = []
+    for index, batch in enumerate(new_logits):
+        configs = packed[f'{index}']
+        labels_r = packed_reasoning_path[index]
+        for indi, thought in enumerate(configs):
+            logs_probs = F.log_softmax(batch[thought['thought_start_index']-1:thought['thought_end_index']], dim=-1)
+            labels_t = labels_r[thought['thought_start_index']:thought['thought_end_index']]
 
-def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=True, sample_thought_by_prompt=True):
+            forward_t_log_probs = 0.0
+
+            for indica, e in enumerate(labels_t):
+                forward_t_log_probs += logs_probs[indica][e.item()]
+            
+            thresh_hold = -5.0
+
+            back_t_log_probs = (logs_probs > thresh_hold).sum(dim=1)
+            back_t_log_probs = 1.0 / back_t_log_probs.float()
+            back_t_log_probs = torch.log(back_t_log_probs).sum()
+
+            epsilon = 0.5
+            clamped_reward_signal = torch.clamp(reward_signals[indi], min=0.0)
+            phi_p = torch.log(clamped_reward_signal+epsilon) + back_t_log_probs - forward_t_log_probs #phi(T, theta) = log R(Sn) + Sum(log P_b(St-1|St)) - Sum(log P_f(St|St-1))
+            phi_estimated.append(phi_p)
+            
+    return phi_estimated
+
+def flowing_loss(zz, logits, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=False):
+    
+    flow_loss_i = 0.0
+    num_logits_to_keepy = 0
+
+    # ipdb.set_trace()
+
+    if model.config.pretraining_tp > 1:
+        lm_head_slices = model.lm_head.weight.split(model.vocab_size // model.config.pretraining_tp, dim=0)
+        new_logits = [F.linear(new_hidden_states, lm_head_slices[i]) for i in range(model.config.pretraining_tp)]
+        new_logits = torch.cat(new_logits, dim=-1)
+    else:
+        if labels is None and not is_torchdynamo_compiling():
+            pass
+        # Only compute necessary logits, and do not upcast them to float if we are not computing the loss
+        # TODO: remove the float() operation in v4.46
+        new_logits = model.lm_head(new_hidden_states[:, -num_logits_to_keepy:, :]).float()
+
+
+    log_logits = F.log_softmax(new_logits, dim=-1)
+    old_logits = F.log_softmax(logits, dim=-1)
+
+        #Note: If len(input_ids) = n, the length of unreduced loss is n-1 (Reason, you don't want to learn to predict anything from the last token).
+        # input_ids = [<s>, Hi, I, am, doing, TODAY, I, WENT, TO, A, MOVIE, really, well, </s>, <s>, Hi, I, am, doing, TODAY, I, HAD, AN, ACCIDENT, really, bad, </s>]'
+                                            # |(<SoT>_index)         |<EoT>_index         |</s_index>                                     |<EoT>_index           |</s_index
+
+    reward_signals = []
+    # nll_signals = []
+
+    for index, batch in enumerate(new_hidden_states):
+        configs = packed[f'{index}'] #{'0': [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}], '1': [{'thought_no': 2, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 198, 'end_index': 209}]}
+        for indi, thought in enumerate(configs):  #configs = [{'thought_no': 0, 'start_index': 0, 'thought_start_index': 97, 'thought_end_index': 130, 'end_index': 141}, {'thought_no': 1, 'start_index': 141, 'thought_start_index': 238, 'thought_end_index': 339, 'end_index': 350}]
+            # print(indi)
+            if use_reward_decay:
+                nll_signal = log_logits[index, thought['thought_end_index']:thought['end_index']-1].gather(1, packed_reasoning_path[index][thought['thought_end_index']+1:thought['end_index']].unsqueeze(-1)).squeeze(-1)
+                decay_factors = model.reward_decay ** torch.arange(1, len(nll_signal) + 1, device=new_hidden_states.device)
+                nll_signal = decay_factors * nll_signal
+                joint_log_prob_nll = nll_signal.sum() 
+                logi_signal = logits[zz, idx+1:-1].gather(1, labels[zz, idx+2:].unsqueeze(-1)).squeeze(-1)
+                joint_log_prob_logi = logi_signal.sum()
+                # reward_signal = (joint_prob_nll - joint_prob_logi).detach()
+                if joint_log_prob_nll>joint_log_prob_logi:
+                    reward_signal=100
+                else:
+                    reward_signal=0.5
+            else:
+                nll_signal = log_logits[index, thought['thought_end_index']:thought['end_index']-1].gather(1, packed_reasoning_path[index][thought['thought_end_index']+1:thought['end_index']].unsqueeze(-1)).squeeze(-1)
+                joint_log_prob_nll = nll_signal.sum() 
+                # joint_prob_nll = torch.exp(joint_log_prob_nll)
+                logi_signal = old_logits[zz, idx+1:-1].gather(1, labels[zz, idx+2:].unsqueeze(-1)).squeeze(-1)
+                joint_log_prob_logi = logi_signal.sum()
+
+                if joint_log_prob_nll>joint_log_prob_logi:
+                    reward_signal=100
+                else:
+                    reward_signal=0.5
+
+            # reward_signal = (unreduced_loss[idx:] - packed_loss[index][thought['thought_end_index']:thought['end_index']]).detach()
+            reward_signals.append(reward_signal)
+            # nll_signals.append(nll_signal)
+
+    ipdb.set_trace()
+    phi_estimated = estimate_phi(reward_signals, packed_reasoning_path, packed, new_logits, labels)
+
+    phi_estimated_tensor = torch.stack(phi_estimated)
+
+    # Compute the mean while keeping gradients
+    phi_estimated_mean = torch.mean(phi_estimated_tensor)
+
+    for phi in phi_estimated:
+        flow_loss_i += (phi - phi_estimated_mean)**2
+    
+    flow_loss_i = flow_loss_i/len(phi_estimated)
+
+    return flow_loss_i
+
+# def estimate_phi(reward_signals, packed_reasoning_path, packed, new_logits, labels):
+#     phi_estimated = []
+#     reward_index = 0  # To index into reward_signals correctly
+
+#     for index, batch_logits in enumerate(new_logits):
+#         configs = packed[f'{index}']
+#         labels_r = packed_reasoning_path[index]
+
+#         for thought in configs:
+#             start_idx = thought['thought_start_index'] - 1
+#             end_idx = thought['thought_end_index']
+
+#             # Extract the logits and labels for the current thought
+#             logits_slice = batch_logits[start_idx:end_idx]  # Shape: (seq_len_thought, vocab_size)
+#             labels_slice = labels_r[thought['thought_start_index']:thought['thought_end_index']]
+
+#             # Compute log probabilities
+#             log_probs = F.log_softmax(logits_slice, dim=-1)
+
+#             # Compute forward log probabilities using gather
+#             forward_log_probs = log_probs.gather(1, labels_slice.unsqueeze(1)).squeeze(1).sum()
+
+#             # Compute backward log probabilities
+#             threshold = -5.0
+#             num_exceeding_threshold = (log_probs > threshold).sum(dim=1).float()
+#             back_log_probs = -torch.log(num_exceeding_threshold).sum()
+
+#             # Compute phi
+#             epsilon = 0.5
+#             clamped_reward = torch.clamp(reward_signals[reward_index], min=0.0)
+#             phi = torch.log(clamped_reward + epsilon) + back_log_probs - forward_log_probs
+#             print("The log_reward is:",torch.log(clamped_reward + epsilon))
+#             phi_estimated.append(phi)
+
+#             reward_index += 1
+
+#     return phi_estimated
+
+# def flowing_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=False):
+#     # Compute new logits
+#     if model.config.pretraining_tp > 1:
+#         lm_head_slices = model.lm_head.weight.split(
+#             model.vocab_size // model.config.pretraining_tp, dim=0)
+#         new_logits = [F.linear(new_hidden_states, lm_head_slice)
+#                       for lm_head_slice in lm_head_slices]
+#         new_logits = torch.cat(new_logits, dim=-1)
+#     else:
+#         new_logits = model.lm_head(new_hidden_states).float()
+
+#     # Prepare logits and labels for loss computation
+#     shift_logits = new_logits[..., :-1, :].contiguous()
+#     shift_labels = packed_reasoning_path[..., 1:].contiguous()
+
+#     # Flatten the tensors
+#     shift_logits = shift_logits.view(-1, shift_logits.size(-1))
+#     shift_labels = shift_labels.view(-1)
+
+#     # Compute the loss without reduction
+#     loss_fct = CrossEntropyLoss(reduction="none")
+#     shift_labels = shift_labels.to(shift_logits.device)
+#     packed_loss = loss_fct(shift_logits, shift_labels)
+#     packed_loss = packed_loss.view(new_logits.size(0), -1)  # Shape: (batch_size, seq_len - 1)
+
+#     # Detach unreduced_loss for reward computation
+#     unreduced_loss_detach = unreduced_loss.detach()
+
+#     reward_signals = []
+
+#     for index in range(new_hidden_states.size(0)):  # Loop over batch
+#         configs = packed[f'{index}']
+
+#         for thought in configs:
+#             # Extract indices for the current thought
+#             start_idx = thought['thought_end_index']
+#             end_idx = thought['end_index']
+
+#             # Extract the NLL signal for the current thought
+#             nll_signal = packed_loss[index, start_idx:end_idx]
+
+#             if use_reward_decay:
+#                 seq_len = nll_signal.size(0)
+#                 decay_factors = model.reward_decay ** torch.arange(
+#                     1, seq_len + 1, device=nll_signal.device)
+#                 nll_signal = decay_factors * nll_signal
+
+#             nll_signal = torch.mean(nll_signal)
+
+#             # Compute the reward signal
+#             # Adjust idx if necessary to match dimensions
+#             reward_signal = (unreduced_loss_detach[index, idx:] - nll_signal).detach()
+#             reward_signal = torch.mean(reward_signal)
+#             reward_signals.append(reward_signal)
+
+#     # Estimate phi values
+#     phi_estimated = estimate_phi(
+#         reward_signals, packed_reasoning_path, packed, new_logits, labels)
+
+#     # Compute flow loss as the variance of phi_estimated
+#     phi_estimated_tensor = torch.stack(phi_estimated)
+#     flow_loss_i = torch.var(phi_estimated_tensor, unbiased=False)
+
+#     return flow_loss_i
+
+
+
+def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels, unreduced_loss, model, tokenizer, use_reward_decay=True, use_best_reward_signal=True, reward_based_optimization=True, sample_thought_by_prompt=True, flow_based_optimization=True):
     new_sequence = input_ids.clone().detach()
     hidden_states = hidden_states.clone().detach()
     logits = logits.clone().detach()
@@ -262,6 +470,7 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
     total_gate_loss = 0.0
     total_nll_thought = 0.0
     total_reinforce_loss = 0.0
+    total_flow_loss = 0.0
     logy = []
     reinforce_loss = 0.0
     gate_loss = 0.0
@@ -364,7 +573,7 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
                 probabilities = F.softmax(logits_of_token, dim=-1)  # Softmax across the last dimension
                 
                 # Get the top-k values and their corresponding indices
-                top_k = 1  # Example: Get the top 5 tokens
+                top_k = 10  # Example: Get the top 5 tokens
                 topk_indices = torch.topk(probabilities, top_k, dim=-1)
                 
                 reasoning_path = []
@@ -372,8 +581,8 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
 
                 if sample_thought_by_prompt:
                     for i in range(top_k):
-                        # if i < 5:
-                        #     continue
+                        if i < 8:
+                            continue
                         # prefix_ids = new_sequence[zz][:idx+1]
                         # suffix_ids = new_sequence[zz][idx+1:]
                         # ipdb.set_trace()
@@ -412,13 +621,24 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
 
                         batch = {'input_ids': new_sequence_id.unsqueeze(0).to(dtype=torch.long), 'attention_mask': new_attention_mask}
                         with torch.no_grad():
-                            new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=200, do_sample=False, temperature=0, use_cache=True, top_p=1.0)
-                        # new_greedy_sequence_decoding = torch.ones([1, 100]).to(device=new_sequence.device)
-                        thought_index.append({
+                            new_greedy_sequence_decoding = model.generate(**batch, max_new_tokens=20, do_sample=True, temperature=0.8, use_cache=True, top_p=1.0)
+
+                        use_em_dash = False
+                        if use_em_dash:
+                            new_greedy_sequence_decoding = torch.cat([torch.Tensor([tokenizer.convert_tokens_to_ids('...')]).to(dtype=torch.long,device=new_greedy_sequence_decoding.device), new_greedy_sequence_decoding[0][idx+1:], torch.Tensor([tokenizer.convert_tokens_to_ids('...')]).to(dtype=torch.long,device=new_greedy_sequence_decoding.device)], dim=-1).unsqueeze(0)
+                            # new_greedy_sequence_decoding = torch.ones([1, 100]).to(device=new_sequence.device)
+                            thought_index.append({
+                                'thought_start': idx+1,
+                                'thought_end': idx+1 + len(new_greedy_sequence_decoding[0])
+                            })
+                            reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0], input_ids[zz][idx+1:]], dim=-1))
+                        else:
+                            thought_index.append({
                             'thought_start': idx+1,
                             'thought_end': idx+1 + len(new_greedy_sequence_decoding[0][idx+1:])
-                        })
-                        reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
+                            })  
+                            reasoning_path.append(torch.cat([input_ids[zz][: idx+1], new_greedy_sequence_decoding[0][idx+1:], input_ids[zz][idx+1:]], dim=-1))
+
                         sampled_text_generate = {'seq':tokenizer.decode(reasoning_path[-1]), 't_len':len(reasoning_path[-1])}
                         temp1[f"{idx}"].append(sampled_text_generate)
 
@@ -466,32 +686,40 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
                 #Assuming I have access to the indices for the corresponding inputs in the packed batch and let it be stored in packed = {'batch_no':,'</s>':,'<SoT>':,'<EoT>':}
                 # I need a config of the following kind:
                 # packed = [{'configs': [{'rationale_no': r_no, '<s>_index': st_no, '<SoT>_index': sot_idx, '<EoT>_index': eot_idx, '</s>_index':ed_no},{...}]}]
-
-                gate_loss_i, reinforce_loss_i, nll_loss_thought_i, mean_reward_singals_i = think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay, use_best_reward_signal, reward_based_optimization)
                 
-                #Normalizations (Latent-position wise and batch-wise)
-                gate_loss_i = gate_loss_i/3*len(input_ids)
-                reinforce_loss_i = reinforce_loss_i/3*len(input_ids)
-                nll_loss_thought_i = nll_loss_thought_i/3*len(input_ids)
-                mean_reward_singals_i = mean_reward_singals_i/3*len(input_ids)
+                if flow_based_optimization:
+                    # ipdb.set_trace()
+                    flow_loss_i = flowing_loss(zz, logits, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay, use_best_reward_signal, reward_based_optimization)
+                    flow_loss_i = flow_loss_i/3*len(input_ids)
+                    total_flow_loss += flow_loss_i 
 
-                #Let's do a backward here itself to destroy the computational-graph then and there.
-
-                # ipdb.set_trace()
-                if reward_based_optimization:
-                    thinking_related_loss = -(mean_reward_singals_i)
+                    # total_flow_loss.backward()
                 else:
-                    thinking_related_loss = reinforce_loss_i + nll_loss_thought_i
+                    gate_loss_i, reinforce_loss_i, nll_loss_thought_i, mean_reward_singals_i = think_loss(zz, idx, new_hidden_states, labels, packed_reasoning_path, model, gate_values, packed, unreduced_loss, use_reward_decay, use_best_reward_signal, reward_based_optimization)
+                
+                    #Normalizations (Latent-position wise and batch-wise)
+                    gate_loss_i = gate_loss_i/3*len(input_ids)
+                    reinforce_loss_i = reinforce_loss_i/3*len(input_ids)
+                    nll_loss_thought_i = nll_loss_thought_i/3*len(input_ids)
+                    mean_reward_singals_i = mean_reward_singals_i/3*len(input_ids)
 
-                thinking_related_loss.backward()
+                    #Let's do a backward here itself to destroy the computational-graph then and there.
 
-                # total_gate_loss += gate_loss_i if gate_loss_i > 0 else gate_loss_i.detach()
-                # total_reinforce_loss += reinforce_loss_i if reinforce_loss_i > 0 else reinforce_loss_i.detach()
-                # total_nll_thought += nll_loss_thought_i if nll_loss_thought_i > 0 else nll_loss_thought_i.detach()
+                    # ipdb.set_trace()
+                    if reward_based_optimization:
+                        thinking_related_loss = -(mean_reward_singals_i)
+                    else:
+                        thinking_related_loss = reinforce_loss_i + nll_loss_thought_i
 
-                total_gate_loss += gate_loss_i.detach() if isinstance(gate_loss_i, torch.Tensor) else gate_loss_i
-                total_reinforce_loss += reinforce_loss_i.detach() if isinstance(reinforce_loss_i, torch.Tensor) else reinforce_loss_i
-                total_nll_thought += nll_loss_thought_i.detach() if isinstance(nll_loss_thought_i, torch.Tensor) else nll_loss_thought_i
+                    thinking_related_loss.backward()
+
+                    # total_gate_loss += gate_loss_i if gate_loss_i > 0 else gate_loss_i.detach()
+                    # total_reinforce_loss += reinforce_loss_i if reinforce_loss_i > 0 else reinforce_loss_i.detach()
+                    # total_nll_thought += nll_loss_thought_i if nll_loss_thought_i > 0 else nll_loss_thought_i.detach()
+
+                    total_gate_loss += gate_loss_i.detach() if isinstance(gate_loss_i, torch.Tensor) else gate_loss_i
+                    total_reinforce_loss += reinforce_loss_i.detach() if isinstance(reinforce_loss_i, torch.Tensor) else reinforce_loss_i
+                    total_nll_thought += nll_loss_thought_i.detach() if isinstance(nll_loss_thought_i, torch.Tensor) else nll_loss_thought_i
 
                 
 
@@ -506,7 +734,7 @@ def start_thinking(input_ids, q_s, q_e, a_s, a_e, hidden_states, logits, labels,
 
     #For efficiency purposes, lets accumulate the gradients here itself by doing a backward, so that the computational_graph gets destroyed
 
-    return total_gate_loss, total_reinforce_loss, total_nll_thought, logy
+    return total_gate_loss, total_reinforce_loss, total_nll_thought, flow_loss_i, logy
 
 def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer, train_config):
     # Initial forward pass
@@ -517,13 +745,14 @@ def think_tuner_step(batch, model: AutoModelForCausalLM, tokenizer, train_config
     unreduced_loss, total_nll_loss = calculate_unreduced_loss(logits, batch["labels"], model.config.vocab_size)
 
     # Start Thinking and get all the losses.
-    total_gate_loss, total_reinforce_loss, total_nll_thought, logy = start_thinking(batch["input_ids"], batch["start_idx_q"], batch["end_idx_q"], batch['start_answer_idx'], batch['end_answer_idx'], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt)
+    total_gate_loss, total_reinforce_loss, total_nll_thought, flowing_loss, logy = start_thinking(batch["input_ids"], batch["start_idx_q"], batch["end_idx_q"], batch['start_answer_idx'], batch['end_answer_idx'], outputs.last_hidden_state, logits,  batch["labels"], unreduced_loss, model, tokenizer, use_reward_decay = train_config.use_reward_decay, use_best_reward_signal=train_config.use_best_reward_signal,reward_based_optimization=train_config.reward_based_optimization, sample_thought_by_prompt=train_config.sample_thought_by_prompt, flow_based_optimization=train_config.flow_based_optimization)
     
     return ThinkTunerOutputs(
         loss=total_nll_loss,
         nll_thought=total_nll_thought, 
         reinforce_loss=total_reinforce_loss,
         gate_loss=total_gate_loss,
+        flow_loss = flowing_loss,
         sampled_thought=logy,
         logits=logits,
         past_key_values=outputs.past_key_values,

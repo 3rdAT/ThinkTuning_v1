@@ -88,7 +88,7 @@ class train_configy:
     model_name: str="meta-llama/Meta-Llama-3-8B-Instruct"
     tokenizer_name: str=None
     run_validation: bool=False
-    batch_size_training: int=2
+    batch_size_training: int=4
     batching_strategy: str="padding" #alternative: padding
     context_length: int=4096
     gradient_accumulation_steps: int= 1
@@ -116,7 +116,8 @@ class train_configy:
     use_reward_decay: bool = False
     use_best_reward_signal: bool = False
     reward_based_optimization: bool = False
-    sample_thought_by_prompt: bool = True
+    sample_thought_by_prompt: bool = False
+    flow_based_optimization: bool = True
 
 #=========================================================================================================================
 ###Function to get the preprocessed dataset in trainable format
@@ -455,6 +456,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
                         thought_loss = outputs.nll_thought
                         reinforce_loss = outputs.reinforce_loss
                         gate_loss = outputs.gate_loss
+                        flow_loss = outputs.flow_loss
                         
                     sampels.append(outputs.sampled_thought)
                     with open(f'sampels1.json', 'w') as f:
@@ -471,7 +473,7 @@ def train(model, train_dataloader, eval_dataloader, tokenizer, optimizer, lr_sch
 
                     
                     # Remember the reinforce loss and thought loss has been already backwarded in the think_tuner_step for efficiency purposes.
-                    model_loss = loss
+                    model_loss = flow_loss
                     
                     # gate_optimizer.zero_grad()
                     # gate_loss.backward() # increasing here

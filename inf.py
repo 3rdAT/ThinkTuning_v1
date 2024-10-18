@@ -32,7 +32,7 @@ from torch.nn import functional as F
 import ipdb
 
 def main(
-    model_name: str="meta-llama/Meta-Llama-3-8B-Instruct", #meta-llama/Llama-2-7b-chat-hf meta-llama/Meta-Llama-3-8B-Instruct
+    model_name: str="/data/data/arrv/models/sft/gsm8k_llama2_chat/epoch0", #meta-llama/Llama-2-7b-chat-hf meta-llama/Meta-Llama-3-8B-Instruct
     peft_model: str=None,
     quantization: bool=False,
     max_new_tokens = 4096, #The maximum numbers of tokens to generate
@@ -54,50 +54,50 @@ def main(
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3-8B-Instruct", token='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', trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
 
-    # tokenizer.chat_template = ("{% if messages[0]['role'] == 'system' %}"
-    #                         "{% set system_message = '<<SYS>>\n' + messages[0]['content'] | trim + '\n<</SYS>>\n\n' %}"
-    #                         "{% set messages = messages[1:] %}"
-    #                     "{% else %}"
-    #                         "{% set system_message = '' %}"
-    #                     "{% endif %}"
-
-    #                     "{% for message in messages %}"
-    #                         "{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}"
-    #                             "{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}"
-    #                         "{% endif %}"
-
-    #                         "{% if loop.index0 == 0 %}"
-    #                             "{% set content = system_message + message['content'] %}"
-    #                         "{% else %}"
-    #                             "{% set content = message['content'] %}"
-    #                         "{% endif %}"
-
-    #                         "{% if message['role'] == 'user' %}"
-    #                             "{{ bos_token + '[INST] ' + content | trim + ' [/INST]' }}"
-    #                         "{% elif message['role'] == 'assistant' %}"
-    #                             "{{ ' ' + content | trim + ' ' + eos_token }}"
-    #                         "{% endif %}"
-    #                     "{% endfor %}")
-    
     tokenizer.chat_template = ("{% if messages[0]['role'] == 'system' %}"
-                        "{% set offset = 1 %}"
-                    "{% else %}"
-                        "{% set offset = 0 %}"
-                    "{% endif %}"
-
-                    "{{ bos_token }}"
-                    "{% for message in messages %}"
-                        "{% if (message['role'] == 'user') != (loop.index0 % 2 == offset) %}"
-                            "{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}"
+                            "{% set system_message = '<<SYS>>\n' + messages[0]['content'] | trim + '\n<</SYS>>\n\n' %}"
+                            "{% set messages = messages[1:] %}"
+                        "{% else %}"
+                            "{% set system_message = '' %}"
                         "{% endif %}"
 
-                        "{{ '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n' + message['content'] | trim + '<|eot_id|>' }}"
-                    "{% endfor %}"
+                        "{% for message in messages %}"
+                            "{% if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}"
+                                "{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}"
+                            "{% endif %}"
 
-                    "{% if add_generation_prompt %}"
-                        "{{ '<|start_header_id|>' + 'assistant' + '<|end_header_id|>\n\n' }}"
-                    "{% endif %}"
-                    )
+                            "{% if loop.index0 == 0 %}"
+                                "{% set content = system_message + message['content'] %}"
+                            "{% else %}"
+                                "{% set content = message['content'] %}"
+                            "{% endif %}"
+
+                            "{% if message['role'] == 'user' %}"
+                                "{{ bos_token + '[INST] ' + content | trim + ' [/INST]' }}"
+                            "{% elif message['role'] == 'assistant' %}"
+                                "{{ ' ' + content | trim + ' ' + eos_token }}"
+                            "{% endif %}"
+                        "{% endfor %}")
+    
+    # tokenizer.chat_template = ("{% if messages[0]['role'] == 'system' %}"
+    #                     "{% set offset = 1 %}"
+    #                 "{% else %}"
+    #                     "{% set offset = 0 %}"
+    #                 "{% endif %}"
+
+    #                 "{{ bos_token }}"
+    #                 "{% for message in messages %}"
+    #                     "{% if (message['role'] == 'user') != (loop.index0 % 2 == offset) %}"
+    #                         "{{ raise_exception('Conversation roles must alternate user/assistant/user/assistant/...') }}"
+    #                     "{% endif %}"
+
+    #                     "{{ '<|start_header_id|>' + message['role'] + '<|end_header_id|>\n\n' + message['content'] | trim + '<|eot_id|>' }}"
+    #                 "{% endfor %}"
+
+    #                 "{% if add_generation_prompt %}"
+    #                     "{{ '<|start_header_id|>' + 'assistant' + '<|end_header_id|>\n\n' }}"
+    #                 "{% endif %}"
+    #                 )
 
     # eval_data = pd.read_csv('./science_prompts_precaution.csv')
 
@@ -152,7 +152,7 @@ def main(
     # There are 4 coins along the vertical edge, but we only count the 2 in between the corners for each of the two vertical edges, which gives us 2 + 2 = 4 coins. Now we add the corners. There are 4 corners, with one coin at each corner, so we have 4 coins. Adding these up, we have 8 (horizontal in-between) + 4 (vertical in-between) + 4 (corners) = 16 coins. Since each coin is worth 100 won, the total amount of money around the circumference is 16 coins * 100 won/coin = 1600 won.
     # [Thought]'''
 
-    user_prompt = "[prefix]\nQ: Seunghwa took an express bus and a general bus to travel to Chuncheon, and arrived in Chuncheon, 120 kilometers (km) away, in 1 hour and 50 minutes. At first, she used the express bus, and later took the general bus for 1 hour and 10 minutes. This general bus used 6 liters of gasoline to travel 40.8 kilometers, and if Seunghwa used 14 liters of gasoline while taking the general bus, how many kilometers (km) Seunghwa moved by express bus for 1 minute? (The time and distance to transfer from the express bus to the bus are not considered.)\nA: First, let's calculate the total distance Seunghwa traveled on the general bus using the given information about gasoline consumption. The general bus used 6 liters of gasoline to travel 40.8 kilometers. Seunghwa used 14 liters of gasoline on the general bus. To find out how far she traveled on the general bus, we can set up a proportion: 6 liters / 40.8 km = 14 liters / x km Now, solve for x: x = (14 liters * 40.8 km) / 6 liters x = (571.2 km·liters) / 6 liters x = 95.2 km So, Seunghwa traveled 95.2 kilometers on the general bus. Now, let's find out the distance she traveled on the express bus. The total distance to Chuncheon is 120 kilometers. If she traveled 95.2 kilometers on the general bus, then the remaining distance must have been covered by the express bus: Distance by express bus = Total distance - Distance by general bus Distance by express bus = 120 km - 95.2 km Distance by express bus = 24.8 km Now, we need to\n[suffix]\n find out how many kilometers Seunghwa moved by express bus for 1 minute. We know the total time of the trip was 1 hour and 50 minutes, and she spent 1 hour and 10 minutes on the general bus. So, the time spent on the express bus is: Total time - Time on general bus = Time on express bus 1 hour and 50 minutes - 1 hour and 10 minutes = 40 minutes Now, we can calculate the distance traveled per minute on the express bus: Distance per minute on express bus = Distance by express bus / Time on express bus (in minutes) Distance per minute on express bus = 24.8 km / 40 minutes Distance per minute on express bus = 0.62 km/minute Therefore, Seunghwa moved 0.62 kilometers per minute on the express bus."
+    user_prompt = "[prefix]\nQ: A robe takes 2 bolts of blue fiber and half that much white fiber. How many bolts in total does it take? A: It takes 2/2=<<2/2=1>>1 bolt of white fiber So the total [suffix]\n amount of fabric is 2+1=<<2+1=3>>3 bolts of fabric #### 3"
     
     # messages = [
     #         {
@@ -172,12 +172,12 @@ def main(
         },
     ]
 
-    batch = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=False)
+    batch = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=False)
 
     # ipdb.set_trace()
 
-    # batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
-    ipdb.set_trace()
+    batch = tokenizer(batch, return_tensors="pt", add_special_tokens=False)
+    # ipdb.set_trace()
     prompt_len = len(batch['input_ids'][0])
     print(prompt_len)
     batch = {k: v.to("cuda") for k, v in batch.items()}
@@ -197,7 +197,7 @@ def main(
             output_hidden_states= True, return_dict_in_generate=True,
             output_scores=True,
         )
-    output_tokens = outputs.sequences[0][prompt_len:]
+    output_tokens = outputs.sequences[0]#[prompt_len:]
 
     output_text = tokenizer.decode(output_tokens, skip_special_tokens=True)
 
